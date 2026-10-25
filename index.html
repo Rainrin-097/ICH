@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="髹饰录：非遗漆器属性组合解谜体验">
+  <title>髹饰录 · 漆器复原工坊</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="paper-texture"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="返回首页">
+      <span class="brand-seal">髹</span>
+      <span><strong>髹饰录</strong><small>漆器数字复原工坊</small></span>
+    </a>
+    <div class="topbar-note"><span class="status-dot"></span>典藏模式 · 已载入 42 件器物</div>
+    <nav class="top-actions" aria-label="辅助导航">
+      <button class="text-button" type="button" data-view="profile">个人档案</button>
+      <a class="text-button" href="knowledge.html">知识图谱</a>
+    </nav>
+  </header>
+
+  <main class="workspace">
+    <aside class="sidebar panel">
+      <div class="section-heading">
+        <div><span class="eyebrow">01 / 取材</span><h2>材料工具栏</h2></div>
+        <span class="ink-mark">匠</span>
+      </div>
+      <p class="intro">从左侧选取髹饰属性，尝试复原一件失落的器物。</p>
+      <section class="tool-section">
+        <div class="tool-title"><span>材质</span><em>单选</em></div>
+        <div class="tool-grid" id="material-options"></div>
+      </section>
+      <section class="tool-section">
+        <div class="tool-title"><span>颜色</span><em id="color-count">可选 5 色</em></div>
+        <div class="tool-grid color-grid" id="color-options"></div>
+      </section>
+      <section class="tool-section">
+        <div class="tool-title"><span>纹样</span><em>单选</em></div>
+        <div class="tool-grid" id="pattern-options"></div>
+      </section>
+      <div class="hint-card">
+        <span class="hint-icon">?</span>
+        <p>悬停属性方印，查看它的传统称谓与来源。</p>
+      </div>
+    </aside>
+
+    <section class="atelier panel">
+      <div class="atelier-heading">
+        <span class="eyebrow">髹饰操作台 · ATELIER</span>
+        <span class="progress-label" id="selection-status">尚未起笔</span>
+      </div>
+      <div class="workbench">
+        <div class="workbench-copy">
+          <span class="seal-outline">漆</span>
+          <h1>以漆为衣<br><i>以器载道</i></h1>
+          <p>将材质、色彩与纹样叠合，<br>让沉睡的器物重新显影。</p>
+        </div>
+        <div class="artifact-preview" id="artifact-preview">
+          <div class="preview-glow"></div>
+          <div class="preview-vessel"><span></span></div>
+          <div class="preview-caption">待合成 · 未知器物</div>
+        </div>
+      </div>
+      <div class="selected-strip">
+        <div class="selection-slot"><span>材质</span><strong id="selected-material">未选择</strong></div>
+        <div class="selection-divider">×</div>
+        <div class="selection-slot"><span>色彩</span><strong id="selected-colors">未选择</strong></div>
+        <div class="selection-divider">×</div>
+        <div class="selection-slot"><span>纹样</span><strong id="selected-pattern">未选择</strong></div>
+      </div>
+      <div class="combine-area">
+        <button class="combine-button" id="combine-button" type="button"><span>开始髹饰</span><b>→</b></button>
+        <p id="feedback" class="feedback" role="status"></p>
+      </div>
+    </section>
+
+    <aside class="rightbar">
+      <section class="archive-card panel" id="knowledge-archive" tabindex="-1">
+        <div class="section-heading compact"><div><span class="eyebrow">02 / 探知</span><h2>知识图谱</h2></div><span class="node-count">● 120 节点</span></div>
+        <p class="intro">从颜色、材质与纹样，追溯漆器背后的文化谱系。</p>
+        <div class="knowledge-tabs" role="tablist">
+          <button class="knowledge-tab active" type="button" data-category="color">颜色</button>
+          <button class="knowledge-tab" type="button" data-category="material">材质</button>
+          <button class="knowledge-tab" type="button" data-category="pattern">纹样</button>
+          <button class="knowledge-tab" type="button" data-category="technique">技艺</button>
+        </div>
+        <div class="knowledge-list" id="knowledge-list"></div>
+        <a class="outline-button" href="knowledge.html">打开完整知识图谱 <span>↗</span></a>
+      </section>
+      <section class="quote-card">
+        <span class="quote-mark">“</span>
+        <p>漆之为用也，始于俭，终于华。</p>
+        <small>——《髹饰录》</small>
+      </section>
+    </aside>
+  </main>
+
+  <div class="modal-backdrop" id="modal-backdrop" hidden>
+    <article class="artifact-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" id="modal-close" type="button" aria-label="关闭详情">×</button>
+      <button class="artifact-nav previous" id="artifact-previous" type="button" aria-label="查看上一件器物">‹</button>
+      <button class="artifact-nav next" id="artifact-next" type="button" aria-label="查看下一件器物">›</button>
+      <div class="modal-image-wrap"><img id="modal-image" src="" alt=""></div>
+      <div class="modal-content">
+        <span class="eyebrow">复原成功 · ARCHIVE UNLOCKED</span>
+        <h2 id="modal-title"></h2>
+        <p class="modal-meta" id="modal-meta"></p>
+        <p class="artifact-counter" id="artifact-counter"></p>
+        <div class="modal-rule"></div>
+        <p id="modal-description"></p>
+        <div class="modal-tags" id="modal-tags"></div>
+        <button class="combine-button small" id="continue-button" type="button">继续探索 <b>→</b></button>
+      </div>
+    </article>
+  </div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
