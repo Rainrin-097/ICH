@@ -20,17 +20,22 @@ CREATE TABLE knowledge_nodes (
 -- ==========================================
 -- 1.1 基础判定色 (父节点，游戏底层逻辑用)
 INSERT INTO knowledge_nodes (id, category, name, parent_id, game_color, hex_code, description) VALUES
-('K_COL_BLACK', 'color', '黑', NULL, '黑', '#1A1A1A', '五正色之一，北方之色。大漆原本呈半透明褐色，精制后变黑。'),
-('K_COL_WHITE', 'color', '白', NULL, '白', '#F5F5F5', '五正色之一，西方之色。大漆无法直接调出纯白，古人多用蛤粉入漆。'),
-('K_COL_RED',   'color', '红', NULL, '红', '#C0392B', '五正色之一（赤），南方之色。漆器中最尊贵、最耀眼的色系。'),
-('K_COL_YELLOW','color', '黄', NULL, '黄', '#D4AF37', '五正色之一，中央之色。明快的黄色，常用于点缀花蕊或过渡。'),
-('K_COL_GREEN', 'color', '绿', NULL, '绿', '#4A7C59', '间色。如青绿山水般古朴的色系，多见于石绿、铜绿。'),
-('K_COL_BLUE',  'color', '蓝', NULL, '蓝', '#2E4E7E', '间色。深沉的矿物蓝，多见于彩绘与螺钿底纹。'),
-('K_COL_PURPLE','color', '紫', NULL, '紫', '#5B3A4A', '间色。「恶紫之夺朱也」，多指青紫、红紫，高贵且罕见。'),
-('K_COL_BROWN', 'color', '棕', NULL, '棕', '#955539', '平民与流年之色。来自赤铁矿的赭石色，极其稳定的大地色系。'),
-('K_COL_GRAY',  'color', '灰', NULL, '灰', '#808080', '水墨交融之色，多用于素髹与淡雅器型。'),
-('K_COL_ORANGE','color', '橙', NULL, '橙', '#D35400', '间色，如银朱般偏橙亮朱红。'),
-('K_COL_PINK',  'color', '粉', NULL, '粉', '#FFC0CB', '间色，如胭脂、藕荷般柔和之色。');
+('K_COL_BLACK', 'color', '黑色系', NULL, '黑', '#1A1A1A', '玄、墨、皂组成的传统黑色系。'),
+('K_COL_WHITE', 'color', '白色系', NULL, '白', '#F5F5F5', '蛤粉、铅白组成的传统白色系。'),
+('K_COL_RED',   'color', '红色系', NULL, '红', '#C0392B', '朱砂、银朱、胭脂、绛紫组成的传统红色系。'),
+('K_COL_YELLOW','color', '黄色系', NULL, '黄', '#D4AF37', '藤黄、秋香、缃色组成的传统黄色系。'),
+('K_COL_GREEN', 'color', '绿色系', NULL, '绿', '#4A7C59', '石绿、铜绿、葱倩组成的传统绿色系。'),
+('K_COL_BLUE',  'color', '蓝色系', NULL, '蓝', '#2E4E7E', '石青、群青、花青组成的传统蓝色系。'),
+('K_COL_PURPLE','color', '紫色系', NULL, '紫', '#5B3A4A', '青莲、藕荷组成的传统紫色系。'),
+('K_COL_CYAN',  'color', '青色系', NULL, '青', '#9CC7C9', '天青、月白、苍色组成的传统青色系。'),
+('K_COL_OTHER', 'color', '其他', NULL, NULL, '#9A8175', '灰、棕、橙、粉作为独立的补充色系。');
+
+INSERT INTO knowledge_nodes (id, category, name, parent_id, game_color, hex_code, description) VALUES
+('K_COL_GRAY', 'color', '灰', 'K_COL_OTHER', '灰', '#808080', '水墨交融之色。'),
+('K_COL_BROWN', 'color', '棕', 'K_COL_OTHER', '棕', '#955539', '稳定的大地色系。'),
+('K_COL_ORANGE', 'color', '橙', 'K_COL_OTHER', '橙', '#D35400', '偏橙的亮朱红色系。'),
+('K_COL_PINK', 'color', '粉', 'K_COL_OTHER', '粉', '#FFC0CB', '柔和的粉色系。'),
+('K_COL_CYAN_CANG', 'color', '苍色', 'K_COL_CYAN', '青', '#77969A', '青灰沉静的传统色。');
 
 -- 1.2 中国传统色 (子节点，挂载在基础色下)
 -- (注：game_color 字段用于将此古代色精准映射回上面的11种基础色，供玩家选择)
@@ -54,8 +59,9 @@ INSERT INTO knowledge_nodes (id, category, name, parent_id, game_color, hex_code
 ('K_COL_BLU_QING',   'color', '青', 'K_COL_BLUE', '青', '#2E4E7E', '五正色之首。蓝绿之间的东方色。'),
 ('K_COL_BLU_SHIQING','color', '石青', 'K_COL_BLUE', '蓝', '#1E90FF', '蓝铜矿研磨，沉着的天蓝，不褪色。'),
 ('K_COL_BLU_QUNQING','color', '群青', 'K_COL_BLUE', '蓝', '#0000CD', '青金石研磨，极贵，明艳宝蓝，敦煌壁画主色。'),
-('K_COL_BLU_TIANQING','color','天青', 'K_COL_BLUE', '青', '#D3E0E7', '雨后天空之色，极淡的蓝灰绿。'),
-('K_COL_BLU_YUEBAI','color', '月白', 'K_COL_BLUE', '白', '#E8F0F2', '月光之色，极淡的蓝，近白。'),
+('K_COL_BLU_TIANQING','color','天青', 'K_COL_CYAN', '青', '#D3E0E7', '雨后天空之色，极淡的蓝灰绿。'),
+('K_COL_BLU_YUEBAI','color', '月白', 'K_COL_CYAN', '白', '#E8F0F2', '月光之色，极淡的蓝，近白。'),
+('K_COL_BLU_HUAQING','color', '花青', 'K_COL_BLUE', '蓝', '#34526F', '蓝黑相间的深沉色。'),
 -- 紫色系细分
 ('K_COL_PUR_ZI',     'color', '紫', 'K_COL_PURPLE', '紫', '#5B3A4A', '紫草根染，染料难得故价贵，青紫至红紫。'),
 ('K_COL_PUR_QINGLIAN','color','青莲', 'K_COL_PURPLE', '紫', '#8A2BE2', '蓝紫，佛画莲花色。'),
@@ -79,8 +85,8 @@ INSERT INTO knowledge_nodes (id, category, name, parent_id, game_color, hex_code
 -- ==========================================
 -- 顶层分类
 INSERT INTO knowledge_nodes (id, category, name, description) VALUES
-('K_MAT_QI', 'material', '大漆原料', '漆器的灵魂材料。'),
-('K_MAT_TAI', 'material', '胎体材质', '漆器的骨架。胎为骨，漆为衣。');
+('K_MAT_QI', 'material', '漆料', '漆器的灵魂材料。'),
+('K_MAT_TAI', 'material', '胎体', '漆器的骨架。胎为骨，漆为衣。');
 
 -- 原料与胎体大类 (包含属性字典的名字)
 INSERT INTO knowledge_nodes (id, category, name, parent_id, description) VALUES
@@ -102,6 +108,11 @@ INSERT INTO knowledge_nodes (id, category, name, parent_id, description) VALUES
 ('K_MAT_ZHU_JI',  'material', '积竹胎', 'K_MAT_ZHU', '细竹篾捆扎胶合。'),
 ('K_MAT_ZHI',     'material', '纸胎', 'K_MAT_TAI', '多层厚纸裱合，极轻。'),
 ('K_MAT_GU',      'material', '骨角胎', 'K_MAT_TAI', '牛角、兽骨为胎，体量小。');
+
+INSERT INTO knowledge_nodes (id, category, name, parent_id, description) VALUES
+('K_MAT_QI_GQ', 'material', '改青漆', 'K_MAT_QI', '调制后的青色漆料。'),
+('K_MAT_QI_SYN', 'material', '现代合成漆', 'K_MAT_QI', '现代工业合成漆料。'),
+('K_MAT_MU_XUAN', 'material', '旋挖胎', 'K_MAT_MU', '旋削挖制成形的木胎。');
 
 
 -- ==========================================
