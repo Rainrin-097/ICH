@@ -82,6 +82,41 @@ h2 { font: 600 20px var(--serif); letter-spacing: .1em; margin: 7px 0 0; }
 @media (max-width: 700px) { .topbar { height: 64px; padding: 0 20px; }.topbar-note { display: none; }.top-actions { gap: 12px; font-size: 10px; }.workspace { display: block; padding: 18px 14px 28px; }.sidebar, .atelier, .rightbar { margin-bottom: 18px; }.atelier { padding: 22px 18px; }.workbench { min-height: 330px; gap: 0; }.workbench-copy { max-width: 45%; }.workbench-copy h1 { font-size: 25px; }.workbench-copy p { font-size: 10px; }.artifact-preview { width: 52%; }.selected-strip { gap: 8px; }.selection-slot { min-width: 63px; }.selection-slot strong { font-size: 12px; }.rightbar { display: block; }.quote-card { display: none; }.knowledge-list { display: block; }.knowledge-item { border-right: 0; }.artifact-modal { display: block; max-height: 90vh; overflow: auto; }.modal-image-wrap { min-height: 230px; height: 35vh; }.modal-content { padding: 28px 24px 30px; }.modal-content h2 { font-size: 21px; }.artifact-nav.previous { left: 8px; }.artifact-nav.next { right: 8px; } }
 @media (max-width: 700px) { .knowledge-workspace { padding: 42px 18px 55px; }.knowledge-layout { display: block; padding-top: 24px; }.knowledge-nav { margin-bottom: 30px; }.knowledge-grid { grid-template-columns: 1fr; }.knowledge-hero { padding-bottom: 28px; }.knowledge-hero h1 { font-size: 36px; } }
 
+/* Main workshop: keep the material controls and workbench within one desktop viewport. */
+@media (min-width: 701px) {
+  body:not(.knowledge-page) .workspace {
+    grid-template-columns: minmax(250px, 285px) minmax(0, 1fr);
+    min-height: calc(100vh - 76px);
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+  body:not(.knowledge-page) .sidebar {
+    align-self: start;
+    position: relative;
+    z-index: 2;
+  }
+  body:not(.knowledge-page) .atelier {
+    align-self: start;
+    position: relative;
+    z-index: 1;
+  }
+  body:not(.knowledge-page) .atelier { min-height: calc(100vh - 120px); }
+  body:not(.knowledge-page) .workbench { min-height: 0; padding-top: 20px; }
+  body:not(.knowledge-page) .tool-section {
+    max-height: 47px;
+    overflow: hidden;
+    transition: max-height .28s ease;
+  }
+  body:not(.knowledge-page) .tool-section:hover,
+  body:not(.knowledge-page) .tool-section:focus-within {
+    max-height: 330px;
+    position: relative;
+    z-index: 3;
+    background: var(--paper);
+    box-shadow: 0 8px 18px rgba(52,48,37,.08);
+  }
+}
+
 /* Knowledge archive tree */
 .knowledge-tree { display: block; padding-top: 18px; }
 .tree-root { display: grid; gap: 10px; }

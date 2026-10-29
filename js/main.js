@@ -1,12 +1,13 @@
-import { attributes, knowledge } from "./data.js";
+import { attributes } from "./data.js";
 import { artifacts as recipeArtifacts } from "./artifacts-data.js";
 
 const currentSelection = { material: null, colors: [], pattern: null };
-const state = { knowledgeCategory: "color" };
 const artifactState = { matches: [], index: 0 };
 const $ = (selector) => document.querySelector(selector);
 const eraNames = { E01: "新石器时代", E02: "夏商周", E03: "春秋战国", E04: "汉代", E05: "唐代", E06: "宋代", E07: "元代", E08: "明代", E09: "清代", E10: "近现代" };
 const techniqueNames = { T01: "素髹 / 髹涂", T02: "彩绘 / 描漆", T03: "雕漆 / 剔红", T04: "螺钿", T05: "戗金 / 填漆", T06: "金银平脱", T07: "描金 / 识文", T08: "百宝嵌", T09: "款彩", T10: "脱胎 / 薄料", T11: "犀皮漆", T12: "推光漆" };
+
+$("#artifact-count").textContent = recipeArtifacts.length;
 
 function renderOptions() {
   const option = (item, type) => {
@@ -31,17 +32,6 @@ function renderSelection() {
   $("#color-count").textContent = `${currentSelection.colors.length} / 5 色`;
   $("#selection-status").textContent = currentSelection.material && currentSelection.colors.length && currentSelection.pattern ? "已备齐 · 可合成" : "尚未起笔";
   $("#selection-status").classList.toggle("ready", Boolean(currentSelection.material && currentSelection.colors.length && currentSelection.pattern));
-}
-
-function renderKnowledge(category = state.knowledgeCategory) {
-  state.knowledgeCategory = category;
-  $(".knowledge-tab.active")?.classList.remove("active");
-  document.querySelector(`[data-category="${category}"]`)?.classList.add("active");
-  $("#knowledge-list").innerHTML = knowledge[category].map((item) => `
-    <button type="button" class="knowledge-item" data-knowledge="${item.name}">
-      ${item.hex ? `<span class="knowledge-color" style="--swatch:${item.hex}"></span>` : `<img src="${item.image}" alt="" loading="lazy">`}
-      <span><strong>${item.name}</strong><small>${item.parent}</small></span><b>＋</b>
-    </button>`).join("");
 }
 
 function showFeedback(message, kind = "") {
@@ -87,15 +77,6 @@ function closeModal() {
 }
 
 function navigateView(view) {
-  if (view === "knowledge") {
-    const archive = $("#knowledge-archive");
-    archive.scrollIntoView({ behavior: "smooth", block: "start" });
-    archive.focus({ preventScroll: true });
-    archive.classList.remove("is-target");
-    window.requestAnimationFrame(() => archive.classList.add("is-target"));
-    window.setTimeout(() => archive.classList.remove("is-target"), 1300);
-    return;
-  }
   if (view === "profile") showFeedback("个人档案功能正在整理中，先完成器物复原吧。", "warning");
 }
 
@@ -135,8 +116,6 @@ document.addEventListener("click", (event) => {
     renderOptions();
     renderSelection();
   }
-  const tab = event.target.closest(".knowledge-tab");
-  if (tab) renderKnowledge(tab.dataset.category);
   const viewButton = event.target.closest("[data-view]");
   if (viewButton) navigateView(viewButton.dataset.view);
   if (event.target.closest("#combine-button")) combine();
@@ -148,4 +127,3 @@ document.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !$("#modal-backdrop").hidden) closeModal(); });
 renderOptions();
 renderSelection();
-renderKnowledge();
