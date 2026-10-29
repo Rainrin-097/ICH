@@ -985,6 +985,27 @@ export const artifacts = [
     "region": "宫廷",
     "description": "一面百鸟朝凤，另一面三国故事，款彩工艺。",
     "req_material": "M01",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     "req_colors": [
       "C01",
       "C04",

@@ -14,7 +14,7 @@
       <span class="brand-seal">髹</span>
       <span><strong>髹饰录</strong><small>漆器数字复原工坊</small></span>
     </a>
-    <div class="topbar-note"><span class="status-dot"></span>典藏模式 · 已载入 42 件器物</div>
+    <div class="topbar-note"><span class="status-dot"></span>典藏模式 · 已载入 <span id="artifact-count">0</span> 件器物</div>
     <nav class="top-actions" aria-label="辅助导航">
       <button class="text-button" type="button" data-view="profile">个人档案</button>
       <a class="text-button" href="knowledge.html">知识图谱</a>
@@ -36,7 +36,7 @@
         <div class="tool-title"><span>颜色</span><em id="color-count">可选 5 色</em></div>
         <div class="tool-grid color-grid" id="color-options"></div>
       </section>
-      <section class="tool-section">
+      <section class="tool-section pattern-section">
         <div class="tool-title"><span>纹样</span><em>单选</em></div>
         <div class="tool-grid" id="pattern-options"></div>
       </section>
@@ -76,25 +76,6 @@
       </div>
     </section>
 
-    <aside class="rightbar">
-      <section class="archive-card panel" id="knowledge-archive" tabindex="-1">
-        <div class="section-heading compact"><div><span class="eyebrow">02 / 探知</span><h2>知识图谱</h2></div><span class="node-count">● 120 节点</span></div>
-        <p class="intro">从颜色、材质与纹样，追溯漆器背后的文化谱系。</p>
-        <div class="knowledge-tabs" role="tablist">
-          <button class="knowledge-tab active" type="button" data-category="color">颜色</button>
-          <button class="knowledge-tab" type="button" data-category="material">材质</button>
-          <button class="knowledge-tab" type="button" data-category="pattern">纹样</button>
-          <button class="knowledge-tab" type="button" data-category="technique">技艺</button>
-        </div>
-        <div class="knowledge-list" id="knowledge-list"></div>
-        <a class="outline-button" href="knowledge.html">打开完整知识图谱 <span>↗</span></a>
-      </section>
-      <section class="quote-card">
-        <span class="quote-mark">“</span>
-        <p>漆之为用也，始于俭，终于华。</p>
-        <small>——《髹饰录》</small>
-      </section>
-    </aside>
   </main>
 
   <div class="modal-backdrop" id="modal-backdrop" hidden>
