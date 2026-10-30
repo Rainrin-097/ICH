@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="髹饰录 · 漆器详细档案">
+  <title>髹饰录 · 器物档案</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="artifact-page">
+  <div class="paper-texture"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="返回漆器复原工坊">
+      <span class="brand-seal">髹</span>
+      <span><strong>髹饰录</strong><small>漆器数字复原工坊</small></span>
+    </a>
+    <div class="topbar-note"><span class="status-dot"></span>器物文化档案</div>
+    <nav class="top-actions" aria-label="辅助导航">
+      <a class="text-button" href="profile.html">个人档案</a>
+      <a class="text-button" href="knowledge.html">知识图谱</a>
+      <a class="text-button" href="index.html">返回工坊</a>
+    </nav>
+  </header>
+  <main class="artifact-detail-page">
+    <a class="detail-back" href="javascript:history.back()">← 返回上一页</a>
+    <section class="artifact-detail-layout">
+      <div class="artifact-detail-image"><img id="detail-image" src="" alt=""></div>
+      <article class="artifact-detail-copy">
+        <span class="eyebrow">ARCHIVE OBJECT · 器物档案</span>
+        <h1 id="detail-title">器物档案</h1>
+        <p class="detail-meta" id="detail-meta"></p>
+        <div class="modal-rule"></div>
+        <p class="detail-description" id="detail-description"></p>
+        <div class="detail-fields">
+          <div><small>髹饰技法</small><strong id="detail-technique"></strong></div>
+          <div><small>复原材质</small><strong id="detail-material"></strong></div>
+          <div><small>复原色彩</small><strong id="detail-colors"></strong></div>
+          <div><small>复原纹样</small><strong id="detail-pattern"></strong></div>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script type="module" src="js/artifact.js"></script>
+</body>
+</html>

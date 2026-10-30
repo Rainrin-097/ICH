@@ -1,10 +1,12 @@
 import { knowledgeNodes } from "./knowledge-data.js";
+import { knowledgeImagePath } from "./knowledge-images.js";
 
 const categoryMeta = {
   color: { eyebrow: "THE COLORS", title: "颜色" },
   material: { eyebrow: "THE MATERIALS", title: "材质" },
   pattern: { eyebrow: "THE PATTERNS", title: "纹样" },
-  technique: { eyebrow: "THE TECHNIQUES", title: "技艺" }
+  technique: { eyebrow: "THE TECHNIQUES", title: "技艺" },
+  era: { eyebrow: "THE ERAS", title: "年代" }
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -64,7 +66,8 @@ const treeSpec = {
   technique: [
     root("K_TEC_BASE", "基础与描绘"), root("K_TEC_CARVE", "雕刻类"),
     root("K_TEC_INLAY", "镶嵌类"), root("K_TEC_LOCAL", "地方特色类")
-  ]
+  ],
+  era: knowledgeNodes.filter((node) => node.category === "era").map((node) => root(node.id, node.name, node.description))
 };
 const childGroups = {
   color: {
@@ -76,7 +79,8 @@ const childGroups = {
   },
   material: { K_MAT_LACQUER: ["生漆", "色漆", "改青漆", "现代合成漆"], K_MAT_BODY: ["木胎", "脱胎/夹纻胎", "陶胎", "皮胎", "竹胎", "瓷胎", "金属胎", "漆砂胎", "纸胎", "骨角胎"] },
   pattern: { K_PAT_JH: ["云雷纹", "回纹", "海水江崖", "冰裂纹"], K_PAT_ZW: ["莲瓣纹", "缠枝牡丹", "梅花", "菊花", "栀子花"], K_PAT_SS: ["龙纹", "麒麟纹", "饕餮纹", "蟠螭纹"], K_PAT_NS: ["凤鸟纹", "仙鹤纹", "鱼藻纹", "草虫纹"], K_PAT_RW: ["车马出行图", "高士宴乐图", "婴戏图", "戏曲故事图"], K_PAT_SL: ["山水图", "楼阁图", "庭园图"], K_PAT_TW: ["四神纹", "二十八宿", "北斗星象纹"] },
-  technique: { K_TEC_BASE: ["素髹", "彩绘/描漆", "描金/识文", "戗金/填漆"], K_TEC_CARVE: ["雕漆/剔红等", "款彩"], K_TEC_INLAY: ["螺钿", "金银平脱", "百宝嵌"], K_TEC_LOCAL: ["脱胎/薄料", "犀皮漆", "推光漆"] }
+  technique: { K_TEC_BASE: ["素髹", "彩绘/描漆", "描金/识文", "戗金/填漆"], K_TEC_CARVE: ["雕漆/剔红等", "款彩"], K_TEC_INLAY: ["螺钿", "金银平脱", "百宝嵌"], K_TEC_LOCAL: ["脱胎/薄料", "犀皮漆", "推光漆"] },
+  era: {}
 };
 
 function categoryTree(category) {
@@ -107,6 +111,7 @@ function categoryTree(category) {
   const attach = (node) => ({ ...node, children: (childrenByParent.get(node.id) || []).map(attach) });
   return roots.map(attach);
 }
+/* imageById removed; paths are centralized in knowledgeImagePath. */
 const imageById = {
   K_MAT_QI_SHENG: "images/materials/K_MAT_QI_SHENG.png",
   K_MAT_QI_SE: "images/materials/K_MAT_QI_SE.png",
@@ -183,15 +188,19 @@ function renderNode(node, index) {
   const hasChildren = node.children.length > 0;
   const visual = node.hexCode
     ? `<i style="--swatch:${node.hexCode}"></i>`
-    : imageById[node.id]
-      ? `<img src="${imageById[node.id]}" alt="" loading="lazy">`
+    : knowledgeImagePath(node)
+      ? `<img src="${knowledgeImagePath(node)}" alt="" loading="lazy">`
       : `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
+  const control = hasChildren
+    ? `<button class="node-toggle" type="button" aria-expanded="false">`
+    : `<a class="node-toggle leaf-link" href="knowledge-detail.html?id=${encodeURIComponent(node.id)}&name=${encodeURIComponent(node.name)}">`;
+  const controlClose = hasChildren ? "</button>" : "</a>";
   return `<article class="knowledge-node tree-node ${hasChildren ? "has-children" : "leaf"}" style="--delay:${index * 50}ms">
-    <button class="node-toggle" type="button" aria-expanded="false">
+    ${control}
       <span class="node-visual">${visual}</span>
       <span class="node-name"><strong>${node.name}</strong><small>${hasChildren ? `${node.children.length} 个下级节点` : "知识节点"}</small></span>
       <span class="node-plus">${hasChildren ? "＋" : "·"}</span>
-    </button>
+    ${controlClose}
     <div class="node-description"><p>${node.description || "传统漆器知识节点。"}</p></div>
     ${hasChildren ? `<div class="tree-children">${node.children.map((child, childIndex) => renderNode(child, childIndex)).join("")}</div>` : ""}
   </article>`;
