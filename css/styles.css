@@ -126,8 +126,11 @@ h2 { font: 600 20px var(--serif); letter-spacing: .1em; margin: 7px 0 0; }
     position: relative;
     z-index: 1;
   }
-  body:not(.knowledge-page) .atelier { min-height: calc(100vh - 120px); }
-  body:not(.knowledge-page) .workbench { min-height: 0; padding-top: 20px; }
+  body:not(.knowledge-page) .atelier { min-height: calc(100vh - 170px); padding-top: 20px; padding-bottom: 20px; }
+  body:not(.knowledge-page) .workbench { min-height: 0; padding-top: 10px; padding-bottom: 8px; }
+  body:not(.knowledge-page) .selected-strip { padding-top: 11px; padding-bottom: 11px; }
+  body:not(.knowledge-page) .combine-area { padding-top: 14px; }
+  body:not(.knowledge-page) .feedback { margin-top: 6px; }
   body:not(.knowledge-page) .tool-section {
     max-height: 47px;
     overflow: hidden;

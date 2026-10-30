@@ -29,7 +29,6 @@ function renderSelection() {
   $("#selected-material").textContent = material?.name || "未选择";
   $("#selected-colors").textContent = colors.length ? colors.map((item) => item.name).join(" · ") : "未选择";
   $("#selected-pattern").textContent = pattern?.name || "未选择";
-  $("#color-count").textContent = `${currentSelection.colors.length} / 5 色`;
   $("#selection-status").textContent = currentSelection.material && currentSelection.colors.length && currentSelection.pattern ? "已备齐 · 可合成" : "尚未起笔";
   $("#selection-status").classList.toggle("ready", Boolean(currentSelection.material && currentSelection.colors.length && currentSelection.pattern));
 }

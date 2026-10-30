@@ -82,11 +82,17 @@ async function submitAuth(event) {
   }
 
   if (result.error) {
-    showToast(result.error.message, "error");
+    const duplicateUser = mode === "register"
+      && /already registered|already exists|user already exists/i.test(result.error.message);
+    showToast(duplicateUser ? "用户名已存在，请更换用户名或者直接登录。" : result.error.message, "error");
     return;
   }
 
   if (mode === "register") {
+    if (result.data?.user && (!result.data.user.identities || result.data.user.identities.length === 0)) {
+      showToast("用户名已存在，请直接登录。", "error");
+      return;
+    }
     setAuthMode("login");
     $("#auth-password").value = "";
     showToast("注册成功，请登录。", "success");
