@@ -1,5 +1,6 @@
 import { attributes } from "./data.js";
 import { artifacts as recipeArtifacts } from "./artifacts-data.js";
+import { saveUnlock } from "./db.js";
 
 const currentSelection = { material: null, colors: [], pattern: null };
 const artifactState = { matches: [], index: 0 };
@@ -81,7 +82,7 @@ function navigateView(view) {
   if (view === "profile") showFeedback("个人档案功能正在整理中，先完成器物复原吧。", "warning");
 }
 
-function combine() {
+async function combine() {
   if (!currentSelection.material || !currentSelection.colors.length || !currentSelection.pattern) {
     showInlineFeedback("髹饰未完成，请选齐材质、颜色与纹样。");
     return;
@@ -98,6 +99,7 @@ function combine() {
     const unlocked = new Set(JSON.parse(localStorage.getItem("unlockedArtifacts") || "[]"));
     matchingArtifacts.forEach((artifact) => unlocked.add(artifact.name));
     localStorage.setItem("unlockedArtifacts", JSON.stringify([...unlocked]));
+    await Promise.all(matchingArtifacts.map((artifact) => saveUnlock(artifact.name)));
     const message = matchingArtifacts.length === 1
       ? "配方吻合，器物正在显影……"
       : `配方吻合，发现 ${matchingArtifacts.length} 件同属性器物，正在显影……`;

@@ -18,6 +18,7 @@
     <nav class="top-actions" aria-label="辅助导航">
       <a class="text-button" href="profile.html">个人档案</a>
       <a class="text-button" href="knowledge.html">知识图谱</a>
+      <a class="text-button" href="#auth-panel">登录</a>
     </nav>
   </header>
 
@@ -78,6 +79,24 @@
 
   </main>
 
+  <section class="auth-panel panel" id="auth-panel" aria-label="用户登录">
+    <div class="section-heading compact">
+      <div><span class="eyebrow">匠人档案 · ACCOUNT</span><h2 id="auth-mode-label">进入匠人工坊</h2></div>
+    </div>
+    <form id="auth-form" data-mode="login">
+      <label for="auth-username">用户名</label>
+      <input id="auth-username" name="username" type="text" autocomplete="username" required>
+      <label for="auth-password">密码</label>
+      <input id="auth-password" name="password" type="password" autocomplete="current-password" required>
+      <button class="combine-button small" id="auth-submit" type="submit">登录</button>
+      <button class="text-button auth-switch" id="auth-switch" type="button">没有账号？注册</button>
+    </form>
+    <div id="auth-user" hidden>
+      <p>当前匠人：<strong id="auth-username-display"></strong></p>
+      <button class="text-button" id="auth-signout" type="button">退出登录</button>
+    </div>
+  </section>
+
   <div class="modal-backdrop" id="modal-backdrop" hidden>
     <article class="artifact-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <button class="modal-close" id="modal-close" type="button" aria-label="关闭详情">×</button>
@@ -96,6 +115,7 @@
       </div>
     </article>
   </div>
+  <script type="module" src="js/auth.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
