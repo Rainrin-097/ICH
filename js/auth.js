@@ -1,7 +1,6 @@
-import { supabase } from "./supabaseClient.js";
-
 const $ = (selector) => document.querySelector(selector);
 const USERNAME_SUFFIX = "@example.com";
+const supabasePromise = import("./supabaseClient.js").then(({ supabase }) => supabase);
 
 let toastTimer;
 
@@ -68,10 +67,19 @@ async function submitAuth(event) {
     return;
   }
 
+  const supabase = await getSupabase();
+  if (!supabase) return;
   const email = fakeEmail(username);
-  const result = mode === "register"
-    ? await supabase.auth.signUp({ email, password })
-    : await supabase.auth.signInWithPassword({ email, password });
+  let result;
+  try {
+    result = mode === "register"
+      ? await supabase.auth.signUp({ email, password })
+      : await supabase.auth.signInWithPassword({ email, password });
+  } catch (error) {
+    console.error("Supabase 认证请求失败：", error);
+    showToast("登录服务请求失败，请检查网络和 Supabase 配置。", "error");
+    return;
+  }
 
   if (result.error) {
     showToast(result.error.message, "error");
@@ -88,6 +96,8 @@ async function submitAuth(event) {
 }
 
 async function signOut() {
+  const supabase = await getSupabase();
+  if (!supabase) return;
   const { error } = await supabase.auth.signOut();
   if (error) {
     showToast(error.message, "error");
@@ -96,15 +106,29 @@ async function signOut() {
   showToast("已退出登录。", "success");
 }
 
+async function getSupabase() {
+  try {
+    return await supabasePromise;
+  } catch (error) {
+    console.error("Supabase 初始化失败：", error);
+    showToast(error.message === "Supabase anon key is not configured"
+      ? "请先在 supabaseClient.js 配置 anon key。"
+      : "登录服务暂时不可用，请稍后重试。", "error");
+    return null;
+  }
+}
+
 $("#auth-form")?.addEventListener("submit", submitAuth);
 $("#auth-switch")?.addEventListener("click", () => {
   setAuthMode($("#auth-form").dataset.mode === "register" ? "login" : "register");
 });
 $("#auth-signout")?.addEventListener("click", signOut);
 
-supabase.auth.onAuthStateChange((_event, session) => {
+getSupabase().then(async (supabase) => {
+  if (!supabase) return;
+  supabase.auth.onAuthStateChange((_event, session) => {
+    renderUser(session?.user || null);
+  });
+  const { data: { session } } = await supabase.auth.getSession();
   renderUser(session?.user || null);
 });
-
-const { data: { session } } = await supabase.auth.getSession();
-renderUser(session?.user || null);

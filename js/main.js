@@ -1,6 +1,5 @@
 import { attributes } from "./data.js";
 import { artifacts as recipeArtifacts } from "./artifacts-data.js";
-import { saveUnlock } from "./db.js";
 
 const currentSelection = { material: null, colors: [], pattern: null };
 const artifactState = { matches: [], index: 0 };
@@ -99,7 +98,13 @@ async function combine() {
     const unlocked = new Set(JSON.parse(localStorage.getItem("unlockedArtifacts") || "[]"));
     matchingArtifacts.forEach((artifact) => unlocked.add(artifact.name));
     localStorage.setItem("unlockedArtifacts", JSON.stringify([...unlocked]));
-    await Promise.all(matchingArtifacts.map((artifact) => saveUnlock(artifact.name)));
+    try {
+      const { saveUnlock } = await import("./db.js");
+      await Promise.all(matchingArtifacts.map((artifact) => saveUnlock(artifact.name)));
+    } catch (error) {
+      console.error("保存解锁记录失败：", error);
+      window.showToast?.("解锁成功，但暂时无法保存云端记录。", "error");
+    }
     const message = matchingArtifacts.length === 1
       ? "配方吻合，器物正在显影……"
       : `配方吻合，发现 ${matchingArtifacts.length} 件同属性器物，正在显影……`;
