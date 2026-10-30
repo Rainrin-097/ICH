@@ -227,7 +227,7 @@ export const artifacts = [
       "C06",
       "C02"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T02",
     "image": "images/artifacts/18_漆木虎座鸟架鼓/01.jpg"
   },
@@ -288,7 +288,7 @@ export const artifacts = [
       "C01",
       "C04"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T02",
     "image": "images/artifacts/22_君幸食狸猫纹漆食盘/01.jpg"
   },
@@ -381,7 +381,7 @@ export const artifacts = [
     "description": "紫漆地，金银薄片镂刻人物龙凤花草，髹漆研磨齐平。",
     "req_material": "M01",
     "req_colors": [
-      "C10",
+      "C09",
       "C06",
       "C02"
     ],
@@ -411,7 +411,7 @@ export const artifacts = [
     "location": "日本奈良正仓院",
     "region": "传世品",
     "description": "篮胎上施银平脱，中外文化交流典型器形。",
-    "req_material": "M05",
+    "req_material": "M04",
     "req_colors": [
       "C01",
       "C02"
@@ -428,12 +428,12 @@ export const artifacts = [
     "description": "紫檀为胎，镶嵌螺钿玳瑁琥珀，唐代螺钿最高成就。",
     "req_material": "M01",
     "req_colors": [
-      "C10",
+      "C09",
       "C02",
       "C04",
       "C06"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T04",
     "image": "images/artifacts/31_螺钿紫檀阮咸/01.jpg"
   },
@@ -476,14 +476,14 @@ export const artifacts = [
     "location": "法门寺博物馆",
     "region": "陕西扶风",
     "description": "内为秘色瓷青黄釉，外壁髹黑漆，唐代瓷胎漆器孤例。",
-    "req_material": "M06",
+    "req_material": "M03",
     "req_colors": [
-      "C08",
+      "C07",
       "C01",
       "C06",
       "C02"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T06",
     "image": "images/artifacts/34_法门寺秘色瓷平脱碗/01.jpg"
   },
@@ -588,7 +588,7 @@ export const artifacts = [
     "req_colors": [
       "C01"
     ],
-    "req_pattern": "P07",
+    "req_pattern": "P06",
     "techniqueCode": "T03",
     "image": "images/artifacts/41_南宋剔黑楼阁人物图圆盘/01.jpg"
   },
@@ -662,7 +662,7 @@ export const artifacts = [
       "C01",
       "C06"
     ],
-    "req_pattern": "P07",
+    "req_pattern": "P06",
     "techniqueCode": "T03",
     "image": "images/artifacts/47_杨茂造剔红观瀑图八方盘/01.jpg"
   },
@@ -676,7 +676,7 @@ export const artifacts = [
     "req_colors": [
       "C04"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T03",
     "image": "images/artifacts/48_剔红双绶牡丹纹圆盘/01.jpg"
   },
@@ -691,7 +691,7 @@ export const artifacts = [
       "C01",
       "C02"
     ],
-    "req_pattern": "P07",
+    "req_pattern": "P06",
     "techniqueCode": "T04",
     "image": "images/artifacts/49_广寒宫图嵌薄螺钿黑漆盘残片/01.jpg"
   },
@@ -722,7 +722,7 @@ export const artifacts = [
       "C06",
       "C02"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T05",
     "image": "images/artifacts/51_凤凰文戗金经箱/01.jpg"
   },
@@ -769,7 +769,7 @@ export const artifacts = [
       "C06",
       "C01"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T03",
     "image": "images/artifacts/54_明宣德剔彩林檎双鹂图捧盒/01.jpg"
   },
@@ -784,7 +784,7 @@ export const artifacts = [
       "C04",
       "C06"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T03",
     "image": "images/artifacts/55_明永乐剔红花鸟纹长方盒/01.jpg"
   },
@@ -875,7 +875,7 @@ export const artifacts = [
     "description": "紫漆地上戗金填彩漆，以红绿黄黑四色填饰花纹。",
     "req_material": "M01",
     "req_colors": [
-      "C10",
+      "C09",
       "C04",
       "C07",
       "C06",
@@ -985,27 +985,6 @@ export const artifacts = [
     "region": "宫廷",
     "description": "一面百鸟朝凤，另一面三国故事，款彩工艺。",
     "req_material": "M01",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     "req_colors": [
       "C01",
       "C04",
@@ -1013,7 +992,7 @@ export const artifacts = [
       "C06",
       "C09"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T09",
     "image": "images/artifacts/68_黑漆款彩百鸟朝凤图围屏/01.jpg"
   },
@@ -1049,7 +1028,7 @@ export const artifacts = [
       "C07",
       "C02"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T08",
     "image": "images/artifacts/70_卢葵生造百宝嵌雄鸡图漆砂砚盒/01.jpg"
   },
@@ -1061,7 +1040,7 @@ export const artifacts = [
     "description": "薄胎漆砂制，体轻而薄，色浓紫仿石色。",
     "req_material": "M08",
     "req_colors": [
-      "C10"
+      "C09"
     ],
     "req_pattern": "P00",
     "techniqueCode": "T01",
@@ -1077,7 +1056,7 @@ export const artifacts = [
     "req_colors": [
       "C04"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T03",
     "image": "images/artifacts/72_清乾隆剔红枫叶秋虫图盒/01.jpg"
   },
@@ -1110,7 +1089,7 @@ export const artifacts = [
       "C07",
       "C01"
     ],
-    "req_pattern": "P04",
+    "req_pattern": "P03",
     "techniqueCode": "T05",
     "image": "images/artifacts/74_清乾隆戗金彩漆双凤纹菱花式盒/01.jpg"
   },
@@ -1125,7 +1104,7 @@ export const artifacts = [
       "C01",
       "C06"
     ],
-    "req_pattern": "P07",
+    "req_pattern": "P06",
     "techniqueCode": "T07",
     "image": "images/artifacts/75_清乾隆黑漆描金山水纹方胜式盘/01.jpg"
   },
@@ -1268,7 +1247,7 @@ export const artifacts = [
       "C01",
       "C02"
     ],
-    "req_pattern": "P07",
+    "req_pattern": "P06",
     "techniqueCode": "T04",
     "image": "images/artifacts/84_薛生金百猫戏春图屏风/01.jpg"
   },
@@ -1293,7 +1272,7 @@ export const artifacts = [
     "location": "云南民族博物馆",
     "region": "云南西双版纳",
     "description": "大龙竹刻花制成，傣族竹编漆器代表。",
-    "req_material": "M05",
+    "req_material": "M04",
     "req_colors": [
       "C01",
       "C04",

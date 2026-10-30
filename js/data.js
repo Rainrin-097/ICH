@@ -2,35 +2,26 @@ export const attributes = {
   materials: [
     { id: "M01", name: "木胎", note: "木材为胎，温润坚实", image: "images/materials/K_MAT_MU.png" },
     { id: "M02", name: "脱胎 / 夹纻胎", note: "去模存壳，轻如浮云", image: "images/materials/K_MAT_TUO.png" },
-    { id: "M03", name: "陶胎", note: "陶器外壁髹漆", image: "images/materials/K_MAT_TAO.png" },
-    { id: "M04", name: "皮胎", note: "柔韧耐形变", image: "images/materials/K_MAT_PI.png" },
-    { id: "M05", name: "竹胎", note: "南方地域常用", image: "images/materials/K_MAT_ZHU.png" },
-    { id: "M06", name: "瓷胎", note: "瓷器外壁髹漆", image: "images/materials/K_MAT_CI.png" },
+    { id: "M03", name: "陶瓷胎", note: "陶胎与瓷胎外壁髹漆", image: "images/materials/K_MAT_TAO.png" },
+    { id: "M04", name: "皮 / 竹胎", note: "皮革柔韧，竹材轻巧", image: "images/materials/K_MAT_PI.png" },
     { id: "M07", name: "金属胎", note: "金属为骨，漆为衣", image: "images/materials/K_MAT_JIN.png" },
     { id: "M08", name: "漆砂胎", note: "薄胎漆砂制", image: "images/materials/K_MAT_SHA.png" }
   ],
   colors: [
-    { id: "C01", name: "黑", hex: "#1a1a1a", note: "玄、皂、黛，北方之色" },
-    { id: "C02", name: "白", hex: "#e9e7dd", note: "蛤粉入漆，温润珠光" },
-    { id: "C03", name: "灰", hex: "#85827d", note: "水墨交融之色" },
-    { id: "C04", name: "红", hex: "#b53b31", note: "朱砂，漆器最尊贵的色系" },
-    { id: "C05", name: "橙", hex: "#d66b2d", note: "如银朱般偏橙的亮朱红" },
-    { id: "C06", name: "黄", hex: "#d0a83e", note: "藤黄，中央之色" },
-    { id: "C07", name: "绿", hex: "#557653", note: "石绿、铜绿，古朴沉静" },
-    { id: "C08", name: "青", hex: "#5c8490", note: "蓝绿之间的东方色" },
-    { id: "C09", name: "蓝", hex: "#385b7f", note: "石青，沉着的矿物蓝" },
-    { id: "C10", name: "紫", hex: "#604052", note: "紫草根染，贵而难得" },
-    { id: "C11", name: "棕", hex: "#8b5a3e", note: "赭石，大地的颜色" },
-    { id: "C12", name: "粉", hex: "#c98d91", note: "胭脂、藕荷般柔和" }
+    { id: "C01", name: "黑灰系", hex: "#1a1a1a", note: "玄、皂、黛、灰，沉静内敛的深色系" },
+    { id: "C02", name: "白色", hex: "#e9e7dd", note: "蛤粉入漆，温润珠光" },
+    { id: "C04", name: "红橙粉系", hex: "#b53b31", note: "朱砂为正，兼含银朱橙与胭脂粉" },
+    { id: "C06", name: "黄色", hex: "#d0a83e", note: "藤黄，中央之色" },
+    { id: "C07", name: "青绿系", hex: "#557653", note: "石绿、铜绿与青，古朴沉静" },
+    { id: "C09", name: "蓝紫系", hex: "#385b7f", note: "石青之蓝，兼含青莲紫" },
+    { id: "C11", name: "棕色", hex: "#8b5a3e", note: "赭石，大地的颜色" }
   ],
   patterns: [
     { id: "P00", name: "无 / 素面", note: "不饰纹样，以漆色见器", image: "images/patterns/knowledge/K_PAT_JH.png" },
     { id: "P01", name: "几何 / 气象纹", note: "云雷、回纹与抽象秩序", image: "images/patterns/knowledge/K_PAT_JH_YUNLEI.png" },
     { id: "P02", name: "花草植物纹", note: "莲、牡丹、栀子等折枝花卉", image: "images/patterns/knowledge/K_PAT_ZW_MUDAN.png" },
-    { id: "P03", name: "兽纹 / 神兽纹", note: "龙、虎、饕餮等瑞兽", image: "images/patterns/knowledge/K_PAT_SS_TAOTIE.png" },
-    { id: "P04", name: "鸟兽虫鱼纹", note: "凤鸟、鱼虫与自然生灵", image: "images/patterns/knowledge/K_PAT_NS_FENG.png" },
-    { id: "P06", name: "人物叙事纹", note: "以人物与故事入画", image: "images/patterns/knowledge/K_PAT_RW_YINGXI.png" },
-    { id: "P07", name: "山水楼阁纹", note: "楼台山水，寄托幽情", image: "images/patterns/knowledge/K_PAT_JX.png" },
+    { id: "P03", name: "动物题材纹", note: "神兽、凤鸟、鱼虫等动物题材", image: "images/patterns/knowledge/K_PAT_SS_TAOTIE.png" },
+    { id: "P06", name: "人物与场景纹", note: "人物故事、山水楼阁与庭园", image: "images/patterns/knowledge/K_PAT_RW_YINGXI.png" },
     { id: "P08", name: "天文星象纹", note: "二十八宿与四象北斗", image: "images/patterns/knowledge/K_PAT_TW_28XIU.png" }
   ]
 };
@@ -40,10 +31,10 @@ export const artifacts = [
   { name: "马家浜文化彩绘陶质漆器", era: "新石器时代", location: "嘉兴博物馆 · 浙江嘉兴", description: "最早的陶胎漆器实物，在陶器上施漆衣，增加了器表的绘画性。", req_material: "M03", req_colors: ["C04", "C01"], req_pattern: "P01", technique: "彩绘 / 描漆", image: "images/artifacts/04_马家浜文化彩绘陶质漆器/01.jpg" },
   { name: "良渚文化嵌玉漆杯", era: "新石器时代", location: "良渚博物院 · 浙江余杭", description: "器身用红漆和玉粒装饰，开镶嵌漆器艺术之先河。", req_material: "M01", req_colors: ["C04", "C02"], req_pattern: "P01", technique: "彩绘 / 描漆", image: "images/artifacts/06_嵌玉漆杯/01.jpg" },
   { name: "彩绘兽面凤鸟纹螺钿漆罍", era: "夏商周", location: "社科院考古所 · 北京房山", description: "黑漆为底，螺钿镶嵌兽面与凤鸟，是世界最早的螺钿漆器之一。", req_material: "M01", req_colors: ["C01", "C02"], req_pattern: "P03", technique: "螺钿", image: "images/artifacts/11_彩绘兽面凤鸟纹螺钿漆罍/01.jpg" },
-  { name: "漆木虎座鸟架鼓", era: "春秋战国", location: "湖北省博物馆 · 湖北枣阳", description: "双虎为座，双凤鸟立于虎背之上，是楚文化最具象征性的器物之一。", req_material: "M01", req_colors: ["C01", "C04", "C06", "C02"], req_pattern: "P04", technique: "彩绘 / 描漆", image: "images/artifacts/18_漆木虎座鸟架鼓/01.jpg" },
+  { name: "漆木虎座鸟架鼓", era: "春秋战国", location: "湖北省博物馆 · 湖北枣阳", description: "双虎为座，双凤鸟立于虎背之上，是楚文化最具象征性的器物之一。", req_material: "M01", req_colors: ["C01", "C04", "C06", "C02"], req_pattern: "P03", technique: "彩绘 / 描漆", image: "images/artifacts/18_漆木虎座鸟架鼓/01.jpg" },
   { name: "彩绘二十八宿图漆衣箱", era: "春秋战国", location: "湖北省博物馆 · 湖北随州", description: "箱面记有二十八宿全部名称，并与北斗、四象相配，是研究先秦天文观念与漆器绘饰的重要器物。", req_material: "M01", req_colors: ["C01", "C04"], req_pattern: "P08", technique: "彩绘 / 描漆", image: "images/artifacts/17_彩绘二十八宿图漆衣箱/01.jpg" },
   { name: "云纹漆鼎", era: "汉代", location: "湖南博物院 · 湖南长沙", description: "马王堆汉墓代表，出土时鼎内尚存藕片汤，云纹与漆色共同构成汉代气象。", req_material: "M01", req_colors: ["C01", "C04"], req_pattern: "P01", technique: "彩绘 / 描漆", image: "images/artifacts/19_云纹漆鼎/01.jpg" },
-  { name: "金银平脱琴", era: "唐代", location: "日本京都正仓院 · 传世品", description: "紫漆地，金银薄片镂刻人物龙凤花草，髹漆研磨齐平，尽显盛唐华彩。", req_material: "M01", req_colors: ["C10", "C06", "C02"], req_pattern: "P06", technique: "金银平脱", image: "images/artifacts/28_金银平脱琴/01.jpg" },
+  { name: "金银平脱琴", era: "唐代", location: "日本京都正仓院 · 传世品", description: "紫漆地，金银薄片镂刻人物龙凤花草，髹漆研磨齐平，尽显盛唐华彩。", req_material: "M01", req_colors: ["C09", "C06", "C02"], req_pattern: "P06", technique: "金银平脱", image: "images/artifacts/28_金银平脱琴/01.jpg" },
   { name: "南宋戗金莲瓣形朱漆奁", era: "宋代", location: "常州博物馆 · 江苏常州", description: "外髹朱漆，戗刻荷花牡丹等折枝花卉，金纹如游丝，显出宋人克制而精微的审美。", req_material: "M01", req_colors: ["C04", "C01", "C06", "C02"], req_pattern: "P06", technique: "戗金 / 填漆", image: "images/artifacts/38_南宋戗金莲瓣形朱漆奁/01.jpg" },
   { name: "剔红牡丹纹圆盘", era: "明代", location: "故宫博物院 · 北京", description: "黄漆素地上雕朱漆牡丹花纹，髹漆肥厚，弥漫着明代宫廷漆器的富贵气象。", req_material: "M01", req_colors: ["C04", "C06"], req_pattern: "P02", technique: "雕漆 / 剔红", image: "images/artifacts/52_明永乐剔红牡丹纹圆盘/01.jpg" },
   { name: "脱胎朱漆菊瓣式盖碗", era: "清代", location: "故宫博物院 · 福州", description: "壁薄如纸，通体朱漆，盖内与碗心刻乾隆御题诗填金，体现福州脱胎漆器的轻盈。", req_material: "M02", req_colors: ["C04", "C06"], req_pattern: "P02", technique: "脱胎 / 薄料", image: "images/artifacts/64_清乾隆脱胎朱漆菊瓣式盖碗/01.jpg" }
