@@ -1,4 +1,5 @@
 import { knowledgeNodes } from "./knowledge-data.js";
+import { patternCollection } from "./pattern-collection.js";
 
 const categoryMeta = {
   color: { eyebrow: "THE COLORS", title: "颜色" },
@@ -168,12 +169,94 @@ function render(category) {
   const meta = categoryMeta[category];
   $("#category-eyebrow").textContent = meta.eyebrow;
   $("#category-title").textContent = meta.title;
-  const count = tree.reduce((total, node) => total + countNodes(node), 0);
+  const count = category === "pattern"
+    ? patternCount()
+    : tree.reduce((total, node) => total + countNodes(node), 0);
   $("#result-count").textContent = `${count} 个节点 · 点击逐级展开`;
   document.querySelector(".category-button.active")?.classList.remove("active");
   document.querySelector(`[data-category="${category}"]`).classList.add("active");
-  $("#knowledge-grid").innerHTML = `<div class="tree-root">${tree.map((node, index) => renderNode(node, index)).join("")}</div>`;
+  $("#knowledge-grid").innerHTML = category === "pattern"
+    ? renderPatternTree()
+    : `<div class="tree-root">${tree.map((node, index) => renderNode(node, index)).join("")}</div>`;
 }
+
+// ---------- 纹样图典树状图（黑白线稿 + 实物详情） ----------
+function patternCount() {
+  return patternCollection.reduce(
+    (total, group) => total + 1 + group.children.length, 0);
+}
+
+function patternVisual(node, isGroup) {
+  const src = isGroup ? node.icon : node.line;
+  return src
+    ? `<img src="${src}" alt="${node.name}" loading="lazy">`
+    : `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
+}
+
+function renderPatternTree() {
+  let delay = 0;
+  return `<div class="tree-root">${patternCollection.map((group) => {
+    const hasChildren = group.children.length > 0;
+    const html = `<article class="knowledge-node tree-node has-children pattern-group" style="--delay:${(delay++) * 40}ms">
+      <button class="node-toggle" type="button" aria-expanded="false">
+        <span class="node-visual">${patternVisual(group, true)}</span>
+        <span class="node-name"><strong>${group.name}</strong><small>${hasChildren ? `${group.children.length} 种纹样` : "知识节点"}</small></span>
+        <span class="node-plus">＋</span>
+      </button>
+      <div class="node-description"><p>${group.desc}</p></div>
+      ${hasChildren ? `<div class="tree-children">${group.children.map((leaf) => `
+        <article class="knowledge-node tree-node leaf pattern-leaf" data-leaf="${patternCollection.indexOf(group)}_${group.children.indexOf(leaf)}" style="--delay:${(delay++) * 30}ms">
+          <button class="node-toggle" type="button" aria-expanded="false">
+            <span class="node-visual">${patternVisual(leaf, false)}</span>
+            <span class="node-name"><strong>${leaf.name}</strong><small>${leaf.examples.length ? `${leaf.examples.length} 件实物` : "纹样线稿"}</small></span>
+            <span class="node-plus">›</span>
+          </button>
+        </article>`).join("")}</div>` : ""}
+    </article>`;
+    return html;
+  }).join("")}</div>`;
+}
+
+function openPatternDetail(group, leaf) {
+  document.querySelector(".pattern-backdrop")?.remove();
+  const examples = leaf.examples.length ? `
+    <div class="pattern-real">
+      <h3>实物展示</h3>
+      <div class="pattern-real-grid">${leaf.examples.map((item) => `
+        <figure class="pattern-real-item">
+          <img src="${item.img}" alt="${item.title}" loading="lazy">
+          <figcaption><strong>${item.title}</strong><em>${item.meta}</em><p>${item.desc}</p></figcaption>
+        </figure>`).join("")}</div>
+    </div>` : `
+    <p class="pattern-empty">此纹样暂无实物图，以上方线稿为参考。</p>`;
+  const backdrop = document.createElement("div");
+  backdrop.className = "modal-backdrop pattern-backdrop";
+  backdrop.innerHTML = `<div class="pattern-modal" role="dialog" aria-modal="true" aria-label="${leaf.name}">
+    <button class="modal-close" type="button" aria-label="关闭">×</button>
+    <div class="pattern-modal-line">
+      ${leaf.line ? `<img src="${leaf.line}" alt="${leaf.name} 线稿">` : `<span class="pattern-modal-glyph">${leaf.name.slice(0, 1)}</span>`}
+    </div>
+    <div class="pattern-modal-body">
+      <span class="modal-meta">${group.name} · 纹样图典</span>
+      <h2>${leaf.name}</h2>
+      <div class="modal-rule"></div>
+      <p>${leaf.desc}</p>
+      ${examples}
+    </div>
+  </div>`;
+  backdrop.addEventListener("click", (event) => {
+    if (event.target === backdrop || event.target.closest(".modal-close")) closePatternDetail();
+  });
+  document.body.appendChild(backdrop);
+}
+
+function closePatternDetail() {
+  document.querySelector(".pattern-backdrop")?.remove();
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closePatternDetail();
+});
 
 function countNodes(node) {
   return 1 + node.children.reduce((total, child) => total + countNodes(child), 0);
@@ -201,6 +284,12 @@ document.addEventListener("click", (event) => {
   const category = event.target.closest(".category-button");
   if (category) {
     render(category.dataset.category);
+    return;
+  }
+  const leaf = event.target.closest(".pattern-leaf");
+  if (leaf) {
+    const [groupIndex, leafIndex] = leaf.dataset.leaf.split("_").map(Number);
+    openPatternDetail(patternCollection[groupIndex], patternCollection[groupIndex].children[leafIndex]);
     return;
   }
   const toggle = event.target.closest(".node-toggle");
