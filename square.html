@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="髹饰录 · 漆器文化交流广场">
+  <title>髹饰录 · 广场</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="square-page">
+  <div class="paper-texture"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="返回漆器复原工坊">
+      <span class="brand-seal">髹</span>
+      <span><strong>髹饰录</strong><small>漆器数字复原工坊</small></span>
+    </a>
+    <div class="topbar-note"><span class="status-dot"></span>漆器文化 · 匠人交流</div>
+    <nav class="top-actions" aria-label="辅助导航">
+      <a class="text-button" href="profile.html">个人档案</a>
+      <a class="text-button" href="knowledge.html">知识图谱</a>
+      <a class="text-button square-current" href="square.html">广场</a>
+      <a class="text-button" href="index.html#auth-panel">登录</a>
+    </nav>
+  </header>
+
+  <main class="square-workspace">
+    <section class="square-hero">
+      <div>
+        <span class="eyebrow">04 / 相与 · COMMUNITY SQUARE</span>
+        <h1>广场</h1>
+        <p>分享发现的配方，菜彩蛋，或者留言</p>
+        <small>在漆色与器物之间，留下你的发现，也听见更多人的故事。</small>
+      </div>
+      <button class="combine-button square-publish" id="open-publish" type="button"><span>发布动态</span><b>➜</b></button>
+    </section>
+
+    <section class="square-toolbar panel">
+      <div class="square-categories" role="tablist" aria-label="内容分类">
+        <button class="square-tab active" type="button" data-category="all">全部</button>
+        <button class="square-tab" type="button" data-category="discussion">交流讨论</button>
+        <button class="square-tab" type="button" data-category="recipe">配方分享</button>
+        <button class="square-tab" type="button" data-category="egg">彩蛋分享</button>
+      </div>
+      <div class="square-filters">
+        <label>排序
+          <select id="sort-select">
+            <option value="latest">最新发布</option>
+            <option value="likes">最多点赞</option>
+          </select>
+        </label>
+        <label id="verification-filter-wrap" hidden>验证状态
+          <select id="verification-select">
+            <option value="all">全部配方</option>
+            <option value="pending">待验证</option>
+            <option value="verified">已验证</option>
+          </select>
+        </label>
+      </div>
+    </section>
+    <div class="square-list" id="square-list" aria-live="polite"></div>
+  </main>
+
+  <div class="square-modal-backdrop" id="publish-backdrop" hidden>
+    <section class="square-dialog" role="dialog" aria-modal="true" aria-labelledby="publish-title">
+      <button class="modal-close" data-close-modal type="button" aria-label="关闭发布窗口">×</button>
+      <span class="eyebrow">LEAVE A TRACE · 留下发现</span>
+      <h2 id="publish-title">发布动态</h2>
+      <form id="publish-form">
+        <label for="publish-type">内容类型</label>
+        <select id="publish-type" name="type">
+          <option value="discussion">交流讨论</option>
+          <option value="recipe">配方分享</option>
+          <option value="egg">彩蛋分享</option>
+        </select>
+        <div id="publish-fields"></div>
+        <div class="dialog-actions">
+          <button class="text-button" data-close-modal type="button">取消</button>
+          <button class="combine-button small" type="submit">发布 <b>→</b></button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="square-modal-backdrop" id="detail-backdrop" hidden>
+    <section class="square-dialog detail-dialog" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+      <button class="modal-close" data-close-modal type="button" aria-label="关闭详情">×</button>
+      <div id="detail-content"></div>
+    </section>
+  </div>
+  <div class="square-modal-backdrop" id="reveal-backdrop" hidden>
+    <section class="square-dialog reveal-dialog" role="dialog" aria-modal="true" aria-labelledby="reveal-title">
+      <button class="modal-close" data-close-modal type="button" aria-label="关闭提示">×</button>
+      <span class="eyebrow">HIDDEN ARCHIVE · 器物线索</span>
+      <h2 id="reveal-title">确定要显示吗？</h2>
+      <p>可以自己去合成试试哦。</p>
+      <div class="dialog-actions">
+        <button class="text-button" data-close-modal type="button">暂不查看</button>
+        <button class="combine-button small" id="confirm-reveal" type="button">显示漆器 <b>→</b></button>
+      </div>
+    </section>
+  </div>
+  <script type="module" src="js/square.js"></script>
+</body>
+</html>
