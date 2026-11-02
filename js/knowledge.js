@@ -1,5 +1,6 @@
 import { knowledgeNodes } from "./knowledge-data.js";
 import { patternCollection } from "./pattern-collection.js";
+import { colorCollection } from "./color-collection.js";
 
 const categoryMeta = {
   color: { eyebrow: "THE COLORS", title: "颜色" },
@@ -171,13 +172,17 @@ function render(category) {
   $("#category-title").textContent = meta.title;
   const count = category === "pattern"
     ? patternCount()
-    : tree.reduce((total, node) => total + countNodes(node), 0);
+    : category === "color"
+      ? colorCount()
+      : tree.reduce((total, node) => total + countNodes(node), 0);
   $("#result-count").textContent = `${count} 个节点 · 点击逐级展开`;
   document.querySelector(".category-button.active")?.classList.remove("active");
   document.querySelector(`[data-category="${category}"]`).classList.add("active");
   $("#knowledge-grid").innerHTML = category === "pattern"
     ? renderPatternTree()
-    : `<div class="tree-root">${tree.map((node, index) => renderNode(node, index)).join("")}</div>`;
+    : category === "color"
+      ? renderColorTree()
+      : `<div class="tree-root">${tree.map((node, index) => renderNode(node, index)).join("")}</div>`;
 }
 
 // ---------- 纹样图典树状图（黑白线稿 + 实物详情） ----------
@@ -254,6 +259,76 @@ function closePatternDetail() {
   document.querySelector(".pattern-backdrop")?.remove();
 }
 
+// ---------- 漆色图典树状图（传统色色板 + 实物详情） ----------
+function colorCount() {
+  return colorCollection.reduce(
+    (total, group) => total + 1 + group.children.length, 0);
+}
+
+function colorVisual(node) {
+  return node.hex
+    ? `<i style="--swatch:${node.hex}"></i>`
+    : `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
+}
+
+function renderColorTree() {
+  let delay = 0;
+  return `<div class="tree-root">${colorCollection.map((group) => {
+    const hasChildren = group.children.length > 0;
+    return `<article class="knowledge-node tree-node has-children pattern-group" style="--delay:${(delay++) * 40}ms">
+      <button class="node-toggle" type="button" aria-expanded="false">
+        <span class="node-visual">${colorVisual(group)}</span>
+        <span class="node-name"><strong>${group.name}</strong><small>${hasChildren ? `${group.children.length} 种传统色` : "知识节点"}</small></span>
+        <span class="node-plus">＋</span>
+      </button>
+      <div class="node-description"><p>${group.desc}</p></div>
+      ${hasChildren ? `<div class="tree-children">${group.children.map((leaf) => `
+        <article class="knowledge-node tree-node leaf pattern-leaf color-leaf" data-color="${colorCollection.indexOf(group)}_${group.children.indexOf(leaf)}" style="--delay:${(delay++) * 30}ms">
+          <button class="node-toggle" type="button" aria-expanded="false">
+            <span class="node-visual">${colorVisual(leaf)}</span>
+            <span class="node-name"><strong>${leaf.name}</strong><small>${leaf.examples.length ? `${leaf.examples.length} 件实物` : "传统色"}</small></span>
+            <span class="node-plus">›</span>
+          </button>
+        </article>`).join("")}</div>` : ""}
+    </article>`;
+  }).join("")}</div>`;
+}
+
+function openColorDetail(group, leaf) {
+  document.querySelector(".pattern-backdrop")?.remove();
+  const examples = leaf.examples.length ? `
+    <div class="pattern-real">
+      <h3>实物展示</h3>
+      <div class="pattern-real-grid">${leaf.examples.map((item) => `
+        <figure class="pattern-real-item">
+          <img src="${item.img}" alt="${item.title}" loading="lazy">
+          <figcaption><strong>${item.title}</strong><em>${item.meta}</em><p>${item.desc}</p></figcaption>
+        </figure>`).join("")}</div>
+    </div>` : `
+    <p class="pattern-empty">此颜色暂无对应的单色漆器实物图，以上方色板为参考。</p>`;
+  const backdrop = document.createElement("div");
+  backdrop.className = "modal-backdrop pattern-backdrop";
+  backdrop.innerHTML = `<div class="pattern-modal" role="dialog" aria-modal="true" aria-label="${leaf.name}">
+    <button class="modal-close" type="button" aria-label="关闭">×</button>
+    <div class="pattern-modal-line color-modal-hero">
+      <span class="color-hero-swatch" style="--swatch:${leaf.hex}"></span>
+      <span class="color-hero-name">${leaf.name}</span>
+      <small class="color-hero-hex">${leaf.hex}</small>
+    </div>
+    <div class="pattern-modal-body">
+      <span class="modal-meta">${group.name} · 漆色图典</span>
+      <h2>${leaf.name}</h2>
+      <div class="modal-rule"></div>
+      <p>${leaf.desc}</p>
+      ${examples}
+    </div>
+  </div>`;
+  backdrop.addEventListener("click", (event) => {
+    if (event.target === backdrop || event.target.closest(".modal-close")) closePatternDetail();
+  });
+  document.body.appendChild(backdrop);
+}
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closePatternDetail();
 });
@@ -284,6 +359,12 @@ document.addEventListener("click", (event) => {
   const category = event.target.closest(".category-button");
   if (category) {
     render(category.dataset.category);
+    return;
+  }
+  const colorLeaf = event.target.closest(".color-leaf");
+  if (colorLeaf) {
+    const [groupIndex, leafIndex] = colorLeaf.dataset.color.split("_").map(Number);
+    openColorDetail(colorCollection[groupIndex], colorCollection[groupIndex].children[leafIndex]);
     return;
   }
   const leaf = event.target.closest(".pattern-leaf");
