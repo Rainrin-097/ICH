@@ -47,9 +47,10 @@ function renderUser(user) {
   const authOpen = $("#auth-open");
   const authPanel = $("#auth-panel");
   if (authOpen) {
-    authOpen.textContent = user ? getUsername(user) : "登录";
+    authOpen.textContent = "登录";
+    authOpen.hidden = Boolean(user);
     authOpen.href = "#auth-panel";
-    authOpen.setAttribute("aria-label", user ? `查看${getUsername(user)}的账户` : "打开登录面板");
+    authOpen.setAttribute("aria-label", "打开登录面板");
   }
   if (!authForm || !authUser) return;
   if (user?.email?.endsWith(USERNAME_SUFFIX)) {

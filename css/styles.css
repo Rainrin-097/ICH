@@ -2350,6 +2350,111 @@ h2 {
   display: none;
 }
 
+.settings-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(35, 33, 27, .63);
+  animation: fade-in .25s ease-out;
+}
+
+.settings-backdrop[hidden] {
+  display: none;
+}
+
+.settings-panel {
+  width: min(440px, 100%);
+  position: relative;
+  padding: 38px 40px 30px;
+  background: var(--paper);
+  box-shadow: 14px 18px 0 rgba(0, 0, 0, .12);
+  animation: slide-down .3s ease-out;
+}
+
+.settings-panel h2 {
+  margin-bottom: 24px;
+}
+
+.settings-group,
+.settings-account {
+  border-top: 1px solid var(--line);
+  padding: 16px 0;
+}
+
+.settings-group>label:first-child,
+.settings-label {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+
+.settings-panel select {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .55);
+  color: var(--ink);
+  padding: 10px 11px;
+  font: 12px var(--sans);
+}
+
+.settings-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.settings-toggle input {
+  accent-color: var(--red);
+}
+
+.settings-volume {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  margin: 10px 0 0 24px;
+}
+
+.settings-volume span {
+  display: flex;
+  justify-content: space-between;
+}
+
+.settings-volume output {
+  color: var(--red);
+}
+
+.settings-volume input {
+  accent-color: var(--red);
+  width: 100%;
+}
+
+.settings-account strong {
+  display: block;
+  font: 16px var(--serif);
+  margin-bottom: 14px;
+}
+
+.settings-account button {
+  margin-right: 18px;
+}
+
+.settings-account button:disabled {
+  cursor: not-allowed;
+  opacity: .42;
+}
+
+.danger-button {
+  color: var(--red);
+}
+
 .square-dialog {
   width: min(590px, 100%);
   max-height: 90vh;

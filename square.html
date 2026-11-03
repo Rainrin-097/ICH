@@ -18,10 +18,11 @@
     </a>
     <div class="topbar-note"><span class="status-dot"></span>漆器文化 · 匠人交流</div>
     <nav class="top-actions" aria-label="辅助导航">
-      <a class="text-button" href="profile.html">个人档案</a>
+      <a class="text-button" id="profile-link" href="profile.html">个人档案</a>
       <a class="text-button" href="knowledge.html">知识图谱</a>
       <a class="text-button square-current" href="square.html">广场</a>
-      <a class="text-button" href="index.html#auth-panel">登录</a>
+      <a class="text-button" id="auth-open" href="index.html#auth-panel">登录</a>
+      <a class="text-button" id="settings-open" href="#settings-panel">设置</a>
     </nav>
   </header>
 
@@ -115,6 +116,8 @@
     </section>
   </div>
   <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/settings.js"></script>
+  <script type="module" src="js/audio.js"></script>
   <script type="module" src="js/square.js"></script>
 </body>
 
