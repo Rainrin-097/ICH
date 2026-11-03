@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>髹饰录 · 广场</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body class="square-page">
   <div class="paper-texture"></div>
   <header class="topbar">
@@ -40,6 +42,7 @@
         <button class="square-tab" type="button" data-category="discussion">交流讨论</button>
         <button class="square-tab" type="button" data-category="recipe">配方分享</button>
         <button class="square-tab" type="button" data-category="egg">彩蛋分享</button>
+        <button class="square-tab" type="button" data-category="mine">我的</button>
       </div>
       <div class="square-filters">
         <label>排序
@@ -99,6 +102,20 @@
       </div>
     </section>
   </div>
+  <div class="square-modal-backdrop" id="delete-backdrop" hidden>
+    <section class="square-dialog reveal-dialog" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+      <button class="modal-close" data-close-modal type="button" aria-label="关闭删除提示">×</button>
+      <span class="eyebrow">REMOVE TRACE · 删除动态</span>
+      <h2 id="delete-title">确定删除这条动态吗？</h2>
+      <p>删除后动态和评论都会消失，且无法恢复。</p>
+      <div class="dialog-actions">
+        <button class="text-button" data-close-modal type="button">暂不删除</button>
+        <button class="combine-button small" id="confirm-delete" type="button">确认删除 <b>→</b></button>
+      </div>
+    </section>
+  </div>
+  <script type="module" src="js/auth.js"></script>
   <script type="module" src="js/square.js"></script>
 </body>
+
 </html>

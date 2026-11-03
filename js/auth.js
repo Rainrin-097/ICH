@@ -37,18 +37,34 @@ function setAuthMode(mode) {
   form.dataset.mode = mode;
 }
 
+function getUsername(user) {
+  return user?.user_metadata?.username || user?.email?.slice(0, -USERNAME_SUFFIX.length) || "匠人";
+}
+
 function renderUser(user) {
   const authForm = $("#auth-form");
   const authUser = $("#auth-user");
+  const authOpen = $("#auth-open");
+  const authPanel = $("#auth-panel");
+  if (authOpen) {
+    authOpen.textContent = user ? getUsername(user) : "登录";
+    authOpen.href = "#auth-panel";
+    authOpen.setAttribute("aria-label", user ? `查看${getUsername(user)}的账户` : "打开登录面板");
+  }
   if (!authForm || !authUser) return;
   if (user?.email?.endsWith(USERNAME_SUFFIX)) {
-    const username = user.email.slice(0, -USERNAME_SUFFIX.length);
+    const username = getUsername(user);
     $("#auth-username-display").textContent = username;
     authForm.hidden = true;
     authUser.hidden = false;
+    authPanel?.classList.add("auth-closed");
+    if (window.location.hash === "#auth-panel") {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
   } else {
     authForm.hidden = false;
     authUser.hidden = true;
+    authPanel?.classList.remove("auth-closed");
   }
 }
 
@@ -125,6 +141,9 @@ async function getSupabase() {
 }
 
 $("#auth-form")?.addEventListener("submit", submitAuth);
+$("#auth-open")?.addEventListener("click", () => {
+  $("#auth-panel")?.classList.remove("auth-closed");
+});
 $("#auth-switch")?.addEventListener("click", () => {
   setAuthMode($("#auth-form").dataset.mode === "register" ? "login" : "register");
 });

@@ -1,3 +1,5 @@
+import { supabase } from "./supabaseClient.js";
+
 const $ = (selector) => document.querySelector(selector);
 let toastTimer;
 const now = Date.now();
@@ -12,7 +14,73 @@ let posts = seedPosts.map((post) => ({ ...post, comments: [...post.comments] }))
 let currentCategory = "all";
 let detailPostId = null;
 let revealPostId = null;
-let nextId = 5;
+let deletePostId = null;
+let currentUser = null;
+
+function getUsername(user) {
+  return user?.user_metadata?.username || user?.email?.replace(/@example\.com$/, "") || "访客匠人";
+}
+
+async function getCurrentUser() {
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error) {
+      showSquareToast("无法获取登录状态，请稍后重试。", "error");
+      return null;
+    }
+    if (!user) {
+      showSquareToast("请先登录后再进行留言。", "warning");
+      window.setTimeout(() => { window.location.href = "index.html#auth-panel"; }, 500);
+      return null;
+    }
+    currentUser = user;
+    return user;
+  } catch (error) {
+    console.error("获取登录状态失败：", error);
+    showSquareToast("登录服务暂时不可用，请检查 Supabase 配置。", "error");
+    return null;
+  }
+}
+
+async function loadCurrentUser() {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    currentUser = user || null;
+  } catch (error) {
+    console.warn("获取当前用户失败：", error);
+    currentUser = null;
+  }
+}
+
+function normalizePost(post) {
+  const comments = post.community_comments || post.comments || [];
+  return {
+    ...post,
+    author: post.author_name || post.author || "访客匠人",
+    time: post.created_at ? new Date(post.created_at).getTime() : post.time,
+    likes: post.likes_count ?? post.likes ?? 0,
+    comments: comments.map((comment) => typeof comment === "string" ? comment : {
+      author: comment.author_name || "访客匠人",
+      content: comment.content || ""
+    }),
+    liked: false
+  };
+}
+
+async function loadPosts() {
+  const { data, error } = await supabase
+    .from("community_posts")
+    .select("*, community_comments(id, author_name, content, created_at)")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.warn("广场云端数据暂不可用，继续显示演示数据：", error.message);
+    posts = seedPosts.map(normalizePost);
+  } else {
+    posts = (data || []).map(normalizePost);
+  }
+  renderPosts();
+}
 
 function showSquareToast(message, kind = "") {
   if (window.showToast) {
@@ -44,7 +112,9 @@ function relativeTime(timestamp) {
 
 function visiblePosts() {
   const verification = $("#verification-select").value;
-  return posts.filter((post) => (currentCategory === "all" || post.type === currentCategory)
+  return posts.filter((post) => (currentCategory === "mine"
+    ? Boolean(currentUser && post.user_id === currentUser.id)
+    : currentCategory === "all" || post.type === currentCategory)
     && (currentCategory !== "recipe" || verification === "all" || post.status === verification))
     .sort((a, b) => $("#sort-select").value === "likes" ? b.likes - a.likes : b.time - a.time);
 }
@@ -64,8 +134,9 @@ function cardTemplate(post) {
   const body = isRecipe
     ? `<div class="recipe-box"><small>${post.type === "egg" ? "彩蛋组合" : "配方组合"}</small><strong>${escapeHTML(post.recipe)}</strong>${artifact}</div><p>${escapeHTML(post.explanation)}</p>`
     : `<p>${escapeHTML(post.content)}</p>`;
+  const canDelete = Boolean(currentUser && post.user_id && post.user_id === currentUser.id);
   return `<article class="square-card panel ${post.type}" data-id="${post.id}">
-    <div class="post-head"><span class="avatar">${escapeHTML(post.author.slice(0, 1))}</span><div><strong>${escapeHTML(post.author)}</strong><small>${relativeTime(post.time)}</small></div><span class="post-tag">${categoryNames[post.type]}</span></div>
+    <div class="post-head"><span class="avatar">${escapeHTML(post.author.slice(0, 1))}</span><div><strong>${escapeHTML(post.author)}</strong><small>${relativeTime(post.time)}</small></div><span class="post-tag">${categoryNames[post.type]}</span>${canDelete ? `<button class="post-delete" data-delete="${post.id}" type="button" aria-label="删除这条动态" title="删除动态">×</button>` : ""}</div>
     ${body}
     <div class="post-foot"><button class="post-action ${post.liked ? "is-liked" : ""}" data-like="${post.id}" type="button">♡ ${post.likes}</button><button class="post-action" data-detail="${post.id}" type="button">评论 ${post.comments.length}</button><span class="post-state">${status}</span></div>
   </article>`;
@@ -83,10 +154,43 @@ function closeModals() {
   $("#publish-backdrop").hidden = true;
   $("#detail-backdrop").hidden = true;
   $("#reveal-backdrop").hidden = true;
+  $("#delete-backdrop").hidden = true;
   document.body.classList.remove("modal-open");
 }
+
+function openDeleteConfirm(id) {
+  deletePostId = id;
+  openModal("#delete-backdrop");
+}
+
+async function confirmDelete() {
+  const user = await getCurrentUser();
+  if (!user || !deletePostId) return;
+  const button = $("#confirm-delete");
+  button.disabled = true;
+  try {
+    const { error } = await supabase
+      .from("community_posts")
+      .delete()
+      .eq("id", deletePostId)
+      .eq("user_id", user.id);
+    if (error) {
+      showSquareToast(`删除失败：${error.message}`, "error");
+      return;
+    }
+    closeModals();
+    deletePostId = null;
+    await loadPosts();
+    showSquareToast("动态已删除。", "success");
+  } catch (error) {
+    console.error("删除动态失败：", error);
+    showSquareToast("删除失败，请稍后重试。", "error");
+  } finally {
+    button.disabled = false;
+  }
+}
 function confirmReveal() {
-  const post = posts.find((item) => item.id === revealPostId);
+  const post = posts.find((item) => String(item.id) === String(revealPostId));
   if (post) {
     post.revealed = true;
     renderPosts();
@@ -94,35 +198,71 @@ function confirmReveal() {
   closeModals();
 }
 function showDetail(id) {
-  const post = posts.find((item) => item.id === Number(id));
+  const post = posts.find((item) => String(item.id) === String(id));
   if (!post) return;
   detailPostId = post.id;
-  $("#detail-content").innerHTML = `<span class="eyebrow">${categoryNames[post.type]} · CONTENT DETAIL</span><h2 id="detail-title">${escapeHTML(post.type === "discussion" ? "交流讨论" : post.recipe)}</h2><div class="detail-author">${escapeHTML(post.author)} · ${relativeTime(post.time)}</div><div class="modal-rule"></div><p>${escapeHTML(post.content || post.explanation)}</p>${post.artifact ? `<p class="detail-artifact">关联漆器：${post.revealed ? escapeHTML(post.artifact) : "暂未显示"}</p>` : ""}<div class="comment-list">${post.comments.length ? post.comments.map((comment) => `<p><strong>访客匠人</strong>${escapeHTML(comment)}</p>`).join("") : "<small>还没有评论，留下第一句吧。</small>"}</div><form class="comment-form" id="comment-form"><input id="comment-input" maxlength="200" required placeholder="写下你的评论"><button class="combine-button small" type="submit">发送</button></form>`;
+  $("#detail-content").innerHTML = `<span class="eyebrow">${categoryNames[post.type]} · CONTENT DETAIL</span><h2 id="detail-title">${escapeHTML(post.type === "discussion" ? "交流讨论" : post.recipe)}</h2><div class="detail-author">${escapeHTML(post.author)} · ${relativeTime(post.time)}</div><div class="modal-rule"></div><p>${escapeHTML(post.content || post.explanation)}</p>${post.artifact ? `<p class="detail-artifact">关联漆器：${post.revealed ? escapeHTML(post.artifact) : "暂未显示"}</p>` : ""}<div class="comment-list">${post.comments.length ? post.comments.map((comment) => { const author = typeof comment === "string" ? "访客匠人" : comment.author; const content = typeof comment === "string" ? comment : comment.content; return `<p><strong>${escapeHTML(author)}</strong>${escapeHTML(content)}</p>`; }).join("") : "<small>还没有评论，留下第一句吧。</small>"}</div><form class="comment-form" id="comment-form"><input id="comment-input" maxlength="200" required placeholder="写下你的评论"><button class="combine-button small" type="submit">发送</button></form>`;
   openModal("#detail-backdrop");
 }
 
 $("#publish-type").addEventListener("change", renderPublishFields);
-$("#publish-form").addEventListener("submit", (event) => {
+$("#publish-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const form = new FormData(event.currentTarget);
-  const type = form.get("type");
-  const post = { id: nextId++, type, author: "访客匠人", time: Date.now(), likes: 0, comments: [], liked: false };
-  if (type === "discussion") {
-    post.content = String(form.get("content") || "").trim();
-    if (!post.content) return;
-  } else {
-    post.recipe = String(form.get("recipe") || "").trim();
-    post.artifact = String(form.get("artifact") || "").trim();
-    post.explanation = String(form.get("explanation") || "").trim() || "这是一条前端模拟分享，欢迎大家一起尝试。";
-    post.status = "pending";
-    if (!post.recipe) return;
+  const publishForm = event.currentTarget;
+  if (!(publishForm instanceof HTMLFormElement)) {
+    showSquareToast("发布表单加载异常，请刷新页面后重试。", "error");
+    return;
   }
-  posts.unshift(post);
-  closeModals();
-  event.currentTarget.reset();
-  renderPublishFields();
-  renderPosts();
-  showSquareToast("发布成功，仅在本次页面会话中展示。", "success");
+  const submitButton = publishForm.querySelector("button[type=submit]");
+  submitButton.disabled = true;
+  submitButton.dataset.originalText = submitButton.innerHTML;
+  submitButton.innerHTML = "发布中…";
+  const user = await getCurrentUser();
+  if (!user) {
+    submitButton.disabled = false;
+    submitButton.innerHTML = submitButton.dataset.originalText;
+    return;
+  }
+  try {
+    const form = new FormData(publishForm);
+    const type = form.get("type");
+    const post = { type, author: getUsername(user), likes: 0, comments: [], liked: false };
+    if (type === "discussion") {
+      post.content = String(form.get("content") || "").trim();
+      if (!post.content) return;
+    } else {
+      post.recipe = String(form.get("recipe") || "").trim();
+      post.artifact = String(form.get("artifact") || "").trim();
+      post.explanation = String(form.get("explanation") || "").trim() || "这是一条前端模拟分享，欢迎大家一起尝试。";
+      post.status = "pending";
+      if (!post.recipe) return;
+    }
+    const { error } = await supabase.from("community_posts").insert({
+      user_id: user.id,
+      author_name: post.author,
+      type: post.type,
+      content: post.content || null,
+      recipe: post.recipe || null,
+      artifact: post.artifact || null,
+      explanation: post.explanation || null,
+      status: post.status || null
+    });
+    if (error) {
+      showSquareToast(`发布失败：${error.message}`, "error");
+      return;
+    }
+    closeModals();
+    publishForm.reset();
+    renderPublishFields();
+    await loadPosts();
+    showSquareToast("发布成功，已保存到广场。", "success");
+  } catch (error) {
+    console.error("发布动态失败：", error);
+    showSquareToast("发布失败，请确认已执行 data/community.sql。", "error");
+  } finally {
+    submitButton.disabled = false;
+    submitButton.innerHTML = submitButton.dataset.originalText;
+  }
 });
 document.addEventListener("click", (event) => {
   const tab = event.target.closest("[data-category]");
@@ -134,7 +274,7 @@ document.addEventListener("click", (event) => {
   }
   const like = event.target.closest("[data-like]");
   if (like) {
-    const post = posts.find((item) => item.id === Number(like.dataset.like));
+    const post = posts.find((item) => String(item.id) === String(like.dataset.like));
     if (post) { post.liked = !post.liked; post.likes += post.liked ? 1 : -1; renderPosts(); }
   }
   const detail = event.target.closest("[data-detail]");
@@ -143,24 +283,41 @@ document.addEventListener("click", (event) => {
   if (card && !event.target.closest("button")) showDetail(card.dataset.id);
   const reveal = event.target.closest("[data-reveal]");
   if (reveal) {
-    revealPostId = Number(reveal.dataset.reveal);
+    revealPostId = reveal.dataset.reveal;
     openModal("#reveal-backdrop");
   }
+  const remove = event.target.closest("[data-delete]");
+  if (remove) openDeleteConfirm(remove.dataset.delete);
   if (event.target.closest("#open-publish")) { renderPublishFields(); openModal("#publish-backdrop"); }
   if (event.target.closest("[data-close-modal]") || event.target.classList.contains("square-modal-backdrop")) closeModals();
 });
-document.addEventListener("submit", (event) => {
+document.addEventListener("submit", async (event) => {
   if (event.target.id !== "comment-form") return;
   const input = $("#comment-input");
   const value = input.value.trim();
   if (!value) return;
+  const user = await getCurrentUser();
+  if (!user) return;
   const post = posts.find((item) => item.id === detailPostId);
-  if (post) { post.comments.push(value); renderPosts(); window.setTimeout(() => showDetail(post.id), 0); }
+  if (!post) return;
+  const { error } = await supabase.from("community_comments").insert({
+    post_id: post.id,
+    user_id: user.id,
+    author_name: getUsername(user),
+    content: value
+  });
+  if (error) {
+    window.showToast?.(`评论失败：${error.message}`, "error");
+    return;
+  }
+  await loadPosts();
+  window.setTimeout(() => showDetail(post.id), 0);
 });
 document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeModals(); });
 $("#sort-select").addEventListener("change", renderPosts);
 $("#verification-select").addEventListener("change", renderPosts);
 $("#confirm-reveal").addEventListener("click", confirmReveal);
+$("#confirm-delete").addEventListener("click", confirmDelete);
 document.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", closeModals));
 renderPublishFields();
-renderPosts();
+loadCurrentUser().then(loadPosts);
