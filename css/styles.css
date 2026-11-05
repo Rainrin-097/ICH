@@ -254,14 +254,97 @@ button {
 
 .about-feedback-link {
   color: var(--red);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
   display: inline-block;
   font-size: 13px;
   margin-top: 12px;
+  padding: 0;
   text-decoration: none;
+  transition: color .2s, transform .2s;
 }
 
 .about-feedback-link b {
   margin-left: 8px;
+}
+
+.about-feedback-link:hover {
+  color: var(--ink);
+  transform: translateX(4px);
+}
+
+.feedback-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(35, 33, 27, .63);
+  animation: fade-in .25s ease-out;
+}
+
+.feedback-modal-backdrop[hidden] {
+  display: none;
+}
+
+.feedback-modal {
+  width: min(520px, 100%);
+  position: relative;
+  padding: 38px 40px 32px;
+  background: var(--paper);
+  box-shadow: 14px 18px 0 rgba(0, 0, 0, .12);
+  animation: slide-down .3s ease-out;
+}
+
+.feedback-modal h2 {
+  font: 26px var(--serif);
+  margin: 14px 0 24px;
+}
+
+#feedback-form {
+  display: grid;
+  gap: 9px;
+}
+
+#feedback-form label {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#feedback-message {
+  min-height: 150px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .55);
+  color: var(--ink);
+  font: 13px/1.8 var(--sans);
+  padding: 10px 11px;
+}
+
+#feedback-message:focus {
+  outline: 1px solid var(--gold);
+}
+
+.feedback-form-status {
+  min-height: 20px;
+  color: var(--muted);
+  font-size: 11px;
+  margin: 2px 0 0;
+}
+
+.feedback-form-status.success {
+  color: #728660;
+}
+
+.feedback-form-status.error {
+  color: var(--red);
+}
+
+#feedback-submit:disabled {
+  cursor: wait;
+  opacity: .58;
 }
 
 .changelog-list {

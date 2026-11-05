@@ -16,7 +16,7 @@ const sections = {
   feedback: {
     eyebrow: "FEEDBACK · 反馈",
     title: "把你的想法留在这里",
-    body: "<p>如果你发现了错误，或者有想了解的器物与工艺，欢迎告诉我们。</p><p>目前可以通过项目主页提交反馈。每一条建议都会帮助这个工坊变得更好。</p><a class=\"about-feedback-link\" href=\"mailto:feedback@example.com\">发送邮件反馈 <b>→</b></a>"
+    body: "<p>如果你发现了错误，或者有想了解的器物与工艺，欢迎告诉我们。</p><p>每一条建议都会帮助这个工坊变得更好。</p><button class=\"about-feedback-link\" id=\"feedback-open\" type=\"button\">发送邮件反馈 <b>→</b></button>"
   }
 };
 
@@ -38,6 +38,73 @@ const releases = [
 const eyebrow = document.querySelector("#about-eyebrow");
 const title = document.querySelector("#about-title");
 const body = document.querySelector("#about-body");
+
+function createFeedbackModal() {
+  document.body.insertAdjacentHTML("beforeend", `
+    <div class="feedback-modal-backdrop" id="feedback-modal-backdrop" hidden>
+      <section class="feedback-modal" role="dialog" aria-modal="true" aria-labelledby="feedback-modal-title">
+        <button class="modal-close" id="feedback-close" type="button" aria-label="关闭反馈窗口">×</button>
+        <span class="eyebrow">SEND FEEDBACK · 反馈</span>
+        <h2 id="feedback-modal-title">把想法寄到工坊</h2>
+        <form id="feedback-form">
+          <label for="feedback-message">反馈内容</label>
+          <textarea id="feedback-message" maxlength="2000" required placeholder="请输入你想告诉我们的内容"></textarea>
+          <p class="feedback-form-status" id="feedback-form-status" role="status"></p>
+          <button class="combine-button small" id="feedback-submit" type="submit">寄出 <b>→</b></button>
+        </form>
+      </section>
+    </div>
+  `);
+}
+
+function closeFeedbackModal() {
+  const modal = document.querySelector("#feedback-modal-backdrop");
+  if (!modal) return;
+  modal.hidden = true;
+  document.body.classList.remove("modal-open");
+}
+
+function openFeedbackModal() {
+  const modal = document.querySelector("#feedback-modal-backdrop");
+  const message = document.querySelector("#feedback-message");
+  if (!modal || !message) return;
+  document.querySelector("#feedback-form-status").textContent = "";
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+  message.focus();
+}
+
+async function submitFeedback(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const message = document.querySelector("#feedback-message").value.trim();
+  const status = document.querySelector("#feedback-form-status");
+  const submit = document.querySelector("#feedback-submit");
+  if (!message) {
+    status.textContent = "请先填写反馈内容。";
+    status.className = "feedback-form-status error";
+    return;
+  }
+  submit.disabled = true;
+  status.textContent = "正在寄出……";
+  status.className = "feedback-form-status";
+  try {
+    const { supabase } = await import("./supabaseClient.js");
+    const { error } = await supabase.functions.invoke("send-email", {
+      body: { message }
+    });
+    if (error) throw error;
+    form.reset();
+    status.textContent = "反馈已寄出，谢谢你的来信。";
+    status.className = "feedback-form-status success";
+  } catch (error) {
+    console.error("发送反馈失败：", error);
+    status.textContent = "暂时无法寄出，请稍后再试。";
+    status.className = "feedback-form-status error";
+  } finally {
+    submit.disabled = false;
+  }
+}
 
 function renderRelease(index) {
   const release = releases[index];
@@ -67,6 +134,16 @@ function renderSection(key) {
 
 document.querySelectorAll(".about-nav-item").forEach((item) => {
   item.addEventListener("click", () => renderSection(item.dataset.aboutSection));
+});
+
+createFeedbackModal();
+document.addEventListener("click", (event) => {
+  if (event.target.closest("#feedback-open")) openFeedbackModal();
+  if (event.target.closest("#feedback-close") || event.target.id === "feedback-modal-backdrop") closeFeedbackModal();
+});
+document.querySelector("#feedback-form").addEventListener("submit", submitFeedback);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !document.querySelector("#feedback-modal-backdrop").hidden) closeFeedbackModal();
 });
 
 renderSection("features");
