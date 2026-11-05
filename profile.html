@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>髹饰录 · 个人档案</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body class="profile-page">
   <div class="paper-texture"></div>
   <header class="topbar">
@@ -21,6 +23,7 @@
       <a class="text-button" href="square.html">广场</a>
       <a class="text-button" href="index.html">返回工坊</a>
       <a class="text-button" id="settings-open" href="#settings-panel">设置</a>
+      <a class="text-button" href="about.html">关于网站</a>
     </nav>
   </header>
 
@@ -34,12 +37,18 @@
       <div class="profile-seal"><span>髹</span><small>数字匠人</small></div>
     </section>
     <section class="profile-summary panel">
-      <div class="profile-title"><span class="eyebrow">当前身份</span><h2 id="artisan-title">初入髹饰</h2><p id="artisan-caption">正在认识漆、色与器物之间的关系</p></div>
+      <div class="profile-title"><span class="eyebrow">当前身份</span>
+        <h2 id="artisan-title">初入髹饰</h2>
+        <p id="artisan-caption">正在认识漆、色与器物之间的关系</p>
+      </div>
       <div class="profile-stat"><strong id="unlocked-count">0</strong><span>已解锁器物</span></div>
       <div class="profile-stat"><strong id="recipe-count">0</strong><span>已完成配方</span></div>
-      <div class="profile-stat progress-stat"><strong id="progress-value">0%</strong><span>探索进度</span><i><b id="progress-bar"></b></i></div>
+      <div class="profile-stat progress-stat"><strong id="progress-value">0%</strong><span>探索进度</span><i><b
+            id="progress-bar"></b></i></div>
     </section>
-    <div class="profile-heading"><span class="eyebrow">ARCHIVE COLLECTION</span><p>按年代浏览器物档案 · 已解锁器物可查看完整文化信息</p></div>
+    <div class="profile-heading"><span class="eyebrow">ARCHIVE COLLECTION</span>
+      <p>按年代浏览器物档案 · 已解锁器物可查看完整文化信息</p>
+    </div>
     <div id="era-sections"></div>
   </main>
 
@@ -61,4 +70,5 @@
   <script type="module" src="js/settings.js"></script>
   <script type="module" src="js/audio.js"></script>
 </body>
+
 </html>

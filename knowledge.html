@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>髹饰录 · 知识图谱</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body class="knowledge-page">
   <div class="paper-texture"></div>
   <header class="topbar">
@@ -20,6 +22,7 @@
       <a class="text-button" href="index.html">返回工坊</a>
       <a class="text-button" href="square.html">广场</a>
       <a class="text-button" id="settings-open" href="#settings-panel">设置</a>
+      <a class="text-button" href="about.html">关于网站</a>
     </nav>
   </header>
 
@@ -34,17 +37,24 @@
         <span class="eyebrow">分类索引</span>
         <h2>探索节点</h2>
         <nav class="category-nav" aria-label="知识图谱分类">
-          <button class="category-button active" type="button" data-category="color"><span>色</span><strong>颜色</strong><small>传统色彩与矿物颜料</small><b>→</b></button>
-          <button class="category-button" type="button" data-category="material"><span>材</span><strong>材质</strong><small>漆液与胎体结构</small><b>→</b></button>
-          <button class="category-button" type="button" data-category="pattern"><span>纹</span><strong>纹样</strong><small>器物上的吉祥图景</small><b>→</b></button>
-          <button class="category-button" type="button" data-category="technique"><span>艺</span><strong>技艺</strong><small>髹饰与装饰工法</small><b>→</b></button>
-          <button class="category-button" type="button" data-category="era"><span>时</span><strong>年代</strong><small>漆器发展的历史脉络</small><b>→</b></button>
+          <button class="category-button active" type="button"
+            data-category="color"><span>色</span><strong>颜色</strong><small>传统色彩与矿物颜料</small><b>→</b></button>
+          <button class="category-button" type="button"
+            data-category="material"><span>材</span><strong>材质</strong><small>漆液与胎体结构</small><b>→</b></button>
+          <button class="category-button" type="button"
+            data-category="pattern"><span>纹</span><strong>纹样</strong><small>器物上的吉祥图景</small><b>→</b></button>
+          <button class="category-button" type="button"
+            data-category="technique"><span>艺</span><strong>技艺</strong><small>髹饰与装饰工法</small><b>→</b></button>
+          <button class="category-button" type="button"
+            data-category="era"><span>时</span><strong>年代</strong><small>漆器发展的历史脉络</small><b>→</b></button>
         </nav>
         <a class="back-workshop" href="index.html">← 返回复原工坊</a>
       </aside>
       <section class="knowledge-results">
         <div class="results-heading">
-          <div><span class="eyebrow" id="category-eyebrow">THE COLORS</span><h2 id="category-title">颜色</h2></div>
+          <div><span class="eyebrow" id="category-eyebrow">THE COLORS</span>
+            <h2 id="category-title">颜色</h2>
+          </div>
           <span id="result-count">3 个节点</span>
         </div>
         <div class="knowledge-tree" id="knowledge-grid" aria-live="polite"></div>
@@ -55,4 +65,5 @@
   <script type="module" src="js/settings.js"></script>
   <script type="module" src="js/audio.js"></script>
 </body>
+
 </html>

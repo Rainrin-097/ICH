@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>髹饰录 · 漆器复原工坊</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
   <div class="paper-texture"></div>
   <header class="topbar">
@@ -21,13 +23,16 @@
       <a class="text-button" href="square.html">广场</a>
       <a class="text-button" id="auth-open" href="#auth-panel">登录</a>
       <a class="text-button" id="settings-open" href="#settings-panel">设置</a>
+      <a class="text-button" href="about.html">关于网站</a>
     </nav>
   </header>
 
   <main class="workspace">
     <aside class="sidebar panel">
       <div class="section-heading">
-        <div><span class="eyebrow">01 / 取材</span><h2>材料工具栏</h2></div>
+        <div><span class="eyebrow">01 / 取材</span>
+          <h2>材料工具栏</h2>
+        </div>
         <span class="ink-mark">匠</span>
       </div>
       <p class="intro">从左侧选取髹饰属性，尝试复原一件失落的器物。</p>
@@ -84,7 +89,9 @@
   <section class="auth-panel panel" id="auth-panel" aria-label="用户登录">
     <a class="auth-close" href="#" aria-label="关闭登录面板">×</a>
     <div class="section-heading compact">
-      <div><span class="eyebrow">匠人档案 · ACCOUNT</span><h2 id="auth-mode-label">进入匠人工坊</h2></div>
+      <div><span class="eyebrow">匠人档案 · ACCOUNT</span>
+        <h2 id="auth-mode-label">进入匠人工坊</h2>
+      </div>
     </div>
     <form id="auth-form" data-mode="login">
       <label for="auth-username">用户名</label>
@@ -124,4 +131,5 @@
   <script type="module" src="js/audio.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>
+
 </html>

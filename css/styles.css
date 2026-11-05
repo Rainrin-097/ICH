@@ -145,6 +145,247 @@ button {
   transform-origin: left;
 }
 
+.about-workspace {
+  width: min(1050px, calc(100% - 56px));
+  margin: 0 auto;
+  padding: 58px 0 80px;
+}
+
+.about-hero {
+  margin-bottom: 32px;
+}
+
+.about-hero h1 {
+  font: 42px var(--serif);
+  letter-spacing: .08em;
+  margin: 12px 0 8px;
+}
+
+.about-hero p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.about-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 430px;
+  padding: 0;
+  background: rgba(255, 255, 255, .26);
+}
+
+.about-nav {
+  border-right: 1px solid var(--line);
+  padding: 26px 0;
+}
+
+.about-nav-item {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: 14px var(--serif);
+  padding: 16px 28px;
+  text-align: left;
+  position: relative;
+  transition: color .2s, border-color .2s, letter-spacing .2s, transform .2s;
+}
+
+.about-nav-item:after {
+  background: var(--red);
+  bottom: -1px;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease-out;
+  width: 100%;
+}
+
+.about-nav-item:hover,
+.about-nav-item:focus-visible,
+.about-nav-item.active {
+  color: var(--ink);
+  letter-spacing: .08em;
+  transform: translateX(4px);
+}
+
+.about-nav-item:hover:after,
+.about-nav-item:focus-visible:after,
+.about-nav-item.active:after {
+  transform: scaleX(1);
+}
+
+.about-nav-item.active {
+  color: var(--red);
+}
+
+.about-content {
+  max-width: 650px;
+  padding: 58px 68px;
+}
+
+.about-content h2 {
+  font: 28px var(--serif);
+  letter-spacing: .06em;
+  margin: 16px 0 28px;
+}
+
+.about-content h2:empty {
+  display: none;
+}
+
+.about-content p {
+  color: #5f5a4f;
+  font-size: 14px;
+  line-height: 2.1;
+  margin: 0 0 18px;
+}
+
+.about-content strong {
+  color: var(--ink);
+  font-family: var(--serif);
+}
+
+.about-feedback-link {
+  color: var(--red);
+  display: inline-block;
+  font-size: 13px;
+  margin-top: 12px;
+  text-decoration: none;
+}
+
+.about-feedback-link b {
+  margin-left: 8px;
+}
+
+.changelog-list {
+  border-top: 1px solid var(--line);
+}
+
+.changelog-release {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 16px 10px;
+  position: relative;
+  text-align: left;
+  transition: color .2s, border-color .2s, transform .2s;
+  width: 100%;
+}
+
+.changelog-release:after {
+  background: var(--red);
+  bottom: -1px;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease-out;
+  width: 100%;
+}
+
+.changelog-release:hover,
+.changelog-release:focus-visible {
+  color: var(--ink);
+  transform: translateX(4px);
+}
+
+.changelog-release:hover:after,
+.changelog-release:focus-visible:after {
+  transform: scaleX(1);
+}
+
+.changelog-release strong,
+.changelog-version {
+  color: var(--red);
+  font: 16px var(--serif);
+}
+
+.changelog-release time,
+.changelog-detail time {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.changelog-release-meta {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+}
+
+.changelog-release span {
+  font-size: 12px;
+}
+
+.changelog-detail {
+  border-left: 1px solid var(--line);
+  min-height: 190px;
+  padding-left: 30px;
+}
+
+.changelog-detail-view {
+  position: relative;
+}
+
+.changelog-back {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  font: 12px var(--sans);
+  padding: 5px 0;
+  position: absolute;
+  right: 0;
+  top: -8px;
+  transition: color .2s, transform .2s;
+}
+
+.changelog-back:hover {
+  color: var(--red);
+  transform: translateX(-3px);
+}
+
+.changelog-detail-view .changelog-detail {
+  padding-top: 40px;
+}
+
+.changelog-meta {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+}
+
+.changelog-detail time {
+  display: inline-block;
+}
+
+.changelog-detail h3 {
+  font: 21px var(--serif);
+  margin: 0 0 18px;
+}
+
+.changelog-detail ul {
+  color: #5f5a4f;
+  font-size: 13px;
+  line-height: 2;
+  margin: 0;
+  padding-left: 20px;
+}
+
 .auth-panel {
   display: none;
   position: fixed;
@@ -1605,6 +1846,65 @@ h2 {
   .top-actions {
     gap: 12px;
     font-size: 10px;
+  }
+
+  .about-workspace {
+    width: calc(100% - 28px);
+    padding: 34px 0 50px;
+  }
+
+  .about-hero h1 {
+    font-size: 32px;
+  }
+
+  .about-layout {
+    display: block;
+  }
+
+  .about-nav {
+    border-bottom: 1px solid var(--line);
+    border-right: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 0;
+  }
+
+  .about-nav-item {
+    border-left: 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+    padding: 15px 4px;
+    text-align: center;
+  }
+
+  .about-nav-item:hover,
+  .about-nav-item.active {
+    border-left-color: transparent;
+    transform: translateY(-2px);
+  }
+
+  .about-content {
+    padding: 36px 24px 42px;
+  }
+
+  .about-content h2 {
+    font-size: 23px;
+  }
+
+  .changelog-detail {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    margin-top: 28px;
+    padding: 28px 0 0;
+  }
+
+  .changelog-release {
+    align-items: flex-start;
+    display: grid;
+  }
+
+  .changelog-release-meta {
+    gap: 12px;
   }
 
   .workspace {

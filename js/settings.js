@@ -5,43 +5,43 @@ const SETTINGS_KEY = "ich-settings";
 const $ = (selector) => document.querySelector(selector);
 
 function showToast(message, kind = "") {
-  if (window.showToast) {
-    window.showToast(message, kind);
-    return;
-  }
-  let toast = $("#settings-toast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "settings-toast";
-    toast.className = "toast";
-    toast.setAttribute("role", "status");
-    document.body.append(toast);
-  }
-  toast.textContent = message;
-  toast.className = `toast visible ${kind}`.trim();
-  window.clearTimeout(showToast.timer);
-  showToast.timer = window.setTimeout(() => { toast.className = "toast"; }, 3200);
+    if (window.showToast) {
+        window.showToast(message, kind);
+        return;
+    }
+    let toast = $("#settings-toast");
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "settings-toast";
+        toast.className = "toast";
+        toast.setAttribute("role", "status");
+        document.body.append(toast);
+    }
+    toast.textContent = message;
+    toast.className = `toast visible ${kind}`.trim();
+    window.clearTimeout(showToast.timer);
+    showToast.timer = window.setTimeout(() => { toast.className = "toast"; }, 3200);
 }
 
 function readSettings() {
-  try {
-    return JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}") || {};
-  } catch {
-    return {};
-  }
+    try {
+        return JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}") || {};
+    } catch {
+        return {};
+    }
 }
 
 function saveSettings(settings) {
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
 }
 
 function username(user) {
-  return user?.user_metadata?.username || user?.email?.replace(/@example\.com$/, "") || "匠人";
+    return user?.user_metadata?.username || user?.email?.replace(/@example\.com$/, "") || "匠人";
 }
 
 function createPanel() {
-  if ($("#settings-panel")) return;
-  document.body.insertAdjacentHTML("beforeend", `
+    if ($("#settings-panel")) return;
+    document.body.insertAdjacentHTML("beforeend", `
     <div class="settings-backdrop" id="settings-backdrop" hidden>
       <section class="settings-panel panel" id="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
         <button class="modal-close" id="settings-close" type="button" aria-label="关闭设置">×</button>
@@ -73,118 +73,118 @@ function createPanel() {
 }
 
 function renderSettings(user) {
-  const settings = readSettings();
-  const audioSettings = getAudioSettings();
-  $("#language-select").value = settings.language || document.documentElement.lang || "zh-CN";
-  $("#button-sound-toggle").checked = audioSettings.buttonSound;
-  $("#bgm-toggle").checked = audioSettings.bgm;
-  $("#button-volume").value = audioSettings.buttonVolume;
-  $("#bgm-volume").value = audioSettings.bgmVolume;
-  $("#button-volume-value").value = `${Math.round(audioSettings.buttonVolume * 100)}%`;
-  $("#bgm-volume-value").value = `${Math.round(audioSettings.bgmVolume * 100)}%`;
-  $("#settings-user-name").textContent = user ? username(user) : "未登录";
-  $("#settings-signout").disabled = !user;
-  $("#settings-delete-account").disabled = !user;
-  const profileLink = $("#profile-link");
-  if (profileLink) {
-    profileLink.textContent = user ? username(user) : "个人档案";
-    profileLink.setAttribute("aria-label", user ? `打开${username(user)}的个人档案` : "打开个人档案");
-  }
+    const settings = readSettings();
+    const audioSettings = getAudioSettings();
+    $("#language-select").value = settings.language || document.documentElement.lang || "zh-CN";
+    $("#button-sound-toggle").checked = audioSettings.buttonSound;
+    $("#bgm-toggle").checked = audioSettings.bgm;
+    $("#button-volume").value = audioSettings.buttonVolume;
+    $("#bgm-volume").value = audioSettings.bgmVolume;
+    $("#button-volume-value").value = `${Math.round(audioSettings.buttonVolume * 100)}%`;
+    $("#bgm-volume-value").value = `${Math.round(audioSettings.bgmVolume * 100)}%`;
+    $("#settings-user-name").textContent = user ? username(user) : "未登录";
+    $("#settings-signout").disabled = !user;
+    $("#settings-delete-account").disabled = !user;
+    const profileLink = $("#profile-link");
+    if (profileLink) {
+        profileLink.textContent = user ? username(user) : "个人档案";
+        profileLink.setAttribute("aria-label", user ? `打开${username(user)}的个人档案` : "打开个人档案");
+    }
 }
 
 function openSettings() {
-  const backdrop = $("#settings-backdrop");
-  if (!backdrop) return;
-  renderSettings(currentUser);
-  backdrop.hidden = false;
-  document.body.classList.add("modal-open");
+    const backdrop = $("#settings-backdrop");
+    if (!backdrop) return;
+    renderSettings(currentUser);
+    backdrop.hidden = false;
+    document.body.classList.add("modal-open");
 }
 
 function closeSettings() {
-  $("#settings-backdrop").hidden = true;
-  document.body.classList.remove("modal-open");
+    $("#settings-backdrop").hidden = true;
+    document.body.classList.remove("modal-open");
 }
 
 let currentUser = null;
 
 async function refreshUser() {
-  const { data: { user } } = await supabase.auth.getUser();
-  currentUser = user || null;
-  renderSettings(currentUser);
+    const { data: { user } } = await supabase.auth.getUser();
+    currentUser = user || null;
+    renderSettings(currentUser);
 }
 
 async function signOut() {
-  const { error } = await supabase.auth.signOut();
-  if (error) {
-    showToast(`退出登录失败：${error.message}`, "error");
-    return;
-  }
-  closeSettings();
-  showToast("已退出登录。", "success");
-  window.setTimeout(() => window.location.reload(), 400);
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+        showToast(`退出登录失败：${error.message}`, "error");
+        return;
+    }
+    closeSettings();
+    showToast("已退出登录。", "success");
+    window.setTimeout(() => window.location.reload(), 400);
 }
 
 async function deleteAccount() {
-  if (!currentUser) {
-    showToast("请先登录。", "warning");
-    return;
-  }
-  const confirmed = window.confirm("注销账号后，账号和相关数据将无法恢复。确定继续吗？");
-  if (!confirmed) return;
-  const { error } = await supabase.rpc("delete_current_account");
-  if (error) {
-    showToast("注销失败，请先在 Supabase 执行 delete_current_account 函数。", "error");
-    console.error("注销账号失败：", error);
-    return;
-  }
-  await supabase.auth.signOut();
-  closeSettings();
-  showToast("账号已注销。", "success");
-  window.setTimeout(() => { window.location.href = "index.html"; }, 500);
+    if (!currentUser) {
+        showToast("请先登录。", "warning");
+        return;
+    }
+    const confirmed = window.confirm("注销账号后，账号和相关数据将无法恢复。确定继续吗？");
+    if (!confirmed) return;
+    const { error } = await supabase.rpc("delete_current_account");
+    if (error) {
+        showToast("注销失败，请先在 Supabase 执行 delete_current_account 函数。", "error");
+        console.error("注销账号失败：", error);
+        return;
+    }
+    await supabase.auth.signOut();
+    closeSettings();
+    showToast("账号已注销。", "success");
+    window.setTimeout(() => { window.location.href = "index.html"; }, 500);
 }
 
 createPanel();
 
 $("#settings-open")?.addEventListener("click", (event) => {
-  event.preventDefault();
-  openSettings();
+    event.preventDefault();
+    openSettings();
 });
 $("#settings-close")?.addEventListener("click", closeSettings);
 $("#settings-backdrop")?.addEventListener("click", (event) => {
-  if (event.target.id === "settings-backdrop") closeSettings();
+    if (event.target.id === "settings-backdrop") closeSettings();
 });
 $("#language-select")?.addEventListener("change", (event) => {
-  const settings = { ...readSettings(), language: event.target.value };
-  document.documentElement.lang = event.target.value;
-  saveSettings(settings);
-  showToast(event.target.value === "en" ? "Language preference saved." : "语言偏好已保存。", "success");
+    const settings = { ...readSettings(), language: event.target.value };
+    document.documentElement.lang = event.target.value;
+    saveSettings(settings);
+    showToast(event.target.value === "en" ? "Language preference saved." : "语言偏好已保存。", "success");
 });
 $("#button-sound-toggle")?.addEventListener("change", (event) => {
-  saveAudioSettings({ ...getAudioSettings(), buttonSound: event.target.checked });
+    saveAudioSettings({ ...getAudioSettings(), buttonSound: event.target.checked });
 });
 $("#bgm-toggle")?.addEventListener("change", (event) => {
-  saveAudioSettings({ ...getAudioSettings(), bgm: event.target.checked });
+    saveAudioSettings({ ...getAudioSettings(), bgm: event.target.checked });
 });
 $("#button-volume")?.addEventListener("input", (event) => {
-  const value = Number(event.target.value);
-  $("#button-volume-value").value = `${Math.round(value * 100)}%`;
-  saveAudioSettings({ ...getAudioSettings(), buttonVolume: value });
+    const value = Number(event.target.value);
+    $("#button-volume-value").value = `${Math.round(value * 100)}%`;
+    saveAudioSettings({ ...getAudioSettings(), buttonVolume: value });
 });
 $("#bgm-volume")?.addEventListener("input", (event) => {
-  const value = Number(event.target.value);
-  $("#bgm-volume-value").value = `${Math.round(value * 100)}%`;
-  saveAudioSettings({ ...getAudioSettings(), bgmVolume: value });
+    const value = Number(event.target.value);
+    $("#bgm-volume-value").value = `${Math.round(value * 100)}%`;
+    saveAudioSettings({ ...getAudioSettings(), bgmVolume: value });
 });
 $("#settings-signout")?.addEventListener("click", signOut);
 $("#settings-delete-account")?.addEventListener("click", deleteAccount);
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && $("#settings-backdrop") && !$("#settings-backdrop").hidden) closeSettings();
+    if (event.key === "Escape" && $("#settings-backdrop") && !$("#settings-backdrop").hidden) closeSettings();
 });
 
 refreshUser().catch((error) => console.error("读取账户状态失败：", error));
 supabase.auth.onAuthStateChange((_event, session) => {
-  currentUser = session?.user || null;
-  renderSettings(currentUser);
+    currentUser = session?.user || null;
+    renderSettings(currentUser);
 });
 
 const settings = readSettings();
