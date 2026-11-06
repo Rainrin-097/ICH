@@ -3027,3 +3027,32 @@ h2 {
     overflow-x: auto;
   }
 }
+
+/* ---------- 纹样图典（knowledge 页 · pattern 树状图 + 实物详情） ---------- */
+.pattern-leaf { cursor: pointer; }
+.pattern-leaf .node-toggle:hover .node-name strong { color: var(--red); }
+.pattern-modal { max-width: 880px; width: 100%; max-height: 88vh; overflow: auto; background: var(--paper); display: grid; grid-template-columns: 40% 60%; position: relative; box-shadow: 14px 18px 0 rgba(0,0,0,.12); animation: slide-down .38s ease-out; }
+.pattern-modal-line { background: #fbfaf7; border-right: 1px solid var(--line); display: grid; place-items: center; padding: 34px; min-height: 320px; }
+.pattern-modal-line img { width: 100%; height: auto; max-height: 72vh; object-fit: contain; mix-blend-mode: multiply; }
+.pattern-modal-glyph { font: 120px var(--serif); color: var(--red); opacity: .45; }
+.pattern-modal-body { padding: 46px 40px; }
+.pattern-modal-body h2 { font: 600 26px var(--serif); letter-spacing: .1em; margin: 12px 0 0; }
+.pattern-modal-body > p { color: #625e55; font: 13px/2.1 var(--serif); margin: 0 0 6px; }
+.pattern-real { margin-top: 26px; border-top: 1px solid var(--line); padding-top: 22px; }
+.pattern-real h3 { font: 600 13px var(--serif); letter-spacing: .24em; color: var(--red); margin: 0 0 16px; }
+.pattern-real-grid { display: grid; gap: 18px; }
+.pattern-real-item { margin: 0; display: grid; grid-template-columns: 118px 1fr; gap: 14px; align-items: start; }
+.pattern-real-item img { width: 118px; height: 118px; object-fit: cover; mix-blend-mode: multiply; border: 1px solid var(--line); background: #fbfaf7; }
+.pattern-real-item figcaption strong { display: block; font: 13px var(--serif); }
+.pattern-real-item figcaption em { display: block; color: var(--gold); font: 10px var(--serif); font-style: normal; margin: 4px 0 6px; }
+.pattern-real-item figcaption p { margin: 0; color: var(--muted); font: 11px/1.9 var(--serif); }
+.pattern-empty { margin-top: 22px; color: var(--muted); font: 11px var(--serif); border-top: 1px solid var(--line); padding-top: 18px; }
+@media (max-width: 700px) { .pattern-modal { display: block; } .pattern-modal-line { border-right: 0; border-bottom: 1px solid var(--line); min-height: auto; padding: 22px; } .pattern-modal-body { padding: 26px 22px 30px; } .pattern-real-item { grid-template-columns: 86px 1fr; } .pattern-real-item img { width: 86px; height: 86px; } }
+
+/* ---------- 漆色图典（knowledge 页 · color 树状图 + 实物详情） ---------- */
+.color-leaf { cursor: pointer; }
+.color-leaf .node-toggle:hover .node-name strong { color: var(--red); }
+.color-modal-hero { display: grid; place-items: center; gap: 12px; }
+.color-hero-swatch { width: 116px; height: 116px; border-radius: 50%; background: var(--swatch); border: 3px solid rgba(255,255,255,.85); outline: 1px solid var(--line); box-shadow: 0 8px 26px rgba(0,0,0,.22); }
+.color-hero-name { font: 600 22px var(--serif); letter-spacing: .12em; }
+.color-hero-hex { color: var(--muted); font: 11px var(--serif); letter-spacing: .08em; }
