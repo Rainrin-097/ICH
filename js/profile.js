@@ -1,10 +1,12 @@
 import { artifacts } from "./artifacts-data.js";
 import { attributes } from "./data.js";
+import { easterEggs, getUnlockedEasterEggs } from "./easter-eggs.js";
 
 const $ = (selector) => document.querySelector(selector);
 const eraNames = { E01: "新石器时代", E02: "夏商周", E03: "春秋战国", E04: "汉代", E05: "唐代", E06: "宋代", E07: "元代", E08: "明代", E09: "清代", E10: "近现代" };
 const techniqueNames = { T01: "素髹 / 髹涂", T02: "彩绘 / 描漆", T03: "雕漆 / 剔红", T04: "螺钿", T05: "戗金 / 填漆", T06: "金银平脱", T07: "描金 / 识文", T08: "百宝嵌", T09: "款彩", T10: "脱胎 / 薄料", T11: "犀皮漆", T12: "推光漆" };
 const unlocked = new Set(JSON.parse(localStorage.getItem("unlockedArtifacts") || "[]"));
+const unlockedEggs = getUnlockedEasterEggs();
 
 function render() {
   const unlockedArtifacts = artifacts.filter((artifact) => unlocked.has(artifact.name));
@@ -20,6 +22,22 @@ function render() {
     const eraArtifacts = artifacts.filter((artifact) => artifact.eraCode === code);
     return `<section class="era-section"><div class="era-label"><span>${code.replace("E", "")}</span><h2>${name}</h2><i>${eraArtifacts.filter((artifact) => unlocked.has(artifact.name)).length} / ${eraArtifacts.length} 已解锁</i></div><div class="artifact-rail">${eraArtifacts.map((artifact) => card(artifact)).join("")}</div></section>`;
   }).join("");
+  renderEasterEggs();
+}
+
+function renderEasterEggs() {
+  $("#easter-egg-count").textContent = `${[...unlockedEggs].filter((id) => easterEggs.some((egg) => egg.id === id)).length} / ${easterEggs.length} 已解锁`;
+  $("#easter-egg-grid").innerHTML = easterEggs.map((egg) => unlockedEggs.has(egg.id)
+    ? `<button class="collection-card unlocked easter-egg-card" type="button" data-egg-id="${egg.id}"><span class="collection-image"><strong>${egg.name}</strong></span></button>`
+    : `<div class="collection-card locked easter-egg-card"><span class="collection-image"><span class="lock-shadow">未解锁</span></span><strong>尚未复原</strong></div>`).join("");
+}
+
+function openEasterEgg(egg) {
+  const backdrop = $("#easter-egg-backdrop");
+  if (!backdrop) return;
+  backdrop.innerHTML = `<article class="easter-egg-modal" role="dialog" aria-modal="true"><button class="modal-close" id="easter-egg-close" type="button" aria-label="关闭详情">×</button><div class="easter-egg-name"><span class="eyebrow">隐藏成就 · EASTER EGG</span><h2>${egg.name}</h2></div><div class="easter-egg-content"><p class="easter-egg-recipe">${egg.recipe}</p><div class="modal-rule"></div><p>${egg.description}</p>${egg.link ? `<a class="combine-button small" href="${egg.link}" target="_blank" rel="noopener noreferrer">打开相关链接 <b>↗</b></a>` : ""}</div></article>`;
+  backdrop.hidden = false;
+  document.body.classList.add("modal-open");
 }
 
 function card(artifact) {
@@ -55,10 +73,20 @@ document.addEventListener("click", (event) => {
     $("#profile-modal-backdrop").hidden = true;
     document.body.classList.remove("modal-open");
   }
+  const eggCard = event.target.closest("[data-egg-id]");
+  if (eggCard) openEasterEgg(easterEggs.find((egg) => egg.id === eggCard.dataset.eggId));
+  if (event.target.closest("#easter-egg-close") || event.target === $("#easter-egg-backdrop")) {
+    $("#easter-egg-backdrop").hidden = true;
+    document.body.classList.remove("modal-open");
+  }
 });
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     $("#profile-modal-backdrop").hidden = true;
+    document.body.classList.remove("modal-open");
+  }
+  if (event.key === "Escape" && !$("#easter-egg-backdrop").hidden) {
+    $("#easter-egg-backdrop").hidden = true;
     document.body.classList.remove("modal-open");
   }
 });

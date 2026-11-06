@@ -1634,6 +1634,101 @@ h2 {
   margin: 0;
 }
 
+.easter-egg-section {
+  margin-top: 51px;
+}
+
+.easter-egg-card {
+  min-height: 197px;
+}
+
+.easter-egg-card.unlocked:hover {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+}
+
+.easter-egg-card .collection-image {
+  height: 145px;
+}
+
+.easter-egg-card strong {
+  margin-top: 9px;
+}
+
+.easter-egg-card.unlocked .collection-image {
+  position: relative;
+}
+
+.easter-egg-card.unlocked .collection-image strong {
+  display: block;
+  margin: 0;
+  color: var(--red);
+  font: 16px var(--serif);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+}
+
+.easter-egg-backdrop {
+  z-index: 13;
+}
+
+.easter-egg-modal {
+  width: min(780px, 100%);
+  min-height: 380px;
+  display: grid;
+  grid-template-columns: 39% 61%;
+  position: relative;
+  background: var(--paper);
+  box-shadow: 14px 18px 0 rgba(0, 0, 0, .12);
+  animation: slide-down .38s ease-out;
+}
+
+.easter-egg-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 17px;
+  padding: 40px 30px;
+  background: var(--paper-deep);
+  text-align: center;
+}
+
+.easter-egg-name h2 {
+  color: var(--red);
+  font: 600 clamp(24px, 3vw, 34px) var(--serif);
+  letter-spacing: .12em;
+  line-height: 1.6;
+  margin: 0;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+.easter-egg-content {
+  padding: 55px 42px 42px;
+}
+
+.easter-egg-message {
+  color: var(--red);
+  font: 600 17px var(--serif);
+  margin: 0 0 18px;
+}
+
+.easter-egg-recipe {
+  color: var(--gold);
+  font: 12px/1.9 var(--serif);
+  margin: 0;
+}
+
+.easter-egg-content>p:not(.easter-egg-message):not(.easter-egg-recipe) {
+  color: #625e55;
+  font: 13px/2.1 var(--serif);
+  margin-bottom: 26px;
+}
+
 .era-section {
   margin-bottom: 37px;
 }
@@ -3048,6 +3143,22 @@ h2 {
 .pattern-real-item figcaption p { margin: 0; color: var(--muted); font: 11px/1.9 var(--serif); }
 .pattern-empty { margin-top: 22px; color: var(--muted); font: 11px var(--serif); border-top: 1px solid var(--line); padding-top: 18px; }
 @media (max-width: 700px) { .pattern-modal { display: block; } .pattern-modal-line { border-right: 0; border-bottom: 1px solid var(--line); min-height: auto; padding: 22px; } .pattern-modal-body { padding: 26px 22px 30px; } .pattern-real-item { grid-template-columns: 86px 1fr; } .pattern-real-item img { width: 86px; height: 86px; } }
+
+@media (max-width: 700px) {
+.easter-egg-modal {
+  display: block;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.easter-egg-name {
+  min-height: 220px;
+}
+
+.easter-egg-content {
+  padding: 30px 24px 34px;
+}
+}
 
 /* ---------- 漆色图典（knowledge 页 · color 树状图 + 实物详情） ---------- */
 .color-leaf { cursor: pointer; }
