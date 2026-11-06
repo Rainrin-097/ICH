@@ -2699,6 +2699,17 @@ h2 {
   color: #536c4d;
 }
 
+.post-content,
+.comment-content {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.comment-content strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
 .square-empty {
   grid-column: 1 / -1;
   padding: 55px 20px;
@@ -2951,7 +2962,9 @@ h2 {
   margin-top: 15px;
 }
 
-.comment-form input {
+.comment-form textarea {
+  min-height: 72px;
+  resize: vertical;
   flex: 1;
 }
 

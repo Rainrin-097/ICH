@@ -132,8 +132,8 @@ function cardTemplate(post) {
     ? `<span class="artifact-name">${escapeHTML(post.artifact || "未关联漆器")}</span>`
     : `<button class="artifact-reveal" data-reveal="${post.id}" type="button">关联漆器 · 点击查看</button>`;
   const body = isRecipe
-    ? `<div class="recipe-box"><small>${post.type === "egg" ? "彩蛋组合" : "配方组合"}</small><strong>${escapeHTML(post.recipe)}</strong>${artifact}</div><p>${escapeHTML(post.explanation)}</p>`
-    : `<p>${escapeHTML(post.content)}</p>`;
+    ? `<div class="recipe-box"><small>${post.type === "egg" ? "彩蛋组合" : "配方组合"}</small><strong>${escapeHTML(post.recipe)}</strong>${artifact}</div><p class="post-content">${escapeHTML(post.explanation)}</p>`
+    : `<p class="post-content">${escapeHTML(post.content)}</p>`;
   const canDelete = Boolean(currentUser && post.user_id && post.user_id === currentUser.id);
   return `<article class="square-card panel ${post.type}" data-id="${post.id}">
     <div class="post-head"><span class="avatar">${escapeHTML(post.author.slice(0, 1))}</span><div><strong>${escapeHTML(post.author)}</strong><small>${relativeTime(post.time)}</small></div><span class="post-tag">${categoryNames[post.type]}</span>${canDelete ? `<button class="post-delete" data-delete="${post.id}" type="button" aria-label="删除这条动态" title="删除动态">×</button>` : ""}</div>
@@ -201,7 +201,7 @@ function showDetail(id) {
   const post = posts.find((item) => String(item.id) === String(id));
   if (!post) return;
   detailPostId = post.id;
-  $("#detail-content").innerHTML = `<span class="eyebrow">${categoryNames[post.type]} · CONTENT DETAIL</span><h2 id="detail-title">${escapeHTML(post.type === "discussion" ? "交流讨论" : post.recipe)}</h2><div class="detail-author">${escapeHTML(post.author)} · ${relativeTime(post.time)}</div><div class="modal-rule"></div><p>${escapeHTML(post.content || post.explanation)}</p>${post.artifact ? `<p class="detail-artifact">关联漆器：${post.revealed ? escapeHTML(post.artifact) : "暂未显示"}</p>` : ""}<div class="comment-list">${post.comments.length ? post.comments.map((comment) => { const author = typeof comment === "string" ? "访客匠人" : comment.author; const content = typeof comment === "string" ? comment : comment.content; return `<p><strong>${escapeHTML(author)}</strong>${escapeHTML(content)}</p>`; }).join("") : "<small>还没有评论，留下第一句吧。</small>"}</div><form class="comment-form" id="comment-form"><input id="comment-input" maxlength="200" required placeholder="写下你的评论"><button class="combine-button small" type="submit">发送</button></form>`;
+  $("#detail-content").innerHTML = `<span class="eyebrow">${categoryNames[post.type]} · CONTENT DETAIL</span><h2 id="detail-title">${escapeHTML(post.type === "discussion" ? "交流讨论" : post.recipe)}</h2><div class="detail-author">${escapeHTML(post.author)} · ${relativeTime(post.time)}</div><div class="modal-rule"></div><p class="post-content">${escapeHTML(post.content || post.explanation)}</p>${post.artifact ? `<p class="detail-artifact">关联漆器：${post.revealed ? escapeHTML(post.artifact) : "暂未显示"}</p>` : ""}<div class="comment-list">${post.comments.length ? post.comments.map((comment) => { const author = typeof comment === "string" ? "访客匠人" : comment.author; const content = typeof comment === "string" ? comment : comment.content; return `<p class="comment-content"><strong>${escapeHTML(author)}</strong>${escapeHTML(content)}</p>`; }).join("") : "<small>还没有评论，留下第一句吧。</small>"}</div><form class="comment-form" id="comment-form"><textarea id="comment-input" maxlength="200" required rows="3" placeholder="写下你的评论"></textarea><button class="combine-button small" type="submit">发送</button></form>`;
   openModal("#detail-backdrop");
 }
 
