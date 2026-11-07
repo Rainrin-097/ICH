@@ -120,10 +120,29 @@ button {
 
 .text-button {
   background: transparent;
+  display: inline-flex;
+  justify-content: center;
+  min-width: 42px;
+  white-space: nowrap;
   padding: 8px 0;
   color: var(--muted);
+  overflow: hidden;
   position: relative;
+  text-overflow: ellipsis;
   text-decoration: none;
+}
+
+.auth-state-pending {
+  visibility: hidden;
+}
+
+.top-actions > .text-button:nth-child(1) { min-width: 70px; }
+.top-actions > .text-button:nth-child(3) { min-width: 70px; }
+.top-actions > .text-button:nth-child(4) { min-width: 70px; }
+.top-actions > .text-button:nth-child(5) { min-width: 84px; }
+.top-actions > .text-button[aria-current="page"],
+.top-actions > .text-button.square-current {
+  color: var(--red);
 }
 
 .text-button:after,

@@ -7,8 +7,7 @@ const categoryMeta = {
   color: { eyebrow: "THE COLORS", title: "颜色" },
   material: { eyebrow: "THE MATERIALS", title: "材质" },
   pattern: { eyebrow: "THE PATTERNS", title: "纹样" },
-  technique: { eyebrow: "THE TECHNIQUES", title: "技艺" },
-  era: { eyebrow: "THE ERAS", title: "年代" }
+  technique: { eyebrow: "THE TECHNIQUES", title: "技艺" }
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -69,7 +68,6 @@ const treeSpec = {
     root("K_TEC_BASE", "基础与描绘"), root("K_TEC_CARVE", "雕刻类"),
     root("K_TEC_INLAY", "镶嵌类"), root("K_TEC_LOCAL", "地方特色类")
   ],
-  era: knowledgeNodes.filter((node) => node.category === "era").map((node) => root(node.id, node.name, node.description))
 };
 const childGroups = {
   color: {
@@ -81,8 +79,7 @@ const childGroups = {
   },
   material: { K_MAT_LACQUER: ["生漆", "色漆", "改青漆", "现代合成漆"], K_MAT_BODY: ["木胎", "脱胎/夹纻胎", "陶胎", "皮胎", "竹胎", "瓷胎", "金属胎", "漆砂胎", "纸胎", "骨角胎"] },
   pattern: { K_PAT_JH: ["云雷纹", "回纹", "海水江崖", "冰裂纹"], K_PAT_ZW: ["莲瓣纹", "缠枝牡丹", "梅花", "菊花", "栀子花"], K_PAT_SS: ["龙纹", "麒麟纹", "饕餮纹", "蟠螭纹"], K_PAT_NS: ["凤鸟纹", "仙鹤纹", "鱼藻纹", "草虫纹"], K_PAT_RW: ["车马出行图", "高士宴乐图", "婴戏图", "戏曲故事图"], K_PAT_SL: ["山水图", "楼阁图", "庭园图"], K_PAT_TW: ["四神纹", "二十八宿", "北斗星象纹"] },
-  technique: { K_TEC_BASE: ["素髹", "彩绘/描漆", "描金/识文", "戗金/填漆"], K_TEC_CARVE: ["雕漆/剔红等", "款彩"], K_TEC_INLAY: ["螺钿", "金银平脱", "百宝嵌"], K_TEC_LOCAL: ["脱胎/薄料", "犀皮漆", "推光漆"] },
-  era: {}
+  technique: { K_TEC_BASE: ["素髹", "彩绘/描漆", "描金/识文", "戗金/填漆"], K_TEC_CARVE: ["雕漆/剔红等", "款彩"], K_TEC_INLAY: ["螺钿", "金银平脱", "百宝嵌"], K_TEC_LOCAL: ["脱胎/薄料", "犀皮漆", "推光漆"] }
 };
 
 function categoryTree(category) {
@@ -113,62 +110,7 @@ function categoryTree(category) {
   const attach = (node) => ({ ...node, children: (childrenByParent.get(node.id) || []).map(attach) });
   return roots.map(attach);
 }
-/* imageById removed; paths are centralized in knowledgeImagePath. */
-const imageById = {
-  K_MAT_QI_SHENG: "images/materials/K_MAT_QI_SHENG.png",
-  K_MAT_QI_SE: "images/materials/K_MAT_QI_SE.png",
-  K_MAT_MU: "images/materials/K_MAT_MU.png",
-  K_MAT_TUO: "images/materials/K_MAT_TUO.png",
-  K_MAT_ZHU: "images/materials/K_MAT_ZHU.png",
-  K_MAT_PI: "images/materials/K_MAT_PI.png",
-  K_MAT_TAO: "images/materials/K_MAT_TAO.png",
-  K_MAT_CI: "images/materials/K_MAT_CI.png",
-  K_MAT_JIN: "images/materials/K_MAT_JIN.png",
-  K_MAT_SHA: "images/materials/K_MAT_SHA.png",
-  K_MAT_MU_ZHUO: "images/materials/K_MAT_MU_ZHUO.png",
-  K_MAT_MU_JUAN: "images/materials/K_MAT_MU_JUAN.png",
-  K_MAT_ZHU_JI: "images/materials/K_MAT_ZHU_JI.png",
-  K_MAT_ZHI: "images/materials/K_MAT_ZHI.png",
-  K_MAT_GU: "images/materials/K_MAT_GU.png",
-  K_PAT_JH_YUNLEI: "images/patterns/knowledge/K_PAT_JH_YUNLEI.png",
-  K_PAT_JH_HUI: "images/patterns/knowledge/K_PAT_JH_HUI.png",
-  K_PAT_JH_JIANG: "images/patterns/knowledge/K_PAT_JH_JIANG.png",
-  K_PAT_ZW_LIAN: "images/patterns/knowledge/K_PAT_ZW_LIAN.png",
-  K_PAT_ZW_MUDAN: "images/patterns/knowledge/K_PAT_ZW_MUDAN.png",
-  K_PAT_ZW_ZHIZI: "images/patterns/knowledge/K_PAT_ZW_ZHIZI.png",
-  K_PAT_SS_LONG: "images/patterns/knowledge/K_PAT_SS_LONG.png",
-  K_PAT_SS_QILIN: "images/patterns/knowledge/K_PAT_SS_QILIN.png",
-  K_PAT_SS_TAOTIE: "images/patterns/knowledge/K_PAT_SS_TAOTIE.png",
-  K_PAT_NS_FENG: "images/patterns/knowledge/K_PAT_NS_FENG.png",
-  K_PAT_NS_HE: "images/patterns/knowledge/K_PAT_NS_HE.png",
-  K_PAT_NS_YU: "images/patterns/knowledge/K_PAT_NS_YU.png",
-  K_PAT_NS_CHONG: "images/patterns/knowledge/K_PAT_NS_CHONG.png",
-  K_PAT_RW_YINGXI: "images/patterns/knowledge/K_PAT_RW_YINGXI.png",
-  K_PAT_RW_GAOSHI: "images/patterns/knowledge/K_PAT_RW_GAOSHI.png",
-  K_PAT_SL_SHAN: "images/patterns/knowledge/K_PAT_SL_SHAN.png",
-  K_PAT_SL_LOU: "images/patterns/knowledge/K_PAT_SL_LOU.png",
-  K_PAT_TW_SISHEN: "images/patterns/knowledge/K_PAT_TW_SISHEN.png",
-  K_PAT_TW_28XIU: "images/patterns/knowledge/K_PAT_TW_28XIU.png",
-  K_PAT_JX_BABAO: "images/patterns/knowledge/K_PAT_JX_BABAO.png",
-  K_TEC_SUXIU: "images/techniques/K_TEC_SUXIU.png",
-  K_TEC_CAIHUI: "images/techniques/K_TEC_CAIHUI.png",
-  K_TEC_MIAOJIN: "images/techniques/K_TEC_MIAOJIN.png",
-  K_TEC_QJ: "images/techniques/K_TEC_QJ.png",
-  K_TEC_DIAOQI: "images/techniques/K_TEC_DIAOQI.png",
-  K_TEC_KUANCAI: "images/techniques/K_TEC_KUANCAI.png",
-  K_TEC_LUODIAN: "images/techniques/K_TEC_LUODIAN.png",
-  K_TEC_PINGTUO: "images/techniques/K_TEC_PINGTUO.png",
-  K_TEC_BAOBAO: "images/techniques/K_TEC_BAOBAO.png",
-  K_TEC_XIPI: "images/techniques/K_TEC_XIPI.png",
-  K_TEC_TUOTAI: "images/techniques/K_TEC_TUOTAI.png",
-  K_TEC_TUIGUANG: "images/techniques/K_TEC_TUIGUANG.png",
-  K_TEC_TIHONG: "images/techniques/K_TEC_TIHONG.png",
-  K_TEC_TIHEI: "images/techniques/K_TEC_TIHEI.png",
-  K_TEC_TIXI: "images/techniques/K_TEC_TIXI.png",
-  K_TEC_TICAI: "images/techniques/K_TEC_TICAI.png",
-  K_TEC_BOLUO: "images/techniques/K_TEC_BOLUO.png"
-};
-const categoryNames = { color: "颜色", material: "材质", pattern: "纹样", technique: "技艺", era: "年代" };
+const categoryNames = { color: "颜色", material: "材质", pattern: "纹样", technique: "技艺" };
 
 function render(category) {
   const tree = categoryTree(category);

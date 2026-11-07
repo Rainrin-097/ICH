@@ -90,6 +90,13 @@ function renderSettings(user) {
         profileLink.textContent = user ? username(user) : "个人档案";
         profileLink.setAttribute("aria-label", user ? `打开${username(user)}的个人档案` : "打开个人档案");
     }
+    const authLink = $("#auth-open");
+    if (authLink) {
+        authLink.textContent = user ? username(user) : "用户中心";
+        authLink.href = user ? "profile.html" : "index.html#auth-panel";
+        authLink.setAttribute("aria-label", user ? `打开${username(user)}的个人档案` : "打开用户中心");
+        authLink.classList.remove("auth-state-pending");
+    }
 }
 
 function openSettings() {
@@ -149,6 +156,19 @@ $("#settings-open")?.addEventListener("click", (event) => {
     event.preventDefault();
     openSettings();
 });
+$("#workshop-home")?.addEventListener("click", (event) => {
+    event.preventDefault();
+});
+$("#auth-open")?.addEventListener("click", (event) => {
+    if (currentUser) return;
+    event.preventDefault();
+    if ($("#auth-panel")) {
+        $("#auth-panel").classList.remove("auth-closed");
+        window.location.hash = "auth-panel";
+        return;
+    }
+    showToast("请先注册/登录。", "warning");
+});
 $("#settings-close")?.addEventListener("click", closeSettings);
 $("#settings-backdrop")?.addEventListener("click", (event) => {
     if (event.target.id === "settings-backdrop") closeSettings();
@@ -181,7 +201,10 @@ document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && $("#settings-backdrop") && !$("#settings-backdrop").hidden) closeSettings();
 });
 
-refreshUser().catch((error) => console.error("读取账户状态失败：", error));
+refreshUser().catch((error) => {
+    console.error("读取账户状态失败：", error);
+    renderSettings(null);
+});
 supabase.auth.onAuthStateChange((_event, session) => {
     currentUser = session?.user || null;
     renderSettings(currentUser);

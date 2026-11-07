@@ -39,7 +39,7 @@ export const easterEggs = [
     colors: ["C09"],
     pattern: "P08",
     link: null,
-    description: "这是一件故意不存在于典藏档案中的组合：陶瓷胎、蓝紫色与天文星象纹。现实中的漆器档案里没有这样的器物，你刚刚合成的是一件只属于这个工坊的想象器物。"
+    description: "或许也只是因为还没有发现"
   },
   {
     id: "qilian",

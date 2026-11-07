@@ -47,10 +47,10 @@ function renderUser(user) {
   const authOpen = $("#auth-open");
   const authPanel = $("#auth-panel");
   if (authOpen) {
-    authOpen.textContent = "登录";
-    authOpen.hidden = Boolean(user);
-    authOpen.href = "#auth-panel";
-    authOpen.setAttribute("aria-label", "打开登录面板");
+    authOpen.textContent = user ? getUsername(user) : "用户中心";
+    authOpen.href = user ? "profile.html" : "#auth-panel";
+    authOpen.setAttribute("aria-label", user ? `打开${getUsername(user)}的个人档案` : "打开用户中心");
+    authOpen.classList.remove("auth-state-pending");
   }
   if (!authForm || !authUser) return;
   if (user?.email?.endsWith(USERNAME_SUFFIX)) {
@@ -142,7 +142,9 @@ async function getSupabase() {
 }
 
 $("#auth-form")?.addEventListener("submit", submitAuth);
-$("#auth-open")?.addEventListener("click", () => {
+$("#auth-open")?.addEventListener("click", (event) => {
+  if (!$("#auth-form")) return;
+  event.preventDefault();
   $("#auth-panel")?.classList.remove("auth-closed");
 });
 $("#auth-switch")?.addEventListener("click", () => {
