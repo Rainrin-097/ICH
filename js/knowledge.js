@@ -1,5 +1,4 @@
 import { knowledgeNodes } from "./knowledge-data.js";
-import { knowledgeImagePath } from "./knowledge-images.js";
 import { patternCollection } from "./pattern-collection.js";
 import { colorCollection } from "./color-collection.js";
 
@@ -139,10 +138,7 @@ function patternCount() {
 }
 
 function patternVisual(node, isGroup) {
-  const src = isGroup ? node.icon : node.line;
-  return src
-    ? `<img src="${src}" alt="${node.name}" loading="lazy">`
-    : `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
+  return `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
 }
 
 function renderPatternTree() {
@@ -280,6 +276,20 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closePatternDetail();
 });
 
+function closeSiblingNodes(node) {
+  const container = node.parentElement;
+  if (!container) return;
+  container.querySelectorAll(":scope > .knowledge-node.expanded").forEach((sibling) => {
+    if (sibling === node) return;
+    sibling.querySelectorAll(".knowledge-node.expanded").forEach((expandedNode) => {
+      expandedNode.classList.remove("expanded");
+      expandedNode.querySelector(":scope > .node-toggle")?.setAttribute("aria-expanded", "false");
+    });
+    sibling.classList.remove("expanded");
+    sibling.querySelector(":scope > .node-toggle")?.setAttribute("aria-expanded", "false");
+  });
+}
+
 function countNodes(node) {
   return 1 + node.children.reduce((total, child) => total + countNodes(child), 0);
 }
@@ -288,9 +298,7 @@ function renderNode(node, index) {
   const hasChildren = node.children.length > 0;
   const visual = node.hexCode
     ? `<i style="--swatch:${node.hexCode}"></i>`
-    : knowledgeImagePath(node)
-      ? `<img src="${knowledgeImagePath(node)}" alt="" loading="lazy">`
-      : `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
+    : `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
   const control = hasChildren
     ? `<button class="node-toggle" type="button" aria-expanded="false">`
     : `<a class="node-toggle leaf-link" href="knowledge-detail.html?id=${encodeURIComponent(node.id)}&name=${encodeURIComponent(node.name)}">`;
@@ -326,10 +334,12 @@ document.addEventListener("click", (event) => {
   }
   const toggle = event.target.closest(".node-toggle");
   if (toggle) {
-    if (!toggle.closest(".knowledge-node").classList.contains("has-children")) return;
+    const node = toggle.closest(".knowledge-node");
+    if (!node?.classList.contains("has-children")) return;
     const expanded = toggle.getAttribute("aria-expanded") === "true";
+    if (!expanded) closeSiblingNodes(node);
     toggle.setAttribute("aria-expanded", String(!expanded));
-    toggle.closest(".knowledge-node").classList.toggle("expanded", !expanded);
+    node.classList.toggle("expanded", !expanded);
   }
 });
 
