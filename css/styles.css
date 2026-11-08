@@ -1,15 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap");
 
 :root {
-  --paper: #f3f0e7;
-  --paper-deep: #e8e3d7;
-  --ink: #252b29;
-  --muted: #827e72;
-  --red: #ad382f;
-  --gold: #b99443;
-  --line: rgba(52, 48, 37, .14);
-  --serif: "Noto Serif SC", "Songti SC", SimSun, serif;
-  --sans: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --paper: #f3efe4;          /* 米绢白 */
+  --paper-deep: #eae3d3;
+  --ink: #121212;            /* 炭黑 */
+  --muted: #7a5c48;          /* 浅茶褐 */
+  --red: #9e2b25;            /* 朱红 */
+  --gold: #c0993b;           /* 鎏金（纸上小字用微沉版，保证可读） */
+  --gold-bright: #d4af37;    /* 鎏金亮版（深色底 / 流金动效） */
+  --gold-deep: #a9852f;
+  --ochre: #d47b48;          /* 暖赭橙 */
+  --line: rgba(122, 92, 72, .22);
+  --serif: "Noto Serif SC", "Source Han Serif SC", "思源宋体", "Songti SC", STSong, SimSun, serif;
+  --sans: "Noto Serif SC", "Source Han Serif SC", "思源宋体", "Songti SC", STSong, SimSun, serif;
 }
 
 * {
@@ -23,9 +26,11 @@ body {
 }
 
 body {
-  background: var(--paper);
+  background: var(--paper) url("../images/texture-silk.jpg") repeat;
+  background-size: 460px;
   color: var(--ink);
-  font-family: var(--sans);
+  font-family: var(--serif);
+  letter-spacing: .02em;
 }
 
 body.modal-open {
@@ -3056,3 +3061,211 @@ h2 {
 .color-hero-swatch { width: 116px; height: 116px; border-radius: 50%; background: var(--swatch); border: 3px solid rgba(255,255,255,.85); outline: 1px solid var(--line); box-shadow: 0 8px 26px rgba(0,0,0,.22); }
 .color-hero-name { font: 600 22px var(--serif); letter-spacing: .12em; }
 .color-hero-hex { color: var(--muted); font: 11px var(--serif); letter-spacing: .08em; }
+
+/* ============================================================
+   美学改造 · 全站统一漆色语言（sound-anim 分支）
+   原则：只追加覆盖，不删改上文任何规则；
+   主色 炭黑 #121212 · 朱红 #9E2B25 · 暖赭橙 #D47B48
+   辅色 鎏金 #D4AF37 · 米绢白 #F3EFE4 · 浅茶褐 #7A5C48
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3 {
+  letter-spacing: .06em;
+}
+
+/* ---- 标题小字（eyebrow）改赭橙，与朱红主字拉开层次 ---- */
+.eyebrow {
+  color: var(--ochre);
+  letter-spacing: .3em;
+}
+
+/* ---- 分割线：极细赭红漆线，若隐若现 ---- */
+.modal-rule,
+hr {
+  border-color: rgba(158, 43, 37, .28);
+}
+
+/* ---- 主按钮：哑光朱红 + 细金边 + hover 流金扫过 ---- */
+.combine-button {
+  background: linear-gradient(160deg, #a23129, #8d241f);
+  border: 1px solid rgba(212, 175, 55, .55);
+  box-shadow: 4px 5px 0 rgba(158, 43, 37, .14);
+  position: relative;
+  overflow: hidden;
+}
+
+.combine-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -80%;
+  width: 55%;
+  background: linear-gradient(105deg, transparent, rgba(212, 175, 55, .28), transparent);
+  transform: skewX(-18deg);
+  transition: left .7s ease;
+  pointer-events: none;
+}
+
+.combine-button:hover {
+  background: linear-gradient(160deg, #ad382d, #94261f);
+  box-shadow: 6px 7px 0 rgba(158, 43, 37, .16), 0 0 0 1px rgba(212, 175, 55, .35);
+}
+
+.combine-button:hover::after {
+  left: 130%;
+}
+
+.combine-button b {
+  color: rgba(212, 175, 55, .9);
+}
+
+/* ---- 面板：绢纸托底，边线更暖 ---- */
+.panel {
+  background: rgba(247, 244, 235, .72);
+  border: 1px solid var(--line);
+}
+
+/* ---- 顶部小印章：细金衬边 ---- */
+.brand-seal {
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, .35);
+}
+
+/* ---- 知识图谱：节点加号改鎏金细十字，色卡润泽 ---- */
+.node-plus {
+  color: var(--gold);
+}
+
+.node-visual i {
+  box-shadow: 0 2px 7px rgba(0, 0, 0, .18), inset 0 -6px 12px rgba(122, 92, 72, .18), inset 0 6px 10px rgba(255, 255, 255, .35);
+}
+
+/* ---- 鎏金数字（个人档案统计） ---- */
+.profile-stat strong {
+  color: var(--gold-deep);
+}
+
+/* ---- 开屏首页：屏风沉浸式开场 ---- */
+body.splash-open {
+  overflow: hidden;
+}
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #121212;
+  animation: splash-in .6s ease both;
+}
+
+.splash-bg {
+  position: absolute;
+  inset: -3%;
+  background: url("../images/hero-xiushilu.jpg") center 40% / cover no-repeat;
+  animation: splash-zoom 9s ease-out both;
+}
+
+.splash-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 62%, rgba(18, 18, 18, 0) 26%, rgba(18, 18, 18, .5) 100%),
+    linear-gradient(rgba(18, 18, 18, .22), rgba(18, 18, 18, .34));
+}
+
+.splash-inner {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 0 22px;
+  text-align: center;
+  color: #f3efe4;
+}
+
+.splash-eyebrow {
+  font-size: 11px;
+  letter-spacing: .52em;
+  text-indent: .52em;
+  color: rgba(212, 175, 55, .82);
+  animation: splash-rise 1.2s .35s both;
+}
+
+.splash-title {
+  margin: 4px 0 0;
+  font: 600 clamp(58px, 10vw, 112px)/1.1 var(--serif);
+  letter-spacing: .3em;
+  text-indent: .3em;
+  color: #ecdfc0;
+  text-shadow: 0 3px 34px rgba(0, 0, 0, .55);
+  animation: splash-rise 1.4s .55s both;
+}
+
+.splash-slogan {
+  margin: 0;
+  font: 300 14px/1.9 var(--serif);
+  letter-spacing: .34em;
+  text-indent: .34em;
+  color: rgba(243, 239, 228, .88);
+  animation: splash-rise 1.4s .85s both;
+}
+
+.splash-en {
+  font-size: 10px;
+  letter-spacing: .4em;
+  color: rgba(243, 239, 228, .5);
+  animation: splash-rise 1.4s 1.05s both;
+}
+
+.splash-enter {
+  margin-top: 30px;
+  padding: 14px 52px;
+  background: rgba(158, 43, 37, .82);
+  border: 1px solid rgba(212, 175, 55, .6);
+  color: #f3efe4;
+  font: 15px var(--serif);
+  letter-spacing: .5em;
+  text-indent: .5em;
+  cursor: pointer;
+  transition: background .3s, box-shadow .3s, transform .3s;
+  animation: splash-rise 1.4s 1.3s both;
+}
+
+.splash-enter:hover {
+  background: #9e2b25;
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, .4), 0 8px 30px rgba(158, 43, 37, .45);
+  transform: translateY(-2px);
+}
+
+.splash-screen.splash-leaving {
+  opacity: 0;
+  transition: opacity .8s ease;
+}
+
+@keyframes splash-zoom {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+@keyframes splash-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes splash-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 700px) {
+  .splash-title { letter-spacing: .18em; text-indent: .18em; }
+  .splash-slogan { letter-spacing: .2em; text-indent: .2em; }
+}

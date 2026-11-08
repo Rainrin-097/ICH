@@ -10,6 +10,16 @@
 </head>
 
 <body>
+  <div class="splash-screen" id="splash-screen" role="dialog" aria-label="开屏页">
+    <div class="splash-bg"></div>
+    <div class="splash-inner">
+      <span class="splash-eyebrow">LACQUER ATELIER · 数字复原工坊</span>
+      <h1 class="splash-title">髹饰录</h1>
+      <p class="splash-slogan">漆器数字复原工坊 · 以漆为衣，以器载道</p>
+      <span class="splash-en">XIU SHI LU — A DIGITAL ATELIER OF CHINESE LACQUER</span>
+      <button class="splash-enter" id="splash-enter" type="button">入 馆</button>
+    </div>
+  </div>
   <div class="paper-texture"></div>
   <header class="topbar">
     <a class="brand" href="#" aria-label="返回首页">
@@ -130,6 +140,23 @@
   <script type="module" src="js/settings.js"></script>
   <script type="module" src="js/audio.js"></script>
   <script type="module" src="js/main.js"></script>
+  <script>
+    (function () {
+      var splash = document.getElementById("splash-screen");
+      if (!splash) return;
+      document.body.classList.add("splash-open");
+      var closed = false;
+      var close = function () {
+        if (closed) return;
+        closed = true;
+        splash.classList.add("splash-leaving");
+        document.body.classList.remove("splash-open");
+        window.setTimeout(function () { splash.remove(); }, 900);
+      };
+      document.getElementById("splash-enter").addEventListener("click", close);
+      window.setTimeout(close, 30000);
+    })();
+  </script>
 </body>
 
 </html>
