@@ -3269,3 +3269,46 @@ body.splash-open {
   .splash-title { letter-spacing: .18em; text-indent: .18em; }
   .splash-slogan { letter-spacing: .2em; text-indent: .2em; }
 }
+
+/* ===== 开屏背景音控制按钮 ===== */
+.splash-sound {
+  position: absolute;
+  right: 34px;
+  bottom: 34px;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(18, 18, 18, .35);
+  border: 1px solid rgba(212, 175, 55, .55);
+  border-radius: 50%;
+  color: #d4af37;
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background .3s, box-shadow .3s, transform .3s;
+  animation: splash-rise 1.4s 1.55s both;
+  overflow: hidden;
+}
+
+.splash-sound:hover {
+  background: rgba(158, 43, 37, .55);
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, .4), 0 6px 22px rgba(0, 0, 0, .35);
+  transform: translateY(-2px);
+}
+
+.splash-sound.muted {
+  color: rgba(243, 239, 228, .45);
+  border-color: rgba(243, 239, 228, .3);
+}
+
+.splash-sound.muted::after {
+  content: "";
+  position: absolute;
+  width: 130%;
+  height: 1.5px;
+  background: rgba(243, 239, 228, .75);
+  transform: rotate(-45deg);
+}

@@ -94,6 +94,7 @@ async function combine() {
       && recipeColors.every((color) => userColors.includes(color));
   });
   if (matchingArtifacts.length) {
+    import("./audio.js").then((m) => m.playSuccessSound()).catch(() => { });
     const unlocked = new Set(JSON.parse(localStorage.getItem("unlockedArtifacts") || "[]"));
     matchingArtifacts.forEach((artifact) => unlocked.add(artifact.name));
     localStorage.setItem("unlockedArtifacts", JSON.stringify([...unlocked]));

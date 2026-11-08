@@ -58,8 +58,10 @@ function createPanel() {
           <span class="settings-label">声音</span>
           <label class="settings-toggle"><input id="button-sound-toggle" type="checkbox"><span>按键声音</span></label>
           <label class="settings-volume" for="button-volume"><span>按键音量 <output id="button-volume-value">35%</output></span><input id="button-volume" type="range" min="0" max="1" step="0.01"></label>
-          <label class="settings-toggle"><input id="bgm-toggle" type="checkbox"><span>BGM</span></label>
-          <label class="settings-volume" for="bgm-volume"><span>BGM 音量 <output id="bgm-volume-value">22%</output></span><input id="bgm-volume" type="range" min="0" max="1" step="0.01"></label>
+          <label class="settings-toggle"><input id="bgm-toggle" type="checkbox"><span>开屏背景音（仅开屏页播放）</span></label>
+          <label class="settings-volume" for="bgm-volume"><span>背景音音量 <output id="bgm-volume-value">30%</output></span><input id="bgm-volume" type="range" min="0" max="1" step="0.01"></label>
+          <label class="settings-toggle"><input id="success-sound-toggle" type="checkbox"><span>合成成功音效</span></label>
+          <label class="settings-volume" for="success-volume"><span>成功音效音量 <output id="success-volume-value">55%</output></span><input id="success-volume" type="range" min="0" max="1" step="0.01"></label>
         </div>
         <div class="settings-account">
           <span class="settings-label">账户</span>
@@ -78,10 +80,13 @@ function renderSettings(user) {
     $("#language-select").value = settings.language || document.documentElement.lang || "zh-CN";
     $("#button-sound-toggle").checked = audioSettings.buttonSound;
     $("#bgm-toggle").checked = audioSettings.bgm;
+    $("#success-sound-toggle").checked = audioSettings.successSound;
     $("#button-volume").value = audioSettings.buttonVolume;
     $("#bgm-volume").value = audioSettings.bgmVolume;
+    $("#success-volume").value = audioSettings.successVolume;
     $("#button-volume-value").value = `${Math.round(audioSettings.buttonVolume * 100)}%`;
     $("#bgm-volume-value").value = `${Math.round(audioSettings.bgmVolume * 100)}%`;
+    $("#success-volume-value").value = `${Math.round(audioSettings.successVolume * 100)}%`;
     $("#settings-user-name").textContent = user ? username(user) : "未登录";
     $("#settings-signout").disabled = !user;
     $("#settings-delete-account").disabled = !user;
@@ -165,6 +170,9 @@ $("#button-sound-toggle")?.addEventListener("change", (event) => {
 $("#bgm-toggle")?.addEventListener("change", (event) => {
     saveAudioSettings({ ...getAudioSettings(), bgm: event.target.checked });
 });
+$("#success-sound-toggle")?.addEventListener("change", (event) => {
+    saveAudioSettings({ ...getAudioSettings(), successSound: event.target.checked });
+});
 $("#button-volume")?.addEventListener("input", (event) => {
     const value = Number(event.target.value);
     $("#button-volume-value").value = `${Math.round(value * 100)}%`;
@@ -174,6 +182,11 @@ $("#bgm-volume")?.addEventListener("input", (event) => {
     const value = Number(event.target.value);
     $("#bgm-volume-value").value = `${Math.round(value * 100)}%`;
     saveAudioSettings({ ...getAudioSettings(), bgmVolume: value });
+});
+$("#success-volume")?.addEventListener("input", (event) => {
+    const value = Number(event.target.value);
+    $("#success-volume-value").value = `${Math.round(value * 100)}%`;
+    saveAudioSettings({ ...getAudioSettings(), successVolume: value });
 });
 $("#settings-signout")?.addEventListener("click", signOut);
 $("#settings-delete-account")?.addEventListener("click", deleteAccount);

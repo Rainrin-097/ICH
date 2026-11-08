@@ -18,6 +18,7 @@
       <p class="splash-slogan">漆器数字复原工坊 · 以漆为衣，以器载道</p>
       <span class="splash-en">XIU SHI LU — A DIGITAL ATELIER OF CHINESE LACQUER</span>
       <button class="splash-enter" id="splash-enter" type="button">入 馆</button>
+      <button class="splash-sound" id="splash-sound" type="button" aria-label="暂停背景音乐" title="暂停 / 播放背景音乐">♪</button>
     </div>
   </div>
   <div class="paper-texture"></div>
@@ -149,11 +150,20 @@
       var close = function () {
         if (closed) return;
         closed = true;
+        document.dispatchEvent(new CustomEvent("ich:splash-closed"));
         splash.classList.add("splash-leaving");
         document.body.classList.remove("splash-open");
         window.setTimeout(function () { splash.remove(); }, 900);
       };
       document.getElementById("splash-enter").addEventListener("click", close);
+      var soundBtn = document.getElementById("splash-sound");
+      soundBtn.addEventListener("click", function () {
+        import("./js/audio.js").then(function (m) {
+          var paused = m.toggleSplashBgm();
+          soundBtn.classList.toggle("muted", paused);
+          soundBtn.setAttribute("aria-label", paused ? "播放背景音乐" : "暂停背景音乐");
+        });
+      });
       window.setTimeout(close, 30000);
     })();
   </script>
