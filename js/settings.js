@@ -160,14 +160,15 @@ $("#workshop-home")?.addEventListener("click", (event) => {
     event.preventDefault();
 });
 $("#auth-open")?.addEventListener("click", (event) => {
+    if (event.currentTarget.getAttribute("href") === "profile.html") return;
     if (currentUser) return;
-    event.preventDefault();
     if ($("#auth-panel")) {
+        event.preventDefault();
         $("#auth-panel").classList.remove("auth-closed");
         window.location.hash = "auth-panel";
         return;
     }
-    showToast("请先注册/登录。", "warning");
+    window.location.href = "index.html#auth-panel";
 });
 $("#settings-close")?.addEventListener("click", closeSettings);
 $("#settings-backdrop")?.addEventListener("click", (event) => {

@@ -48,7 +48,7 @@ function renderUser(user) {
   const authPanel = $("#auth-panel");
   if (authOpen) {
     authOpen.textContent = user ? getUsername(user) : "用户中心";
-    authOpen.href = user ? "profile.html" : ($("#auth-form" ? "#auth-panel" : "index.html#auth-panel"));
+    authOpen.href = user ? "profile.html" : (authForm ? "#auth-panel" : "index.html#auth-panel");
     authOpen.setAttribute("aria-label", user ? `打开${getUsername(user)}的个人档案` : "打开用户中心");
     authOpen.classList.remove("auth-state-pending");
   }
@@ -144,6 +144,7 @@ async function getSupabase() {
 $("#auth-form")?.addEventListener("submit", submitAuth);
 $("#auth-open")?.addEventListener("click", (event) => {
   if (!$("#auth-form")) return;
+  if (event.currentTarget.getAttribute("href") === "profile.html") return;
   event.preventDefault();
   $("#auth-panel")?.classList.remove("auth-closed");
 });
