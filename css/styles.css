@@ -2432,6 +2432,11 @@ h2 {
   font-size: 14px;
 }
 
+.tree-node.leaf .node-name .technique-summary {
+  max-width: 46em;
+  line-height: 1.45;
+}
+
 .tree-node.leaf .node-plus {
   color: var(--line);
   font-size: 14px;

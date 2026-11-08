@@ -1,6 +1,7 @@
 import { knowledgeNodes } from "./knowledge-data.js";
 import { patternCollection } from "./pattern-collection.js";
 import { colorCollection } from "./color-collection.js";
+import { techniqueCollection } from "./technique-collection.js";
 
 const categoryMeta = {
   color: { eyebrow: "THE COLORS", title: "颜色" },
@@ -120,7 +121,9 @@ function render(category) {
     ? patternCount()
     : category === "color"
       ? colorCount()
-      : tree.reduce((total, node) => total + countNodes(node), 0);
+      : category === "technique"
+        ? techniqueCount()
+        : tree.reduce((total, node) => total + countNodes(node), 0);
   $("#result-count").textContent = `${count} 个节点 · 点击逐级展开`;
   document.querySelector(".category-button.active")?.classList.remove("active");
   document.querySelector(`[data-category="${category}"]`).classList.add("active");
@@ -128,7 +131,9 @@ function render(category) {
     ? renderPatternTree()
     : category === "color"
       ? renderColorTree()
-      : `<div class="tree-root">${tree.map((node, index) => renderNode(node, index)).join("")}</div>`;
+      : category === "technique"
+        ? renderTechniqueTree()
+        : `<div class="tree-root">${tree.map((node, index) => renderNode(node, index)).join("")}</div>`;
 }
 
 // ---------- 纹样图典树状图（黑白线稿 + 实物详情） ----------
@@ -272,6 +277,65 @@ function openColorDetail(group, leaf) {
   document.body.appendChild(backdrop);
 }
 
+// ---------- 技艺图典树状图（单句摘要 + 点击详情） ----------
+function techniqueCount() {
+  return techniqueCollection.reduce(
+    (total, group) => total + 1 + group.children.length, 0);
+}
+
+function renderTechniqueTree() {
+  let delay = 0;
+  return `<div class="tree-root">${techniqueCollection.map((group) => `
+    <article class="knowledge-node tree-node has-children pattern-group" style="--delay:${(delay++) * 40}ms">
+      <button class="node-toggle" type="button" aria-expanded="false">
+        <span class="node-visual"><i class="node-glyph">${group.name.slice(0, 1)}</i></span>
+        <span class="node-name"><strong>${group.name}</strong><small>${group.children.length} 项技艺</small></span>
+        <span class="node-plus">＋</span>
+      </button>
+      <div class="node-description"><p>${group.desc}</p></div>
+      <div class="tree-children">${group.children.map((leaf) => `
+        <article class="knowledge-node tree-node leaf technique-leaf" data-technique="${techniqueCollection.indexOf(group)}_${group.children.indexOf(leaf)}" style="--delay:${(delay++) * 30}ms">
+          <button class="node-toggle" type="button" aria-expanded="false">
+            <span class="node-visual"><i class="node-glyph">${leaf.name.slice(0, 1)}</i></span>
+            <span class="node-name"><strong>${leaf.name}</strong><small class="technique-summary">${leaf.summary}</small></span>
+            <span class="node-plus">›</span>
+          </button>
+        </article>`).join("")}</div>
+    </article>`).join("")}</div>`;
+}
+
+function openTechniqueDetail(group, leaf) {
+  document.querySelector(".pattern-backdrop")?.remove();
+  const examples = leaf.examples.length ? `
+    <div class="pattern-real">
+      <h3>实物展示</h3>
+      <div class="pattern-real-grid">${leaf.examples.map((item) => `
+        <figure class="pattern-real-item">
+          <img src="${item.img}" alt="${item.title}" loading="lazy">
+          <figcaption><strong>${item.title}</strong><em>${item.meta}</em><p>${item.desc}</p></figcaption>
+        </figure>`).join("")}</div>
+    </div>` : "";
+  const backdrop = document.createElement("div");
+  backdrop.className = "modal-backdrop pattern-backdrop";
+  backdrop.innerHTML = `<div class="pattern-modal" role="dialog" aria-modal="true" aria-label="${leaf.name}">
+    <button class="modal-close" type="button" aria-label="关闭">×</button>
+    <div class="pattern-modal-line">
+      <span class="pattern-modal-glyph">${leaf.name.slice(0, 1)}</span>
+    </div>
+    <div class="pattern-modal-body">
+      <span class="modal-meta">${group.name} · 技艺图典</span>
+      <h2>${leaf.name}</h2>
+      <div class="modal-rule"></div>
+      <p>${leaf.desc}</p>
+      ${examples}
+    </div>
+  </div>`;
+  backdrop.addEventListener("click", (event) => {
+    if (event.target === backdrop || event.target.closest(".modal-close")) closePatternDetail();
+  });
+  document.body.appendChild(backdrop);
+}
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closePatternDetail();
 });
@@ -330,6 +394,12 @@ document.addEventListener("click", (event) => {
   if (leaf) {
     const [groupIndex, leafIndex] = leaf.dataset.leaf.split("_").map(Number);
     openPatternDetail(patternCollection[groupIndex], patternCollection[groupIndex].children[leafIndex]);
+    return;
+  }
+  const techniqueLeaf = event.target.closest(".technique-leaf");
+  if (techniqueLeaf) {
+    const [groupIndex, leafIndex] = techniqueLeaf.dataset.technique.split("_").map(Number);
+    openTechniqueDetail(techniqueCollection[groupIndex], techniqueCollection[groupIndex].children[leafIndex]);
     return;
   }
   const toggle = event.target.closest(".node-toggle");
