@@ -1,14 +1,13 @@
 import { knowledgeNodes } from "./knowledge-data.js";
-import { knowledgeImagePath } from "./knowledge-images.js";
 import { patternCollection } from "./pattern-collection.js";
 import { colorCollection } from "./color-collection.js";
+import { techniqueCollection } from "./technique-collection.js";
 
 const categoryMeta = {
   color: { eyebrow: "THE COLORS", title: "颜色" },
   material: { eyebrow: "THE MATERIALS", title: "材质" },
   pattern: { eyebrow: "THE PATTERNS", title: "纹样" },
-  technique: { eyebrow: "THE TECHNIQUES", title: "技艺" },
-  era: { eyebrow: "THE ERAS", title: "年代" }
+  technique: { eyebrow: "THE TECHNIQUES", title: "技艺" }
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -69,7 +68,6 @@ const treeSpec = {
     root("K_TEC_BASE", "基础与描绘"), root("K_TEC_CARVE", "雕刻类"),
     root("K_TEC_INLAY", "镶嵌类"), root("K_TEC_LOCAL", "地方特色类")
   ],
-  era: knowledgeNodes.filter((node) => node.category === "era").map((node) => root(node.id, node.name, node.description))
 };
 const childGroups = {
   color: {
@@ -81,8 +79,7 @@ const childGroups = {
   },
   material: { K_MAT_LACQUER: ["生漆", "色漆", "改青漆", "现代合成漆"], K_MAT_BODY: ["木胎", "脱胎/夹纻胎", "陶胎", "皮胎", "竹胎", "瓷胎", "金属胎", "漆砂胎", "纸胎", "骨角胎"] },
   pattern: { K_PAT_JH: ["云雷纹", "回纹", "海水江崖", "冰裂纹"], K_PAT_ZW: ["莲瓣纹", "缠枝牡丹", "梅花", "菊花", "栀子花"], K_PAT_SS: ["龙纹", "麒麟纹", "饕餮纹", "蟠螭纹"], K_PAT_NS: ["凤鸟纹", "仙鹤纹", "鱼藻纹", "草虫纹"], K_PAT_RW: ["车马出行图", "高士宴乐图", "婴戏图", "戏曲故事图"], K_PAT_SL: ["山水图", "楼阁图", "庭园图"], K_PAT_TW: ["四神纹", "二十八宿", "北斗星象纹"] },
-  technique: { K_TEC_BASE: ["素髹", "彩绘/描漆", "描金/识文", "戗金/填漆"], K_TEC_CARVE: ["雕漆/剔红等", "款彩"], K_TEC_INLAY: ["螺钿", "金银平脱", "百宝嵌"], K_TEC_LOCAL: ["脱胎/薄料", "犀皮漆", "推光漆"] },
-  era: {}
+  technique: { K_TEC_BASE: ["素髹", "彩绘/描漆", "描金/识文", "戗金/填漆"], K_TEC_CARVE: ["雕漆/剔红等", "款彩"], K_TEC_INLAY: ["螺钿", "金银平脱", "百宝嵌"], K_TEC_LOCAL: ["脱胎/薄料", "犀皮漆", "推光漆"] }
 };
 
 function categoryTree(category) {
@@ -113,62 +110,7 @@ function categoryTree(category) {
   const attach = (node) => ({ ...node, children: (childrenByParent.get(node.id) || []).map(attach) });
   return roots.map(attach);
 }
-/* imageById removed; paths are centralized in knowledgeImagePath. */
-const imageById = {
-  K_MAT_QI_SHENG: "images/materials/K_MAT_QI_SHENG.png",
-  K_MAT_QI_SE: "images/materials/K_MAT_QI_SE.png",
-  K_MAT_MU: "images/materials/K_MAT_MU.png",
-  K_MAT_TUO: "images/materials/K_MAT_TUO.png",
-  K_MAT_ZHU: "images/materials/K_MAT_ZHU.png",
-  K_MAT_PI: "images/materials/K_MAT_PI.png",
-  K_MAT_TAO: "images/materials/K_MAT_TAO.png",
-  K_MAT_CI: "images/materials/K_MAT_CI.png",
-  K_MAT_JIN: "images/materials/K_MAT_JIN.png",
-  K_MAT_SHA: "images/materials/K_MAT_SHA.png",
-  K_MAT_MU_ZHUO: "images/materials/K_MAT_MU_ZHUO.png",
-  K_MAT_MU_JUAN: "images/materials/K_MAT_MU_JUAN.png",
-  K_MAT_ZHU_JI: "images/materials/K_MAT_ZHU_JI.png",
-  K_MAT_ZHI: "images/materials/K_MAT_ZHI.png",
-  K_MAT_GU: "images/materials/K_MAT_GU.png",
-  K_PAT_JH_YUNLEI: "images/patterns/knowledge/K_PAT_JH_YUNLEI.png",
-  K_PAT_JH_HUI: "images/patterns/knowledge/K_PAT_JH_HUI.png",
-  K_PAT_JH_JIANG: "images/patterns/knowledge/K_PAT_JH_JIANG.png",
-  K_PAT_ZW_LIAN: "images/patterns/knowledge/K_PAT_ZW_LIAN.png",
-  K_PAT_ZW_MUDAN: "images/patterns/knowledge/K_PAT_ZW_MUDAN.png",
-  K_PAT_ZW_ZHIZI: "images/patterns/knowledge/K_PAT_ZW_ZHIZI.png",
-  K_PAT_SS_LONG: "images/patterns/knowledge/K_PAT_SS_LONG.png",
-  K_PAT_SS_QILIN: "images/patterns/knowledge/K_PAT_SS_QILIN.png",
-  K_PAT_SS_TAOTIE: "images/patterns/knowledge/K_PAT_SS_TAOTIE.png",
-  K_PAT_NS_FENG: "images/patterns/knowledge/K_PAT_NS_FENG.png",
-  K_PAT_NS_HE: "images/patterns/knowledge/K_PAT_NS_HE.png",
-  K_PAT_NS_YU: "images/patterns/knowledge/K_PAT_NS_YU.png",
-  K_PAT_NS_CHONG: "images/patterns/knowledge/K_PAT_NS_CHONG.png",
-  K_PAT_RW_YINGXI: "images/patterns/knowledge/K_PAT_RW_YINGXI.png",
-  K_PAT_RW_GAOSHI: "images/patterns/knowledge/K_PAT_RW_GAOSHI.png",
-  K_PAT_SL_SHAN: "images/patterns/knowledge/K_PAT_SL_SHAN.png",
-  K_PAT_SL_LOU: "images/patterns/knowledge/K_PAT_SL_LOU.png",
-  K_PAT_TW_SISHEN: "images/patterns/knowledge/K_PAT_TW_SISHEN.png",
-  K_PAT_TW_28XIU: "images/patterns/knowledge/K_PAT_TW_28XIU.png",
-  K_PAT_JX_BABAO: "images/patterns/knowledge/K_PAT_JX_BABAO.png",
-  K_TEC_SUXIU: "images/techniques/K_TEC_SUXIU.png",
-  K_TEC_CAIHUI: "images/techniques/K_TEC_CAIHUI.png",
-  K_TEC_MIAOJIN: "images/techniques/K_TEC_MIAOJIN.png",
-  K_TEC_QJ: "images/techniques/K_TEC_QJ.png",
-  K_TEC_DIAOQI: "images/techniques/K_TEC_DIAOQI.png",
-  K_TEC_KUANCAI: "images/techniques/K_TEC_KUANCAI.png",
-  K_TEC_LUODIAN: "images/techniques/K_TEC_LUODIAN.png",
-  K_TEC_PINGTUO: "images/techniques/K_TEC_PINGTUO.png",
-  K_TEC_BAOBAO: "images/techniques/K_TEC_BAOBAO.png",
-  K_TEC_XIPI: "images/techniques/K_TEC_XIPI.png",
-  K_TEC_TUOTAI: "images/techniques/K_TEC_TUOTAI.png",
-  K_TEC_TUIGUANG: "images/techniques/K_TEC_TUIGUANG.png",
-  K_TEC_TIHONG: "images/techniques/K_TEC_TIHONG.png",
-  K_TEC_TIHEI: "images/techniques/K_TEC_TIHEI.png",
-  K_TEC_TIXI: "images/techniques/K_TEC_TIXI.png",
-  K_TEC_TICAI: "images/techniques/K_TEC_TICAI.png",
-  K_TEC_BOLUO: "images/techniques/K_TEC_BOLUO.png"
-};
-const categoryNames = { color: "颜色", material: "材质", pattern: "纹样", technique: "技艺", era: "年代" };
+const categoryNames = { color: "颜色", material: "材质", pattern: "纹样", technique: "技艺" };
 
 function render(category) {
   const tree = categoryTree(category);
@@ -179,7 +121,9 @@ function render(category) {
     ? patternCount()
     : category === "color"
       ? colorCount()
-      : tree.reduce((total, node) => total + countNodes(node), 0);
+      : category === "technique"
+        ? techniqueCount()
+        : tree.reduce((total, node) => total + countNodes(node), 0);
   $("#result-count").textContent = `${count} 个节点 · 点击逐级展开`;
   document.querySelector(".category-button.active")?.classList.remove("active");
   document.querySelector(`[data-category="${category}"]`).classList.add("active");
@@ -187,7 +131,9 @@ function render(category) {
     ? renderPatternTree()
     : category === "color"
       ? renderColorTree()
-      : `<div class="tree-root">${tree.map((node, index) => renderNode(node, index)).join("")}</div>`;
+      : category === "technique"
+        ? renderTechniqueTree()
+        : `<div class="tree-root">${tree.map((node, index) => renderNode(node, index)).join("")}</div>`;
 }
 
 // ---------- 纹样图典树状图（黑白线稿 + 实物详情） ----------
@@ -197,10 +143,7 @@ function patternCount() {
 }
 
 function patternVisual(node, isGroup) {
-  const src = isGroup ? node.icon : node.line;
-  return src
-    ? `<img src="${src}" alt="${node.name}" loading="lazy">`
-    : `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
+  return `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
 }
 
 function renderPatternTree() {
@@ -334,9 +277,79 @@ function openColorDetail(group, leaf) {
   document.body.appendChild(backdrop);
 }
 
+// ---------- 技艺图典树状图（单句摘要 + 点击详情） ----------
+function techniqueCount() {
+  return techniqueCollection.reduce(
+    (total, group) => total + 1 + group.children.length, 0);
+}
+
+function renderTechniqueTree() {
+  let delay = 0;
+  return `<div class="tree-root">${techniqueCollection.map((group) => `
+    <article class="knowledge-node tree-node has-children pattern-group" style="--delay:${(delay++) * 40}ms">
+      <button class="node-toggle" type="button" aria-expanded="false">
+        <span class="node-visual"><i class="node-glyph">${group.name.slice(0, 1)}</i></span>
+        <span class="node-name"><strong>${group.name}</strong><small>${group.children.length} 项技艺</small></span>
+        <span class="node-plus">＋</span>
+      </button>
+      <div class="node-description"><p>${group.desc}</p></div>
+      <div class="tree-children">${group.children.map((leaf) => `
+        <article class="knowledge-node tree-node leaf technique-leaf" data-technique="${techniqueCollection.indexOf(group)}_${group.children.indexOf(leaf)}" style="--delay:${(delay++) * 30}ms">
+          <button class="node-toggle" type="button" aria-expanded="false">
+            <span class="node-visual"><i class="node-glyph">${leaf.name.slice(0, 1)}</i></span>
+            <span class="node-name"><strong>${leaf.name}</strong><small class="technique-summary">${leaf.summary}</small></span>
+            <span class="node-plus">›</span>
+          </button>
+        </article>`).join("")}</div>
+    </article>`).join("")}</div>`;
+}
+
+function openTechniqueDetail(group, leaf) {
+  document.querySelector(".pattern-backdrop")?.remove();
+  const examples = leaf.examples.length ? `
+    <div class="pattern-real">
+      <h3>实物展示</h3>
+      <div class="pattern-real-grid">${leaf.examples.map((item) => `
+        <figure class="pattern-real-item">
+          <img src="${item.img}" alt="${item.title}" loading="lazy">
+          <figcaption><strong>${item.title}</strong><em>${item.meta}</em><p>${item.desc}</p></figcaption>
+        </figure>`).join("")}</div>
+    </div>` : "";
+  const backdrop = document.createElement("div");
+  backdrop.className = "modal-backdrop pattern-backdrop";
+  backdrop.innerHTML = `<div class="pattern-modal technique-modal" role="dialog" aria-modal="true" aria-label="${leaf.name}">
+    <button class="modal-close" type="button" aria-label="关闭">×</button>
+    <div class="pattern-modal-body">
+      <span class="modal-meta">${group.name} · 技艺图典</span>
+      <h2>${leaf.name}</h2>
+      <div class="modal-rule"></div>
+      <p>${leaf.desc}</p>
+      ${examples}
+    </div>
+  </div>`;
+  backdrop.addEventListener("click", (event) => {
+    if (event.target === backdrop || event.target.closest(".modal-close")) closePatternDetail();
+  });
+  document.body.appendChild(backdrop);
+}
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closePatternDetail();
 });
+
+function closeSiblingNodes(node) {
+  const container = node.parentElement;
+  if (!container) return;
+  container.querySelectorAll(":scope > .knowledge-node.expanded").forEach((sibling) => {
+    if (sibling === node) return;
+    sibling.querySelectorAll(".knowledge-node.expanded").forEach((expandedNode) => {
+      expandedNode.classList.remove("expanded");
+      expandedNode.querySelector(":scope > .node-toggle")?.setAttribute("aria-expanded", "false");
+    });
+    sibling.classList.remove("expanded");
+    sibling.querySelector(":scope > .node-toggle")?.setAttribute("aria-expanded", "false");
+  });
+}
 
 function countNodes(node) {
   return 1 + node.children.reduce((total, child) => total + countNodes(child), 0);
@@ -346,9 +359,7 @@ function renderNode(node, index) {
   const hasChildren = node.children.length > 0;
   const visual = node.hexCode
     ? `<i style="--swatch:${node.hexCode}"></i>`
-    : knowledgeImagePath(node)
-      ? `<img src="${knowledgeImagePath(node)}" alt="" loading="lazy">`
-      : `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
+    : `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
   const control = hasChildren
     ? `<button class="node-toggle" type="button" aria-expanded="false">`
     : `<a class="node-toggle leaf-link" href="knowledge-detail.html?id=${encodeURIComponent(node.id)}&name=${encodeURIComponent(node.name)}">`;
@@ -382,12 +393,20 @@ document.addEventListener("click", (event) => {
     openPatternDetail(patternCollection[groupIndex], patternCollection[groupIndex].children[leafIndex]);
     return;
   }
+  const techniqueLeaf = event.target.closest(".technique-leaf");
+  if (techniqueLeaf) {
+    const [groupIndex, leafIndex] = techniqueLeaf.dataset.technique.split("_").map(Number);
+    openTechniqueDetail(techniqueCollection[groupIndex], techniqueCollection[groupIndex].children[leafIndex]);
+    return;
+  }
   const toggle = event.target.closest(".node-toggle");
   if (toggle) {
-    if (!toggle.closest(".knowledge-node").classList.contains("has-children")) return;
+    const node = toggle.closest(".knowledge-node");
+    if (!node?.classList.contains("has-children")) return;
     const expanded = toggle.getAttribute("aria-expanded") === "true";
+    if (!expanded) closeSiblingNodes(node);
     toggle.setAttribute("aria-expanded", String(!expanded));
-    toggle.closest(".knowledge-node").classList.toggle("expanded", !expanded);
+    node.classList.toggle("expanded", !expanded);
   }
 });
 

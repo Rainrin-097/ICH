@@ -15,52 +15,61 @@ const existingImages = {
   K_MAT_ZHI: "images/materials/K_MAT_ZHI.png",
   K_MAT_GU: "images/materials/K_MAT_GU.png",
   K_PAT_JH_YUNLEI: "images/patterns/knowledge/K_PAT_JH_YUNLEI.png",
-  K_PAT_JH_HUI: "images/patterns/knowledge/K_PAT_JH_HUI.png",
   K_PAT_JH_JIANG: "images/patterns/knowledge/K_PAT_JH_JIANG.png",
   K_PAT_ZW_LIAN: "images/patterns/knowledge/K_PAT_ZW_LIAN.png",
   K_PAT_ZW_MUDAN: "images/patterns/knowledge/K_PAT_ZW_MUDAN.png",
-  K_PAT_ZW_ZHIZI: "images/patterns/knowledge/K_PAT_ZW_ZHIZI.png",
   K_PAT_SS_LONG: "images/patterns/knowledge/K_PAT_SS_LONG.png",
   K_PAT_SS_QILIN: "images/patterns/knowledge/K_PAT_SS_QILIN.png",
   K_PAT_SS_TAOTIE: "images/patterns/knowledge/K_PAT_SS_TAOTIE.png",
   K_PAT_NS_FENG: "images/patterns/knowledge/K_PAT_NS_FENG.png",
-  K_PAT_NS_HE: "images/patterns/knowledge/K_PAT_NS_HE.png",
   K_PAT_NS_YU: "images/patterns/knowledge/K_PAT_NS_YU.png",
   K_PAT_NS_CHONG: "images/patterns/knowledge/K_PAT_NS_CHONG.png",
   K_PAT_RW_YINGXI: "images/patterns/knowledge/K_PAT_RW_YINGXI.png",
   K_PAT_RW_GAOSHI: "images/patterns/knowledge/K_PAT_RW_GAOSHI.png",
   K_PAT_SL_SHAN: "images/patterns/knowledge/K_PAT_SL_SHAN.png",
   K_PAT_SL_LOU: "images/patterns/knowledge/K_PAT_SL_LOU.png",
-  K_PAT_TW_SISHEN: "images/patterns/knowledge/K_PAT_TW_SISHEN.png",
-  K_PAT_TW_28XIU: "images/patterns/knowledge/K_PAT_TW_28XIU.png",
   K_PAT_JX_BABAO: "images/patterns/knowledge/K_PAT_JX_BABAO.png",
-  K_TEC_SUXIU: "images/techniques/K_TEC_SUXIU.png",
-  K_TEC_CAIHUI: "images/techniques/K_TEC_CAIHUI.png",
-  K_TEC_MIAOJIN: "images/techniques/K_TEC_MIAOJIN.png",
-  K_TEC_QJ: "images/techniques/K_TEC_QJ.png",
-  K_TEC_DIAOQI: "images/techniques/K_TEC_DIAOQI.png",
-  K_TEC_KUANCAI: "images/techniques/K_TEC_KUANCAI.png",
-  K_TEC_LUODIAN: "images/techniques/K_TEC_LUODIAN.png",
-  K_TEC_PINGTUO: "images/techniques/K_TEC_PINGTUO.png",
-  K_TEC_BAOBAO: "images/techniques/K_TEC_BAOBAO.png",
-  K_TEC_XIPI: "images/techniques/K_TEC_XIPI.png",
-  K_TEC_TUOTAI: "images/techniques/K_TEC_TUOTAI.png",
-  K_TEC_TUIGUANG: "images/techniques/K_TEC_TUIGUANG.png",
-  K_TEC_TIHONG: "images/techniques/K_TEC_TIHONG.png",
-  K_TEC_TIHEI: "images/techniques/K_TEC_TIHEI.png",
-  K_TEC_TIXI: "images/techniques/K_TEC_TIXI.png",
-  K_TEC_TICAI: "images/techniques/K_TEC_TICAI.png",
-  K_TEC_BOLUO: "images/techniques/K_TEC_BOLUO.png"
+  K_PAT_JH_HUI: "images/knowledge/patterns/supplemental/K_PAT_JH_HUI/01.jpg",
+  K_PAT_JH_LIANZHU: "images/knowledge/patterns/supplemental/K_PAT_JH_LIANZHU/01.jpg",
+  K_PAT_JH_GUIBEI: "images/knowledge/patterns/supplemental/K_PAT_JH_GUIBEI/01.jpg",
+  K_PAT_JH_WANZI: "images/knowledge/patterns/supplemental/K_PAT_JH_WANZI/01.jpg",
+  K_PAT_JH_LINGHUA: "images/knowledge/patterns/supplemental/K_PAT_JH_LINGHUA/01.jpg",
+  K_PAT_ZW_JUANCAO: "images/knowledge/patterns/supplemental/K_PAT_ZW_JUANCAO/01.jpg",
+  K_PAT_ZW_BAOXIANG: "images/knowledge/patterns/supplemental/K_PAT_ZW_BAOXIANG/01.jpg",
+  K_PAT_ZW_BINGMEI: "images/knowledge/patterns/supplemental/K_PAT_ZW_BINGMEI/01.jpg",
+  K_PAT_ZW_LINGZHI: "images/knowledge/patterns/supplemental/K_PAT_ZW_LINGZHI/01.jpg",
+  K_PAT_ZW_SUIHAN: "images/knowledge/patterns/supplemental/K_PAT_ZW_SUIHAN/01.jpg",
+  K_PAT_ZW_ZHIZI: "images/knowledge/patterns/supplemental/K_PAT_ZW_ZHIZI/01.jpg",
+  K_PAT_ZW_MEIHUA: "images/knowledge/patterns/supplemental/K_PAT_ZW_MEIHUA/01.jpg",
+  K_PAT_SS_TUANLONG: "images/knowledge/patterns/supplemental/K_PAT_SS_TUANLONG/01.jpg",
+  K_PAT_SS_KUILONG: "images/knowledge/patterns/supplemental/K_PAT_SS_KUILONG/01.jpg",
+  K_PAT_SS_PANCHI: "images/knowledge/patterns/supplemental/K_PAT_SS_PANCHI/01.jpg",
+  K_PAT_NS_SHUANGYU: "images/knowledge/patterns/supplemental/K_PAT_NS_SHUANGYU/01.jpg",
+  K_PAT_NS_HE: "images/knowledge/patterns/supplemental/K_PAT_NS_HE/01.jpg",
+  K_PAT_NS_LIANCHI: "images/knowledge/patterns/supplemental/K_PAT_NS_LIANCHI/01.jpg",
+  K_PAT_JX_WUFU: "images/knowledge/patterns/supplemental/K_PAT_JX_WUFU/01.jpg",
+  K_PAT_RW_CHEMA: "images/knowledge/patterns/supplemental/K_PAT_RW_CHEMA/01.jpg",
+  K_PAT_RW_XIQU: "images/knowledge/patterns/supplemental/K_PAT_RW_XIQU/01.jpg",
+  K_PAT_SL_SHANSHUI: "images/knowledge/patterns/supplemental/K_PAT_SL_SHANSHUI/01.jpg",
+  K_PAT_SL_TINGYUAN: "images/knowledge/patterns/supplemental/K_PAT_SL_TINGYUAN/01.jpg",
+  K_PAT_TW_SISHEN: "images/knowledge/patterns/supplemental/K_PAT_TW_SISHEN/01.jpg",
+  K_PAT_TW_28XIU: "images/knowledge/patterns/supplemental/K_PAT_TW_28XIU/01.jpg",
+  K_PAT_TW_BEIDOU: "images/knowledge/patterns/supplemental/K_PAT_TW_BEIDOU/01.jpg",
+  K_PAT_JX_ANBAXIAN: "images/knowledge/patterns/supplemental/K_PAT_JX_ANBAXIAN/01.jpg",
+  K_PAT_JH_RUYIYUN: "images/knowledge/patterns/supplemental/K_PAT_JH_RUYIYUN/01.jpg",
 };
 
-const folders = { material: "knowledge/materials", pattern: "knowledge/patterns", technique: "knowledge/techniques", era: "knowledge/eras" };
+const folders = { material: "knowledge/materials", pattern: "knowledge/patterns" };
 
 export function knowledgeImagePath(node) {
-  if (!node || node.category === "color") return null;
+  if (!node || node.category === "color" || node.category === "technique") return null;
   const existingPath = existingImages[node.id];
   if (existingPath) {
-    const fileName = existingPath.split("/").pop();
-    return `images/${folders[node.category]}/${fileName}`;
+    if (existingPath.startsWith("images/patterns/knowledge/")) {
+      const fileName = existingPath.split("/").pop();
+      return `images/${folders[node.category]}/${fileName}`;
+    }
+    return existingPath;
   }
   return `images/${folders[node.category]}/${node.id}.jpg`;
 }

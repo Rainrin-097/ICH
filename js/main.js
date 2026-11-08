@@ -1,5 +1,6 @@
 import { attributes } from "./data.js";
 import { artifacts as recipeArtifacts } from "./artifacts-data.js";
+import { easterEggs, matchesEasterEgg, unlockEasterEggs } from "./easter-eggs.js";
 
 const currentSelection = { material: null, colors: [], pattern: null };
 const artifactState = { matches: [], index: 0 };
@@ -76,6 +77,25 @@ function closeModal() {
   document.body.classList.remove("modal-open");
 }
 
+function openEasterEgg(egg) {
+  const backdrop = document.querySelector("#easter-egg-backdrop");
+  if (!backdrop) return;
+  backdrop.innerHTML = `
+    <article class="easter-egg-modal" role="dialog" aria-modal="true" aria-labelledby="easter-egg-title">
+      <button class="modal-close" id="easter-egg-close" type="button" aria-label="关闭详情">×</button>
+      <div class="easter-egg-name"><span class="eyebrow">隐藏成就 · EASTER EGG</span><h2 id="easter-egg-title">${egg.name}</h2></div>
+      <div class="easter-egg-content"><p class="easter-egg-message">你好像合成出了奇怪的东西……</p><p class="easter-egg-recipe">${egg.recipe}</p><div class="modal-rule"></div><p>${egg.description}</p>${egg.link ? `<a class="combine-button small" href="${egg.link}" target="_blank" rel="noopener noreferrer">打开相关链接 <b>↗</b></a>` : ""}</div>
+    </article>`;
+  backdrop.hidden = false;
+  document.body.classList.add("modal-open");
+}
+
+function closeEasterEgg() {
+  const backdrop = $("#easter-egg-backdrop");
+  if (backdrop) backdrop.hidden = true;
+  document.body.classList.remove("modal-open");
+}
+
 function navigateView(view) {
   if (view === "profile") showFeedback("个人档案功能正在整理中，先完成器物复原吧。", "warning");
 }
@@ -93,6 +113,13 @@ async function combine() {
       && userColors.length === recipeColors.length
       && recipeColors.every((color) => userColors.includes(color));
   });
+  const matchingEggs = easterEggs.filter((egg) => matchesEasterEgg(egg, currentSelection));
+  if (matchingEggs.length) {
+    unlockEasterEggs(matchingEggs);
+    showFeedback("你好像合成出了奇怪的东西……", "success");
+    window.setTimeout(() => openEasterEgg(matchingEggs[0]), 450);
+    return;
+  }
   if (matchingArtifacts.length) {
     const unlocked = new Set(JSON.parse(localStorage.getItem("unlockedArtifacts") || "[]"));
     matchingArtifacts.forEach((artifact) => unlocked.add(artifact.name));
@@ -132,8 +159,12 @@ document.addEventListener("click", (event) => {
   if (event.target.closest("#artifact-previous")) changeArtifact(-1);
   if (event.target.closest("#artifact-next")) changeArtifact(1);
   if (event.target.closest("#modal-close") || event.target === $("#modal-backdrop")) closeModal();
+  if (event.target.closest("#easter-egg-close") || event.target === $("#easter-egg-backdrop")) closeEasterEgg();
 });
 
-document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !$("#modal-backdrop").hidden) closeModal(); });
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !$("#modal-backdrop").hidden) closeModal();
+  if (event.key === "Escape" && !$("#easter-egg-backdrop").hidden) closeEasterEgg();
+});
 renderOptions();
 renderSelection();

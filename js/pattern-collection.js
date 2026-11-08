@@ -51,31 +51,31 @@ export const patternCollection = [
         name: "回纹",
         line: LINE + "pc038.png",
         desc: "由雷纹简化而来的连续回字，端庄耐看，多作器物口沿、圈足的收边。",
-        examples: []
+        examples: [{ img: REAL + "r01_01.jpg", title: "回纹 实物 01", meta: "实物参考 / 图片", desc: "由雷纹简化而来的连续回字，端庄耐看，多作器物口沿、圈足的收边。" }, { img: REAL + "r01_02.jpg", title: "回纹 实物 02", meta: "实物参考 / 图片", desc: "由雷纹简化而来的连续回字，端庄耐看，多作器物口沿、圈足的收边。" }, { img: REAL + "r01_03.jpg", title: "回纹 实物 03", meta: "实物参考 / 图片", desc: "由雷纹简化而来的连续回字，端庄耐看，多作器物口沿、圈足的收边。" }, { img: REAL + "r01_04.jpg", title: "回纹 实物 04", meta: "实物参考 / 图片", desc: "由雷纹简化而来的连续回字，端庄耐看，多作器物口沿、圈足的收边。" }]
       },
       {
         name: "联珠纹",
         line: LINE + "pc039.png",
         desc: "一串小圆珠夹于双线之间，唐代经丝路传入，常与团花、宝相花组合使用。",
-        examples: []
+        examples: [{ img: REAL + "r02_01.jpg", title: "联珠纹 实物 01", meta: "实物参考 / 图片", desc: "一串小圆珠夹于双线之间，唐代经丝路传入，常与团花、宝相花组合使用。" }, { img: REAL + "r02_02.jpg", title: "联珠纹 实物 02", meta: "实物参考 / 图片", desc: "一串小圆珠夹于双线之间，唐代经丝路传入，常与团花、宝相花组合使用。" }, { img: REAL + "r02_03.jpg", title: "联珠纹 实物 03", meta: "实物参考 / 图片", desc: "一串小圆珠夹于双线之间，唐代经丝路传入，常与团花、宝相花组合使用。" }, { img: REAL + "r02_04.jpg", title: "联珠纹 实物 04", meta: "实物参考 / 图片", desc: "一串小圆珠夹于双线之间，唐代经丝路传入，常与团花、宝相花组合使用。" }]
       },
       {
         name: "龟背锦纹",
         line: LINE + "pc040.png",
         desc: "六角相错的龟背格，格内填小花或回纹，是雕漆「锦地」最典型的骨架之一。",
-        examples: []
+        examples: [{ img: REAL + "r03_01.jpg", title: "龟背锦纹 实物 01", meta: "实物参考 / 图片", desc: "六角相错的龟背格，格内填小花或回纹，是雕漆「锦地」最典型的骨架之一。" }, { img: REAL + "r03_02.jpg", title: "龟背锦纹 实物 02", meta: "实物参考 / 图片", desc: "六角相错的龟背格，格内填小花或回纹，是雕漆「锦地」最典型的骨架之一。" }, { img: REAL + "r03_03.jpg", title: "龟背锦纹 实物 03", meta: "实物参考 / 图片", desc: "六角相错的龟背格，格内填小花或回纹，是雕漆「锦地」最典型的骨架之一。" }]
       },
       {
         name: "卍字流水锦",
         line: LINE + "pc041.png",
         desc: "卍字以斜线相连成细密底纹，取「绵延不断」之意，常作万字流水地。",
-        examples: []
+        examples: [{ img: REAL + "r04_01.jpg", title: "卍字流水锦 实物 01", meta: "实物参考 / 图片", desc: "卍字以斜线相连成细密底纹，取「绵延不断」之意，常作万字流水地。" }, { img: REAL + "r04_02.jpg", title: "卍字流水锦 实物 02", meta: "实物参考 / 图片", desc: "卍字以斜线相连成细密底纹，取「绵延不断」之意，常作万字流水地。" }, { img: REAL + "r04_03.jpg", title: "卍字流水锦 实物 03", meta: "实物参考 / 图片", desc: "卍字以斜线相连成细密底纹，取「绵延不断」之意，常作万字流水地。" }]
       },
       {
         name: "菱花锦地",
         line: LINE + "pc042.png",
         desc: "斜方格中嵌四瓣菱花，格律严整，多用于盒盖满铺或经匣装潢。",
-        examples: []
+        examples: [{ img: REAL + "r05_01.jpg", title: "菱花锦地 实物 01", meta: "实物参考 / 图片", desc: "斜方格中嵌四瓣菱花，格律严整，多用于盒盖满铺或经匣装潢。" }, { img: REAL + "r05_02.jpg", title: "菱花锦地 实物 02", meta: "实物参考 / 图片", desc: "斜方格中嵌四瓣菱花，格律严整，多用于盒盖满铺或经匣装潢。" }, { img: REAL + "r05_03.jpg", title: "菱花锦地 实物 03", meta: "实物参考 / 图片", desc: "斜方格中嵌四瓣菱花，格律严整，多用于盒盖满铺或经匣装潢。" }, { img: REAL + "r05_04.jpg", title: "菱花锦地 实物 04", meta: "实物参考 / 图片", desc: "斜方格中嵌四瓣菱花，格律严整，多用于盒盖满铺或经匣装潢。" }]
       },
       {
         name: "冰裂纹",
@@ -130,7 +130,7 @@ export const patternCollection = [
         name: "卷草·忍冬纹",
         line: LINE + "pc055.png",
         desc: "单枝连续、叶作卷云，源自南北朝忍冬纹，唐代后成为万能填空纹，什么器型都能收边。",
-        examples: []
+        examples: [{ img: REAL + "r06_01.jpg", title: "卷草·忍冬纹 实物 01", meta: "实物参考 / 图片", desc: "单枝连续、叶作卷云，源自南北朝忍冬纹，唐代后成为万能填空纹，什么器型都能收边。" }, { img: REAL + "r06_02.jpg", title: "卷草·忍冬纹 实物 02", meta: "实物参考 / 图片", desc: "单枝连续、叶作卷云，源自南北朝忍冬纹，唐代后成为万能填空纹，什么器型都能收边。" }, { img: REAL + "r06_03.jpg", title: "卷草·忍冬纹 实物 03", meta: "实物参考 / 图片", desc: "单枝连续、叶作卷云，源自南北朝忍冬纹，唐代后成为万能填空纹，什么器型都能收边。" }]
       },
       {
         name: "莲瓣纹",
@@ -154,7 +154,7 @@ export const patternCollection = [
         name: "宝相花纹",
         line: LINE + "pc058.png",
         desc: "莲、牡丹、菊揉合而成的理想花，瓣形对称、珠饰环绕，唐代装饰的集大成者。",
-        examples: []
+        examples: [{ img: REAL + "r07_01.jpg", title: "宝相花纹 实物 01", meta: "实物参考 / 图片", desc: "莲、牡丹、菊揉合而成的理想花，瓣形对称、珠饰环绕，唐代装饰的集大成者。" }, { img: REAL + "r07_02.jpg", title: "宝相花纹 实物 02", meta: "实物参考 / 图片", desc: "莲、牡丹、菊揉合而成的理想花，瓣形对称、珠饰环绕，唐代装饰的集大成者。" }, { img: REAL + "r07_03.jpg", title: "宝相花纹 实物 03", meta: "实物参考 / 图片", desc: "莲、牡丹、菊揉合而成的理想花，瓣形对称、珠饰环绕，唐代装饰的集大成者。" }]
       },
       {
         name: "团花纹",
@@ -177,19 +177,19 @@ export const patternCollection = [
         name: "冰梅纹",
         line: LINE + "pc061.png",
         desc: "冰裂格作地、梅枝横斜其上。冰裂与梅皆为清冷高洁之象，是清康熙一朝的流行纹样。",
-        examples: []
+        examples: [{ img: REAL + "r08_01.jpg", title: "冰梅纹 实物 01", meta: "实物参考 / 图片", desc: "冰裂格作地、梅枝横斜其上。冰裂与梅皆为清冷高洁之象，是清康熙一朝的流行纹样。" }, { img: REAL + "r08_02.jpg", title: "冰梅纹 实物 02", meta: "实物参考 / 图片", desc: "冰裂格作地、梅枝横斜其上。冰裂与梅皆为清冷高洁之象，是清康熙一朝的流行纹样。" }]
       },
       {
         name: "灵芝如意纹",
         line: LINE + "pc062.png",
         desc: "灵芝头作如意形，层层云头叠成，取「如意」之意，多作小开光或四角装饰。",
-        examples: []
+        examples: [{ img: REAL + "r09_01.jpg", title: "灵芝如意纹 实物 01", meta: "实物参考 / 图片", desc: "灵芝头作如意形，层层云头叠成，取「如意」之意，多作小开光或四角装饰。" }, { img: REAL + "r09_02.jpg", title: "灵芝如意纹 实物 02", meta: "实物参考 / 图片", desc: "灵芝头作如意形，层层云头叠成，取「如意」之意，多作小开光或四角装饰。" }, { img: REAL + "r09_03.jpg", title: "灵芝如意纹 实物 03", meta: "实物参考 / 图片", desc: "灵芝头作如意形，层层云头叠成，取「如意」之意，多作小开光或四角装饰。" }]
       },
       {
         name: "岁寒三友纹",
         line: LINE + "pc063.png",
         desc: "松、竹、梅交织于一格，象征岁寒不凋的君子之交，多见于文人用器。",
-        examples: []
+        examples: [{ img: REAL + "r10_01.jpg", title: "岁寒三友纹 实物 01", meta: "实物参考 / 图片", desc: "松、竹、梅交织于一格，象征岁寒不凋的君子之交，多见于文人用器。" }, { img: REAL + "r10_02.jpg", title: "岁寒三友纹 实物 02", meta: "实物参考 / 图片", desc: "松、竹、梅交织于一格，象征岁寒不凋的君子之交，多见于文人用器。" }, { img: REAL + "r10_03.jpg", title: "岁寒三友纹 实物 03", meta: "实物参考 / 图片", desc: "松、竹、梅交织于一格，象征岁寒不凋的君子之交，多见于文人用器。" }]
       },
       {
         name: "瓜瓞纹",
@@ -203,13 +203,13 @@ export const patternCollection = [
         name: "栀子花",
         line: "images/patterns/knowledge/K_PAT_ZW_ZHIZI.png",
         desc: "元代经典，剔红圆盒上常见的主花题材。",
-        examples: []
+        examples: [{ img: REAL + "r11_01.jpg", title: "栀子花 实物 01", meta: "实物参考 / 图片", desc: "元代经典，剔红圆盒上常见的主花题材。" }, { img: REAL + "r11_02.jpg", title: "栀子花 实物 02", meta: "实物参考 / 图片", desc: "元代经典，剔红圆盒上常见的主花题材。" }, { img: REAL + "r11_03.jpg", title: "栀子花 实物 03", meta: "实物参考 / 图片", desc: "元代经典，剔红圆盒上常见的主花题材。" }, { img: REAL + "r11_04.jpg", title: "栀子花 实物 04", meta: "实物参考 / 图片", desc: "元代经典，剔红圆盒上常见的主花题材。" }]
       },
       {
         name: "梅花",
         line: null,
         desc: "以梅花入饰，象征高洁坚贞。",
-        examples: []
+        examples: [{ img: REAL + "r12_01.jpg", title: "梅花 实物 01", meta: "实物参考 / 图片", desc: "以梅花入饰，象征高洁坚贞。" }, { img: REAL + "r12_02.jpg", title: "梅花 实物 02", meta: "实物参考 / 图片", desc: "以梅花入饰，象征高洁坚贞。" }, { img: REAL + "r12_03.jpg", title: "梅花 实物 03", meta: "实物参考 / 图片", desc: "以梅花入饰，象征高洁坚贞。" }]
       }
     ]
   },
@@ -233,19 +233,19 @@ export const patternCollection = [
         name: "团龙纹",
         line: LINE + "pc046.png",
         desc: "五爪龙盘成圆形，正面取势、追逐火珠，是御用漆器的核心母题。",
-        examples: []
+        examples: [{ img: REAL + "r13_01.jpg", title: "团龙纹 实物 01", meta: "实物参考 / 图片", desc: "五爪龙盘成圆形，正面取势、追逐火珠，是御用漆器的核心母题。" }, { img: REAL + "r13_02.jpg", title: "团龙纹 实物 02", meta: "实物参考 / 图片", desc: "五爪龙盘成圆形，正面取势、追逐火珠，是御用漆器的核心母题。" }, { img: REAL + "r13_03.jpg", title: "团龙纹 实物 03", meta: "实物参考 / 图片", desc: "五爪龙盘成圆形，正面取势、追逐火珠，是御用漆器的核心母题。" }]
       },
       {
         name: "夔龙纹",
         line: LINE + "pc043.png",
         desc: "一足、长身、卷鼻的抽象龙形，两两相对成组，是楚漆与青铜共有的骨架纹样。",
-        examples: []
+        examples: [{ img: REAL + "r14_01.jpg", title: "夔龙纹 实物 01", meta: "实物参考 / 图片", desc: "一足、长身、卷鼻的抽象龙形，两两相对成组，是楚漆与青铜共有的骨架纹样。" }, { img: REAL + "r14_02.jpg", title: "夔龙纹 实物 02", meta: "实物参考 / 图片", desc: "一足、长身、卷鼻的抽象龙形，两两相对成组，是楚漆与青铜共有的骨架纹样。" }, { img: REAL + "r14_03.jpg", title: "夔龙纹 实物 03", meta: "实物参考 / 图片", desc: "一足、长身、卷鼻的抽象龙形，两两相对成组，是楚漆与青铜共有的骨架纹样。" }]
       },
       {
         name: "蟠螭纹",
         line: LINE + "pc044.png",
         desc: "无角的螭龙相互蟠绕，身体化作回环的云气，多作方形开光内的满铺装饰。",
-        examples: []
+        examples: [{ img: REAL + "r15_01.jpg", title: "蟠螭纹 实物 01", meta: "实物参考 / 图片", desc: "无角的螭龙相互蟠绕，身体化作回环的云气，多作方形开光内的满铺装饰。" }, { img: REAL + "r15_02.jpg", title: "蟠螭纹 实物 02", meta: "实物参考 / 图片", desc: "无角的螭龙相互蟠绕，身体化作回环的云气，多作方形开光内的满铺装饰。" }, { img: REAL + "r15_03.jpg", title: "蟠螭纹 实物 03", meta: "实物参考 / 图片", desc: "无角的螭龙相互蟠绕，身体化作回环的云气，多作方形开光内的满铺装饰。" }]
       },
       {
         name: "麒麟纹",
@@ -307,7 +307,7 @@ export const patternCollection = [
         name: "双鱼纹",
         line: LINE + "pc048.png",
         desc: "两鱼相向，尾鳍作卷草状，外围以联珠与回纹双圈，取「年年有余」。",
-        examples: []
+        examples: [{ img: REAL + "r16_01.jpg", title: "双鱼纹 实物 01", meta: "实物参考 / 图片", desc: "两鱼相向，尾鳍作卷草状，外围以联珠与回纹双圈，取「年年有余」。" }, { img: REAL + "r16_02.jpg", title: "双鱼纹 实物 02", meta: "实物参考 / 图片", desc: "两鱼相向，尾鳍作卷草状，外围以联珠与回纹双圈，取「年年有余」。" }, { img: REAL + "r16_03.jpg", title: "双鱼纹 实物 03", meta: "实物参考 / 图片", desc: "两鱼相向，尾鳍作卷草状，外围以联珠与回纹双圈，取「年年有余」。" }]
       },
       {
         name: "鱼藻纹",
@@ -330,19 +330,19 @@ export const patternCollection = [
         name: "仙鹤纹",
         line: "images/patterns/knowledge/K_PAT_NS_HE.png",
         desc: "长寿高洁，常与松、云同构。",
-        examples: []
+        examples: [{ img: REAL + "r17_01.jpg", title: "仙鹤纹 实物 01", meta: "实物参考 / 图片", desc: "长寿高洁，常与松、云同构。" }, { img: REAL + "r17_02.jpg", title: "仙鹤纹 实物 02", meta: "实物参考 / 图片", desc: "长寿高洁，常与松、云同构。" }, { img: REAL + "r17_03.jpg", title: "仙鹤纹 实物 03", meta: "实物参考 / 图片", desc: "长寿高洁，常与松、云同构。" }, { img: REAL + "r17_04.jpg", title: "仙鹤纹 实物 04", meta: "实物参考 / 图片", desc: "长寿高洁，常与松、云同构。" }]
       },
       {
         name: "莲池鸳鸯纹",
         line: LINE + "pc051.png",
         desc: "鸳鸯游于莲叶、莲蓬之间，取「和（荷）美」的婚姻美满之意。",
-        examples: []
+        examples: [{ img: REAL + "r18_01.jpg", title: "莲池鸳鸯纹 实物 01", meta: "实物参考 / 图片", desc: "鸳鸯游于莲叶、莲蓬之间，取「和（荷）美」的婚姻美满之意。" }, { img: REAL + "r18_02.jpg", title: "莲池鸳鸯纹 实物 02", meta: "实物参考 / 图片", desc: "鸳鸯游于莲叶、莲蓬之间，取「和（荷）美」的婚姻美满之意。" }, { img: REAL + "r18_03.jpg", title: "莲池鸳鸯纹 实物 03", meta: "实物参考 / 图片", desc: "鸳鸯游于莲叶、莲蓬之间，取「和（荷）美」的婚姻美满之意。" }]
       },
       {
         name: "五福捧寿",
         line: LINE + "pc052.png",
         desc: "五只蝙蝠环捧团寿字。蝠谐「福」，是清代漆器最常见的吉祥圆光。",
-        examples: []
+        examples: [{ img: REAL + "r19_01.jpg", title: "五福捧寿 实物 01", meta: "实物参考 / 图片", desc: "五只蝙蝠环捧团寿字。蝠谐「福」，是清代漆器最常见的吉祥圆光。" }, { img: REAL + "r19_02.jpg", title: "五福捧寿 实物 02", meta: "实物参考 / 图片", desc: "五只蝙蝠环捧团寿字。蝠谐「福」，是清代漆器最常见的吉祥圆光。" }, { img: REAL + "r19_03.jpg", title: "五福捧寿 实物 03", meta: "实物参考 / 图片", desc: "五只蝙蝠环捧团寿字。蝠谐「福」，是清代漆器最常见的吉祥圆光。" }]
       },
       {
         name: "草虫纹",
@@ -399,13 +399,13 @@ export const patternCollection = [
         name: "车马出行图",
         line: null,
         desc: "车马仪仗、出行仪卫，多见于战国秦汉漆器。",
-        examples: []
+        examples: [{ img: REAL + "r20_01.jpg", title: "车马出行图 实物 01", meta: "实物参考 / 图片", desc: "车马仪仗、出行仪卫，多见于战国秦汉漆器。" }, { img: REAL + "r20_02.jpg", title: "车马出行图 实物 02", meta: "实物参考 / 图片", desc: "车马仪仗、出行仪卫，多见于战国秦汉漆器。" }, { img: REAL + "r20_03.jpg", title: "车马出行图 实物 03", meta: "实物参考 / 图片", desc: "车马仪仗、出行仪卫，多见于战国秦汉漆器。" }]
       },
       {
         name: "戏曲故事图",
         line: null,
         desc: "以戏曲剧目情节入画，明清流行。",
-        examples: []
+        examples: [{ img: REAL + "r21_01.jpg", title: "戏曲故事图 实物 01", meta: "实物参考 / 图片", desc: "以戏曲剧目情节入画，明清流行。" }, { img: REAL + "r21_02.jpg", title: "戏曲故事图 实物 02", meta: "实物参考 / 图片", desc: "以戏曲剧目情节入画，明清流行。" }]
       }
     ]
   },
@@ -419,7 +419,7 @@ export const patternCollection = [
         name: "山水楼阁纹",
         line: LINE + "pc064.png",
         desc: "远山、台榭、松石、曲桥依次排布，以「平远」法压缩进横向画面，宜作长条或开光。",
-        examples: []
+        examples: [{ img: REAL + "r22_01.jpg", title: "山水楼阁纹 实物 01", meta: "实物参考 / 图片", desc: "远山、台榭、松石、曲桥依次排布，以「平远」法压缩进横向画面，宜作长条或开光。" }, { img: REAL + "r22_02.jpg", title: "山水楼阁纹 实物 02", meta: "实物参考 / 图片", desc: "远山、台榭、松石、曲桥依次排布，以「平远」法压缩进横向画面，宜作长条或开光。" }, { img: REAL + "r22_03.jpg", title: "山水楼阁纹 实物 03", meta: "实物参考 / 图片", desc: "远山、台榭、松石、曲桥依次排布，以「平远」法压缩进横向画面，宜作长条或开光。" }, { img: REAL + "r22_04.jpg", title: "山水楼阁纹 实物 04", meta: "实物参考 / 图片", desc: "远山、台榭、松石、曲桥依次排布，以「平远」法压缩进横向画面，宜作长条或开光。" }]
       },
       {
         name: "山水图",
@@ -448,7 +448,7 @@ export const patternCollection = [
         name: "庭园图",
         line: null,
         desc: "庭院景致与花木湖石。",
-        examples: []
+        examples: [{ img: REAL + "r23_01.jpg", title: "庭园图 实物 01", meta: "实物参考 / 图片", desc: "庭院景致与花木湖石。" }, { img: REAL + "r23_02.jpg", title: "庭园图 实物 02", meta: "实物参考 / 图片", desc: "庭院景致与花木湖石。" }, { img: REAL + "r23_03.jpg", title: "庭园图 实物 03", meta: "实物参考 / 图片", desc: "庭院景致与花木湖石。" }]
       }
     ]
   },
@@ -462,19 +462,19 @@ export const patternCollection = [
         name: "四神纹",
         line: "images/patterns/knowledge/K_PAT_TW_SISHEN.png",
         desc: "青龙、白虎、朱雀、玄武，分据四方。",
-        examples: []
+        examples: [{ img: REAL + "r24_01.jpg", title: "四神纹 实物 01", meta: "实物参考 / 图片", desc: "青龙、白虎、朱雀、玄武，分据四方。" }, { img: REAL + "r24_02.jpg", title: "四神纹 实物 02", meta: "实物参考 / 图片", desc: "青龙、白虎、朱雀、玄武，分据四方。" }, { img: REAL + "r24_03.jpg", title: "四神纹 实物 03", meta: "实物参考 / 图片", desc: "青龙、白虎、朱雀、玄武，分据四方。" }]
       },
       {
         name: "二十八宿",
         line: "images/patterns/knowledge/K_PAT_TW_28XIU.png",
         desc: "星象坐标，战国曾侯乙墓漆箱已有完整二十八宿图。",
-        examples: []
+        examples: [{ img: REAL + "r25_01.jpg", title: "二十八宿 实物 01", meta: "实物参考 / 图片", desc: "星象坐标，战国曾侯乙墓漆箱已有完整二十八宿图。" }, { img: REAL + "r25_02.jpg", title: "二十八宿 实物 02", meta: "实物参考 / 图片", desc: "星象坐标，战国曾侯乙墓漆箱已有完整二十八宿图。" }, { img: REAL + "r25_03.jpg", title: "二十八宿 实物 03", meta: "实物参考 / 图片", desc: "星象坐标，战国曾侯乙墓漆箱已有完整二十八宿图。" }, { img: REAL + "r25_04.jpg", title: "二十八宿 实物 04", meta: "实物参考 / 图片", desc: "星象坐标，战国曾侯乙墓漆箱已有完整二十八宿图。" }]
       },
       {
         name: "北斗星象纹",
         line: null,
         desc: "以北斗七星入饰，主时序与方向。",
-        examples: []
+        examples: [{ img: REAL + "r26_01.jpg", title: "北斗星象纹 实物 01", meta: "实物参考 / 图片", desc: "以北斗七星入饰，主时序与方向。" }, { img: REAL + "r26_02.jpg", title: "北斗星象纹 实物 02", meta: "实物参考 / 图片", desc: "以北斗七星入饰，主时序与方向。" }, { img: REAL + "r26_03.jpg", title: "北斗星象纹 实物 03", meta: "实物参考 / 图片", desc: "以北斗七星入饰，主时序与方向。" }]
       }
     ]
   },
@@ -508,13 +508,13 @@ export const patternCollection = [
         name: "暗八仙",
         line: LINE + "pc070.png",
         desc: "以八仙所持法器代指八仙，扇、剑、葫芦、玉板等环绕飘带，含蓄而吉庆。",
-        examples: []
+        examples: [{ img: REAL + "r27_01.jpg", title: "暗八仙 实物 01", meta: "实物参考 / 图片", desc: "以八仙所持法器代指八仙，扇、剑、葫芦、玉板等环绕飘带，含蓄而吉庆。" }, { img: REAL + "r27_02.jpg", title: "暗八仙 实物 02", meta: "实物参考 / 图片", desc: "以八仙所持法器代指八仙，扇、剑、葫芦、玉板等环绕飘带，含蓄而吉庆。" }, { img: REAL + "r27_03.jpg", title: "暗八仙 实物 03", meta: "实物参考 / 图片", desc: "以八仙所持法器代指八仙，扇、剑、葫芦、玉板等环绕飘带，含蓄而吉庆。" }]
       },
       {
         name: "如意云纹",
         line: LINE + "pc067.png",
         desc: "云头作如意形，内卷细线层层回环。它是最常用的云纹变体，也是最好用的底纹。",
-        examples: []
+        examples: [{ img: REAL + "r28_01.jpg", title: "如意云纹 实物 01", meta: "实物参考 / 图片", desc: "云头作如意形，内卷细线层层回环。它是最常用的云纹变体，也是最好用的底纹。" }, { img: REAL + "r28_02.jpg", title: "如意云纹 实物 02", meta: "实物参考 / 图片", desc: "云头作如意形，内卷细线层层回环。它是最常用的云纹变体，也是最好用的底纹。" }, { img: REAL + "r28_03.jpg", title: "如意云纹 实物 03", meta: "实物参考 / 图片", desc: "云头作如意形，内卷细线层层回环。它是最常用的云纹变体，也是最好用的底纹。" }]
       },
       {
         name: "龙凤呈祥纹",
@@ -536,31 +536,31 @@ export const patternCollection = [
         name: "剔犀云纹",
         line: LINE + "pc071.png",
         desc: "红黑漆层交替髹涂后斜刀剔刻，刀口断面显出一线一线的色层，云头圆转如剑环。",
-        examples: []
+        examples: [{ img: REAL + "r29_01.jpg", title: "剔犀云纹 实物 01", meta: "实物参考 / 图片", desc: "红黑漆层交替髹涂后斜刀剔刻，刀口断面显出一线一线的色层，云头圆转如剑环。" }, { img: REAL + "r29_02.jpg", title: "剔犀云纹 实物 02", meta: "实物参考 / 图片", desc: "红黑漆层交替髹涂后斜刀剔刻，刀口断面显出一线一线的色层，云头圆转如剑环。" }, { img: REAL + "r29_03.jpg", title: "剔犀云纹 实物 03", meta: "实物参考 / 图片", desc: "红黑漆层交替髹涂后斜刀剔刻，刀口断面显出一线一线的色层，云头圆转如剑环。" }]
       },
       {
         name: "犀皮漆肌理",
         line: LINE + "pc072.png",
         desc: "打埝成凸点再髹色磨平，磨出旋涡状色晕，俗称「菠萝漆」，是唯一「无图样」的纹样。",
-        examples: []
+        examples: [{ img: REAL + "r30_01.jpg", title: "犀皮漆肌理 实物 01", meta: "实物参考 / 图片", desc: "打埝成凸点再髹色磨平，磨出旋涡状色晕，俗称「菠萝漆」，是唯一「无图样」的纹样。" }, { img: REAL + "r30_02.jpg", title: "犀皮漆肌理 实物 02", meta: "实物参考 / 图片", desc: "打埝成凸点再髹色磨平，磨出旋涡状色晕，俗称「菠萝漆」，是唯一「无图样」的纹样。" }, { img: REAL + "r30_03.jpg", title: "犀皮漆肌理 实物 03", meta: "实物参考 / 图片", desc: "打埝成凸点再髹色磨平，磨出旋涡状色晕，俗称「菠萝漆」，是唯一「无图样」的纹样。" }]
       },
       {
         name: "百宝嵌",
         line: LINE + "pc073.png",
         desc: "以玉石、珊瑚、螺钿、象牙拼嵌成花鸟，纹样的边界就是材料的边界，边界即轮廓。",
-        examples: []
+        examples: [{ img: REAL + "r31_01.jpg", title: "百宝嵌 实物 01", meta: "实物参考 / 图片", desc: "以玉石、珊瑚、螺钿、象牙拼嵌成花鸟，纹样的边界就是材料的边界，边界即轮廓。" }, { img: REAL + "r31_02.jpg", title: "百宝嵌 实物 02", meta: "实物参考 / 图片", desc: "以玉石、珊瑚、螺钿、象牙拼嵌成花鸟，纹样的边界就是材料的边界，边界即轮廓。" }, { img: REAL + "r31_03.jpg", title: "百宝嵌 实物 03", meta: "实物参考 / 图片", desc: "以玉石、珊瑚、螺钿、象牙拼嵌成花鸟，纹样的边界就是材料的边界，边界即轮廓。" }, { img: REAL + "r31_04.jpg", title: "百宝嵌 实物 04", meta: "实物参考 / 图片", desc: "以玉石、珊瑚、螺钿、象牙拼嵌成花鸟，纹样的边界就是材料的边界，边界即轮廓。" }]
       },
       {
         name: "款彩",
         line: LINE + "pc074.png",
         desc: "漆面刻去图样轮廓、填以彩漆，远看如版画，多用于屏风与屏门。",
-        examples: []
+        examples: [{ img: REAL + "r32_01.jpg", title: "款彩 实物 01", meta: "实物参考 / 图片", desc: "漆面刻去图样轮廓、填以彩漆，远看如版画，多用于屏风与屏门。" }, { img: REAL + "r32_02.jpg", title: "款彩 实物 02", meta: "实物参考 / 图片", desc: "漆面刻去图样轮廓、填以彩漆，远看如版画，多用于屏风与屏门。" }, { img: REAL + "r32_03.jpg", title: "款彩 实物 03", meta: "实物参考 / 图片", desc: "漆面刻去图样轮廓、填以彩漆，远看如版画，多用于屏风与屏门。" }, { img: REAL + "r32_04.jpg", title: "款彩 实物 04", meta: "实物参考 / 图片", desc: "漆面刻去图样轮廓、填以彩漆，远看如版画，多用于屏风与屏门。" }]
       },
       {
         name: "戗金",
         line: LINE + "pc075.png",
         desc: "以针刀刻出极细线条再填金，纹样细若游丝，多作锦地与花鸟，是「线」的极致。",
-        examples: []
+        examples: [{ img: REAL + "r33_01.jpg", title: "戗金 实物 01", meta: "实物参考 / 图片", desc: "以针刀刻出极细线条再填金，纹样细若游丝，多作锦地与花鸟，是「线」的极致。" }, { img: REAL + "r33_02.jpg", title: "戗金 实物 02", meta: "实物参考 / 图片", desc: "以针刀刻出极细线条再填金，纹样细若游丝，多作锦地与花鸟，是「线」的极致。" }, { img: REAL + "r33_03.jpg", title: "戗金 实物 03", meta: "实物参考 / 图片", desc: "以针刀刻出极细线条再填金，纹样细若游丝，多作锦地与花鸟，是「线」的极致。" }]
       }
     ]
   }

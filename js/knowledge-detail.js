@@ -4,7 +4,7 @@ import { knowledgeImagePath } from "./knowledge-images.js";
 const params = new URLSearchParams(window.location.search);
 const node = knowledgeNodes.find((item) => item.id === params.get("id"));
 const name = node?.name || params.get("name") || "知识节点";
-const categoryNames = { color: "颜色知识", material: "材质知识", pattern: "纹样知识", technique: "技艺知识", era: "年代知识" };
+const categoryNames = { color: "颜色知识", material: "材质知识", pattern: "纹样知识", technique: "技艺知识" };
 const nodesById = new Map(knowledgeNodes.map((item) => [item.id, item]));
 const $ = (selector) => document.querySelector(selector);
 
