@@ -3177,8 +3177,8 @@ body.splash-open {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 50% 62%, rgba(18, 18, 18, 0) 26%, rgba(18, 18, 18, .5) 100%),
-    linear-gradient(rgba(18, 18, 18, .22), rgba(18, 18, 18, .34));
+    radial-gradient(ellipse at 50% 62%, rgba(18, 18, 18, 0) 30%, rgba(18, 18, 18, .38) 100%),
+    linear-gradient(rgba(18, 18, 18, .1), rgba(18, 18, 18, .2));
 }
 
 .splash-inner {
