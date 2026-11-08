@@ -317,11 +317,8 @@ function openTechniqueDetail(group, leaf) {
     </div>` : "";
   const backdrop = document.createElement("div");
   backdrop.className = "modal-backdrop pattern-backdrop";
-  backdrop.innerHTML = `<div class="pattern-modal" role="dialog" aria-modal="true" aria-label="${leaf.name}">
+  backdrop.innerHTML = `<div class="pattern-modal technique-modal" role="dialog" aria-modal="true" aria-label="${leaf.name}">
     <button class="modal-close" type="button" aria-label="关闭">×</button>
-    <div class="pattern-modal-line">
-      <span class="pattern-modal-glyph">${leaf.name.slice(0, 1)}</span>
-    </div>
     <div class="pattern-modal-body">
       <span class="modal-meta">${group.name} · 技艺图典</span>
       <h2>${leaf.name}</h2>
