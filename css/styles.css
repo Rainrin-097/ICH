@@ -259,11 +259,30 @@ button {
   display: none;
 }
 
+.about-content h3 {
+  color: var(--ink);
+  font: 18px var(--serif);
+  letter-spacing: .04em;
+  margin: 32px 0 14px;
+}
+
 .about-content p {
   color: #5f5a4f;
   font-size: 14px;
   line-height: 2.1;
   margin: 0 0 18px;
+}
+
+.about-content ul {
+  color: #5f5a4f;
+  font-size: 14px;
+  line-height: 2;
+  margin: 0 0 22px;
+  padding-left: 22px;
+}
+
+.about-content li {
+  padding-left: 4px;
 }
 
 .about-content strong {
