@@ -1,13 +1,13 @@
 import { supabase } from "./supabaseClient.js";
 
-export async function saveUnlock(artifactId) {
+export async function saveUnlock(artifactId, { notify = true } = {}) {
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError) {
-    window.showToast?.("无法获取登录状态，请稍后重试。", "error");
+    if (notify) window.showToast?.("无法获取登录状态，请稍后重试。", "error");
     return false;
   }
   if (!user) {
-    window.showToast?.("请先登录。", "warning");
+    if (notify) window.showToast?.("请先登录。", "warning");
     return false;
   }
 
@@ -17,7 +17,7 @@ export async function saveUnlock(artifactId) {
 
   if (error) {
     if (error.code === "23505") return true;
-    window.showToast?.(`保存解锁记录失败：${error.message}`, "error");
+    if (notify) window.showToast?.(`保存解锁记录失败：${error.message}`, "error");
     return false;
   }
   return true;

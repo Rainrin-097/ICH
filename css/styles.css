@@ -96,21 +96,10 @@ button {
   letter-spacing: .16em;
 }
 
-.topbar-note,
 .top-actions {
   color: var(--muted);
   font-size: 11px;
   letter-spacing: .06em;
-}
-
-.status-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #728660;
-  margin-right: 8px;
-  box-shadow: 0 0 0 3px rgba(114, 134, 96, .15);
 }
 
 .top-actions {
@@ -2053,10 +2042,6 @@ h2 {
   .topbar {
     height: 64px;
     padding: 0 20px;
-  }
-
-  .topbar-note {
-    display: none;
   }
 
   .top-actions {

@@ -8,8 +8,6 @@ const $ = (selector) => document.querySelector(selector);
 const eraNames = { E01: "新石器时代", E02: "夏商周", E03: "春秋战国", E04: "汉代", E05: "唐代", E06: "宋代", E07: "元代", E08: "明代", E09: "清代", E10: "近现代" };
 const techniqueNames = { T01: "素髹 / 髹涂", T02: "彩绘 / 描漆", T03: "雕漆 / 剔红", T04: "螺钿", T05: "戗金 / 填漆", T06: "金银平脱", T07: "描金 / 识文", T08: "百宝嵌", T09: "款彩", T10: "脱胎 / 薄料", T11: "犀皮漆", T12: "推光漆" };
 
-$("#artifact-count").textContent = recipeArtifacts.length;
-
 function renderOptions() {
   const option = (item, type) => {
     const selected = type === "color" ? currentSelection.colors.includes(item.id) : currentSelection[type] === item.id;
@@ -100,7 +98,7 @@ function navigateView(view) {
   if (view === "profile") showFeedback("个人档案功能正在整理中，先完成器物复原吧。", "warning");
 }
 
-async function combine() {
+function combine() {
   if (!currentSelection.material || !currentSelection.colors.length || !currentSelection.pattern) {
     showInlineFeedback("髹饰未完成，请选齐材质、颜色与纹样。");
     return;
@@ -124,18 +122,14 @@ async function combine() {
     const unlocked = new Set(JSON.parse(localStorage.getItem("unlockedArtifacts") || "[]"));
     matchingArtifacts.forEach((artifact) => unlocked.add(artifact.name));
     localStorage.setItem("unlockedArtifacts", JSON.stringify([...unlocked]));
-    try {
-      const { saveUnlock } = await import("./db.js");
-      await Promise.all(matchingArtifacts.map((artifact) => saveUnlock(artifact.name)));
-    } catch (error) {
-      console.error("保存解锁记录失败：", error);
-      window.showToast?.("解锁成功，但暂时无法保存云端记录。", "error");
-    }
     const message = matchingArtifacts.length === 1
       ? "配方吻合，器物正在显影……"
       : `配方吻合，发现 ${matchingArtifacts.length} 件同属性器物，正在显影……`;
     showFeedback(message, "success");
     window.setTimeout(() => openArtifact(matchingArtifacts), 450);
+    import("./db.js")
+      .then(({ saveUnlock }) => Promise.all(matchingArtifacts.map((artifact) => saveUnlock(artifact.name, { notify: false }))))
+      .catch((error) => console.error("保存解锁记录失败：", error));
   } else {
     showInlineFeedback("未收录该配方，请调整材质、颜色或纹样后再试。");
   }
