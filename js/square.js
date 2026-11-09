@@ -1,4 +1,5 @@
 import { supabase } from "./supabaseClient.js";
+import { T } from "./i18n.js";
 
 const $ = (selector) => document.querySelector(selector);
 let toastTimer;
@@ -107,7 +108,7 @@ function escapeHTML(value = "") {
 
 function relativeTime(timestamp) {
   const minutes = Math.max(1, Math.floor((Date.now() - timestamp) / 60000));
-  return minutes < 60 ? `${minutes} 分钟前` : minutes < 1440 ? `${Math.floor(minutes / 60)} 小时前` : `${Math.floor(minutes / 1440)} 天前`;
+  return minutes < 60 ? `${minutes} ${T("分钟前")}` : minutes < 1440 ? `${Math.floor(minutes / 60)} ${T("小时前")}` : `${Math.floor(minutes / 1440)} ${T("天前")}`;
 }
 
 function visiblePosts() {
@@ -122,31 +123,31 @@ function visiblePosts() {
 function renderPosts() {
   $("#verification-filter-wrap").hidden = currentCategory !== "recipe";
   const list = visiblePosts();
-  $("#square-list").innerHTML = list.length ? list.map(cardTemplate).join("") : `<div class="square-empty panel"><span class="seal-outline">空</span><h2>暂无相关内容</h2><p>试试其他分类，或发布第一条动态。</p></div>`;
+  $("#square-list").innerHTML = list.length ? list.map(cardTemplate).join("") : `<div class="square-empty panel"><span class="seal-outline">空</span><h2>${T("暂无相关内容")}</h2><p>${T("试试其他分类，或发布第一条动态。")}</p></div>`;
 }
 
 function cardTemplate(post) {
   const isRecipe = post.type === "recipe" || post.type === "egg";
-  const status = post.status === "verified" ? `<span class="post-status verified">已验证</span>` : isRecipe ? `<span class="post-status">待验证</span>` : "";
+  const status = post.status === "verified" ? `<span class="post-status verified">${T("已验证")}</span>` : isRecipe ? `<span class="post-status">${T("待验证")}</span>` : "";
   const artifact = post.revealed
-    ? `<span class="artifact-name">${escapeHTML(post.artifact || "未关联漆器")}</span>`
-    : `<button class="artifact-reveal" data-reveal="${post.id}" type="button">关联漆器 · 点击查看</button>`;
+    ? `<span class="artifact-name">${escapeHTML(T(post.artifact || "未关联漆器"))}</span>`
+    : `<button class="artifact-reveal" data-reveal="${post.id}" type="button">${T("关联漆器 · 点击查看")}</button>`;
   const body = isRecipe
-    ? `<div class="recipe-box"><small>${post.type === "egg" ? "彩蛋组合" : "配方组合"}</small><strong>${escapeHTML(post.recipe)}</strong>${artifact}</div><p class="post-content">${escapeHTML(post.explanation)}</p>`
-    : `<p class="post-content">${escapeHTML(post.content)}</p>`;
+    ? `<div class="recipe-box"><small>${post.type === "egg" ? T("彩蛋组合") : T("配方组合")}</small><strong>${escapeHTML(T(post.recipe))}</strong>${artifact}</div><p class="post-content">${escapeHTML(T(post.explanation))}</p>`
+    : `<p class="post-content">${escapeHTML(T(post.content))}</p>`;
   const canDelete = Boolean(currentUser && post.user_id && post.user_id === currentUser.id);
   return `<article class="square-card panel ${post.type}" data-id="${post.id}">
-    <div class="post-head"><span class="avatar">${escapeHTML(post.author.slice(0, 1))}</span><div><strong>${escapeHTML(post.author)}</strong><small>${relativeTime(post.time)}</small></div><span class="post-tag">${categoryNames[post.type]}</span>${canDelete ? `<button class="post-delete" data-delete="${post.id}" type="button" aria-label="删除这条动态" title="删除动态">×</button>` : ""}</div>
+    <div class="post-head"><span class="avatar">${escapeHTML(post.author.slice(0, 1))}</span><div><strong>${escapeHTML(T(post.author))}</strong><small>${relativeTime(post.time)}</small></div><span class="post-tag">${T(categoryNames[post.type])}</span>${canDelete ? `<button class="post-delete" data-delete="${post.id}" type="button" aria-label="${T("删除这条动态")}" title="${T("删除动态")}">×</button>` : ""}</div>
     ${body}
-    <div class="post-foot"><button class="post-action ${post.liked ? "is-liked" : ""}" data-like="${post.id}" type="button">♡ ${post.likes}</button><button class="post-action" data-detail="${post.id}" type="button">评论 ${post.comments.length}</button><span class="post-state">${status}</span></div>
+    <div class="post-foot"><button class="post-action ${post.liked ? "is-liked" : ""}" data-like="${post.id}" type="button">♡ ${post.likes}</button><button class="post-action" data-detail="${post.id}" type="button">${T("评论")} ${post.comments.length}</button><span class="post-state">${status}</span></div>
   </article>`;
 }
 
 function renderPublishFields() {
   const type = $("#publish-type").value;
   $("#publish-fields").innerHTML = type === "discussion"
-    ? `<label for="publish-content">正文 <em>必填 · 最多 500 字</em></label><textarea id="publish-content" name="content" maxlength="500" required placeholder="写下你对漆器的发现或想和大家讨论的话题"></textarea><label for="publish-artifact">关联漆器 <em>可选</em></label><input id="publish-artifact" name="artifact" maxlength="40" placeholder="例如：云纹漆鼎">`
-    : `<label for="publish-recipe">配方 <em>必填 · 最多 120 字</em></label><input id="publish-recipe" name="recipe" maxlength="120" required placeholder="例如：木胎 + 朱红 + 云雷纹"><label for="publish-artifact">关联漆器名称 <em>可选</em></label><input id="publish-artifact" name="artifact" maxlength="40" placeholder="暂不填写也可以"><label for="publish-explanation">说明 <em>可选 · 最多 300 字</em></label><textarea id="publish-explanation" name="explanation" maxlength="300" placeholder="分享你的尝试过程（新配方将标记为待验证）"></textarea>`;
+    ? `<label for="publish-content">${T("正文")} <em>${T("必填 · 最多 500 字")}</em></label><textarea id="publish-content" name="content" maxlength="500" required placeholder="${T("写下你对漆器的发现或想和大家讨论的话题")}"></textarea><label for="publish-artifact">${T("关联漆器")} <em>${T("可选")}</em></label><input id="publish-artifact" name="artifact" maxlength="40" placeholder="${T("例如：云纹漆鼎")}">`
+    : `<label for="publish-recipe">${T("配方")} <em>${T("必填 · 最多 120 字")}</em></label><input id="publish-recipe" name="recipe" maxlength="120" required placeholder="${T("例如：木胎 + 朱红 + 云雷纹")}"><label for="publish-artifact">${T("关联漆器名称")} <em>${T("可选")}</em></label><input id="publish-artifact" name="artifact" maxlength="40" placeholder="${T("暂不填写也可以")}"><label for="publish-explanation">${T("说明")} <em>${T("可选 · 最多 300 字")}</em></label><textarea id="publish-explanation" name="explanation" maxlength="300" placeholder="${T("分享你的尝试过程（新配方将标记为待验证）")}"></textarea>`;
 }
 
 function openModal(id) { $(id).hidden = false; document.body.classList.add("modal-open"); }
@@ -201,7 +202,7 @@ function showDetail(id) {
   const post = posts.find((item) => String(item.id) === String(id));
   if (!post) return;
   detailPostId = post.id;
-  $("#detail-content").innerHTML = `<span class="eyebrow">${categoryNames[post.type]} · CONTENT DETAIL</span><h2 id="detail-title">${escapeHTML(post.type === "discussion" ? "交流讨论" : post.recipe)}</h2><div class="detail-author">${escapeHTML(post.author)} · ${relativeTime(post.time)}</div><div class="modal-rule"></div><p class="post-content">${escapeHTML(post.content || post.explanation)}</p>${post.artifact ? `<p class="detail-artifact">关联漆器：${post.revealed ? escapeHTML(post.artifact) : "暂未显示"}</p>` : ""}<div class="comment-list">${post.comments.length ? post.comments.map((comment) => { const author = typeof comment === "string" ? "访客匠人" : comment.author; const content = typeof comment === "string" ? comment : comment.content; return `<p class="comment-content"><strong>${escapeHTML(author)}</strong>${escapeHTML(content)}</p>`; }).join("") : "<small>还没有评论，留下第一句吧。</small>"}</div><form class="comment-form" id="comment-form"><textarea id="comment-input" maxlength="200" required rows="3" placeholder="写下你的评论"></textarea><button class="combine-button small" type="submit">发送</button></form>`;
+  $("#detail-content").innerHTML = `<span class="eyebrow">${T(categoryNames[post.type])} · CONTENT DETAIL</span><h2 id="detail-title">${escapeHTML(post.type === "discussion" ? T("交流讨论") : T(post.recipe))}</h2><div class="detail-author">${escapeHTML(T(post.author))} · ${relativeTime(post.time)}</div><div class="modal-rule"></div><p class="post-content">${escapeHTML(T(post.content || post.explanation))}</p>${post.artifact ? `<p class="detail-artifact">${T("关联漆器：")}${post.revealed ? escapeHTML(T(post.artifact)) : T("暂未显示")}</p>` : ""}<div class="comment-list">${post.comments.length ? post.comments.map((comment) => { const author = typeof comment === "string" ? T("访客匠人") : T(comment.author); const content = typeof comment === "string" ? comment : comment.content; return `<p class="comment-content"><strong>${escapeHTML(author)}</strong>${escapeHTML(T(content))}</p>`; }).join("") : `<small>${T("还没有评论，留下第一句吧。")}</small>`}</div><form class="comment-form" id="comment-form"><textarea id="comment-input" maxlength="200" required rows="3" placeholder="${T("写下你的评论")}"></textarea><button class="combine-button small" type="submit">${T("发送")}</button></form>`;
   openModal("#detail-backdrop");
 }
 
@@ -216,7 +217,7 @@ $("#publish-form").addEventListener("submit", async (event) => {
   const submitButton = publishForm.querySelector("button[type=submit]");
   submitButton.disabled = true;
   submitButton.dataset.originalText = submitButton.innerHTML;
-  submitButton.innerHTML = "发布中…";
+  submitButton.innerHTML = T("发布中…");
   const user = await getCurrentUser();
   if (!user) {
     submitButton.disabled = false;
@@ -233,7 +234,7 @@ $("#publish-form").addEventListener("submit", async (event) => {
     } else {
       post.recipe = String(form.get("recipe") || "").trim();
       post.artifact = String(form.get("artifact") || "").trim();
-      post.explanation = String(form.get("explanation") || "").trim() || "这是一条前端模拟分享，欢迎大家一起尝试。";
+      post.explanation = String(form.get("explanation") || "").trim() || T("这是一条前端模拟分享，欢迎大家一起尝试。");
       post.status = "pending";
       if (!post.recipe) return;
     }
@@ -319,5 +320,9 @@ $("#verification-select").addEventListener("change", renderPosts);
 $("#confirm-reveal").addEventListener("click", confirmReveal);
 $("#confirm-delete").addEventListener("click", confirmDelete);
 document.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", closeModals));
+document.addEventListener("ich:lang", () => {
+  renderPosts();
+  renderPublishFields();
+});
 renderPublishFields();
 loadCurrentUser().then(loadPosts);

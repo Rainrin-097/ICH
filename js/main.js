@@ -1,5 +1,6 @@
 import { attributes } from "./data.js";
 import { artifacts as recipeArtifacts } from "./artifacts-data.js";
+import { T } from "./i18n.js";
 
 const currentSelection = { material: null, colors: [], pattern: null };
 const artifactState = { matches: [], index: 0 };
@@ -15,7 +16,7 @@ function renderOptions() {
     const visual = type === "color"
       ? `<span class="color-swatch" style="--swatch:${item.hex}"></span>`
       : `<img src="${item.image}" alt="" loading="lazy">`;
-    return `<button type="button" class="attribute-button ${selected ? "selected" : ""}" data-type="${type}" data-id="${item.id}" title="${item.note}">${visual}<span>${item.name}</span>${type === "color" ? `<i>${item.id}</i>` : ""}</button>`;
+    return `<button type="button" class="attribute-button ${selected ? "selected" : ""}" data-type="${type}" data-id="${item.id}" title="${T(item.note)}">${visual}<span>${T(item.name)}</span>${type === "color" ? `<i>${item.id}</i>` : ""}</button>`;
   };
   $("#material-options").innerHTML = attributes.materials.map((item) => option(item, "material")).join("");
   $("#color-options").innerHTML = attributes.colors.map((item) => option(item, "color")).join("");
@@ -26,10 +27,10 @@ function renderSelection() {
   const material = attributes.materials.find((item) => item.id === currentSelection.material);
   const colors = attributes.colors.filter((item) => currentSelection.colors.includes(item.id));
   const pattern = attributes.patterns.find((item) => item.id === currentSelection.pattern);
-  $("#selected-material").textContent = material?.name || "未选择";
-  $("#selected-colors").textContent = colors.length ? colors.map((item) => item.name).join(" · ") : "未选择";
-  $("#selected-pattern").textContent = pattern?.name || "未选择";
-  $("#selection-status").textContent = currentSelection.material && currentSelection.colors.length && currentSelection.pattern ? "已备齐 · 可合成" : "尚未起笔";
+  $("#selected-material").textContent = material ? T(material.name) : T("未选择");
+  $("#selected-colors").textContent = colors.length ? colors.map((item) => T(item.name)).join(" · ") : T("未选择");
+  $("#selected-pattern").textContent = pattern ? T(pattern.name) : T("未选择");
+  $("#selection-status").textContent = currentSelection.material && currentSelection.colors.length && currentSelection.pattern ? T("已备齐 · 可合成") : T("尚未起笔");
   $("#selection-status").classList.toggle("ready", Boolean(currentSelection.material && currentSelection.colors.length && currentSelection.pattern));
 }
 
@@ -50,16 +51,16 @@ function openArtifact(artifacts, index = 0) {
   artifactState.index = index;
   const artifact = artifactState.matches[artifactState.index];
   $("#modal-image").src = artifact.image;
-  $("#modal-image").alt = artifact.name;
-  $("#modal-title").textContent = artifact.name;
-  $("#modal-meta").textContent = `${eraNames[artifact.eraCode] || artifact.eraCode}  ·  ${artifact.location}`;
+  $("#modal-image").alt = T(artifact.name);
+  $("#modal-title").textContent = T(artifact.name);
+  $("#modal-meta").textContent = `${T(eraNames[artifact.eraCode] || artifact.eraCode)}  ·  ${T(artifact.location)}`;
   $("#artifact-counter").textContent = artifactState.matches.length > 1
-    ? `${artifactState.index + 1} / ${artifactState.matches.length} · 同属性器物`
+    ? `${artifactState.index + 1} / ${artifactState.matches.length} · ${T("同属性器物")}`
     : "";
   $("#artifact-previous").hidden = artifactState.matches.length < 2;
   $("#artifact-next").hidden = artifactState.matches.length < 2;
-  $("#modal-description").textContent = artifact.description;
-  $("#modal-tags").innerHTML = [techniqueNames[artifact.techniqueCode] || artifact.techniqueCode, ...artifact.req_colors.map((id) => attributes.colors.find((item) => item.id === id).name)].map((tag) => `<span>${tag}</span>`).join("");
+  $("#modal-description").textContent = T(artifact.description);
+  $("#modal-tags").innerHTML = [T(techniqueNames[artifact.techniqueCode] || artifact.techniqueCode), ...artifact.req_colors.map((id) => T(attributes.colors.find((item) => item.id === id).name))].map((tag) => `<span>${tag}</span>`).join("");
   $("#detail-button").href = `artifact.html?name=${encodeURIComponent(artifact.name)}`;
   $("#modal-backdrop").hidden = false;
   document.body.classList.add("modal-open");
@@ -77,12 +78,12 @@ function closeModal() {
 }
 
 function navigateView(view) {
-  if (view === "profile") showFeedback("个人档案功能正在整理中，先完成器物复原吧。", "warning");
+  if (view === "profile") showFeedback(T("个人档案功能正在整理中，先完成器物复原吧。"), "warning");
 }
 
 async function combine() {
   if (!currentSelection.material || !currentSelection.colors.length || !currentSelection.pattern) {
-    showInlineFeedback("髹饰未完成，请选齐材质、颜色与纹样。");
+    showInlineFeedback(T("髹饰未完成，请选齐材质、颜色与纹样。"));
     return;
   }
   const matchingArtifacts = recipeArtifacts.filter((recipe) => {
@@ -103,15 +104,15 @@ async function combine() {
       await Promise.all(matchingArtifacts.map((artifact) => saveUnlock(artifact.name)));
     } catch (error) {
       console.error("保存解锁记录失败：", error);
-      window.showToast?.("解锁成功，但暂时无法保存云端记录。", "error");
+      window.showToast?.(T("解锁成功，但暂时无法保存云端记录。"), "error");
     }
     const message = matchingArtifacts.length === 1
-      ? "配方吻合，器物正在显影……"
-      : `配方吻合，发现 ${matchingArtifacts.length} 件同属性器物，正在显影……`;
+      ? T("配方吻合，器物正在显影……")
+      : `${T("配方吻合，发现 ")}${matchingArtifacts.length} ${T("件同属性器物，正在显影……")}`;
     showFeedback(message, "success");
     window.setTimeout(() => openArtifact(matchingArtifacts), 450);
   } else {
-    showInlineFeedback("未收录该配方，请调整材质、颜色或纹样后再试。");
+    showInlineFeedback(T("未收录该配方，请调整材质、颜色或纹样后再试。"));
   }
 }
 
@@ -122,7 +123,7 @@ document.addEventListener("click", (event) => {
     if (type === "color") {
       if (currentSelection.colors.includes(id)) currentSelection.colors = currentSelection.colors.filter((color) => color !== id);
       else if (currentSelection.colors.length < 5) currentSelection.colors.push(id);
-      else showFeedback("颜色最多可选 5 种。", "warning");
+      else showFeedback(T("颜色最多可选 5 种。"), "warning");
     } else currentSelection[type] = currentSelection[type] === id ? null : id;
     renderOptions();
     renderSelection();
@@ -136,5 +137,9 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !$("#modal-backdrop").hidden) closeModal(); });
+document.addEventListener("ich:lang", () => {
+  renderOptions();
+  renderSelection();
+});
 renderOptions();
 renderSelection();

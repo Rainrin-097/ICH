@@ -159,10 +159,11 @@ $("#settings-backdrop")?.addEventListener("click", (event) => {
     if (event.target.id === "settings-backdrop") closeSettings();
 });
 $("#language-select")?.addEventListener("change", (event) => {
-    const settings = { ...readSettings(), language: event.target.value };
-    document.documentElement.lang = event.target.value;
-    saveSettings(settings);
-    showToast(event.target.value === "en" ? "Language preference saved." : "语言偏好已保存。", "success");
+  const settings = { ...readSettings(), language: event.target.value };
+  document.documentElement.lang = event.target.value;
+  saveSettings(settings);
+  import("./i18n.js").then(({ setLanguage }) => setLanguage(event.target.value)).catch(() => { });
+  showToast(event.target.value === "en" ? "Language preference saved." : "语言偏好已保存。", "success");
 });
 $("#button-sound-toggle")?.addEventListener("change", (event) => {
     saveAudioSettings({ ...getAudioSettings(), buttonSound: event.target.checked });

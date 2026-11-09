@@ -1,5 +1,6 @@
 import { artifacts } from "./artifacts-data.js";
 import { attributes } from "./data.js";
+import { T, getLang } from "./i18n.js";
 
 const $ = (selector) => document.querySelector(selector);
 const eraNames = { E01: "新石器时代", E02: "夏商周", E03: "春秋战国", E04: "汉代", E05: "唐代", E06: "宋代", E07: "元代", E08: "明代", E09: "清代", E10: "近现代" };
@@ -9,18 +10,31 @@ const patternNames = new Map(attributes.patterns.map((item) => [item.id, item.na
 const params = new URLSearchParams(window.location.search);
 const artifact = artifacts.find((item) => item.name === params.get("name"));
 
-if (artifact) {
-  document.title = `髹饰录 · ${artifact.name}`;
-  $("#detail-image").src = artifact.image;
-  $("#detail-image").alt = artifact.name;
-  $("#detail-title").textContent = artifact.name;
-  $("#detail-meta").textContent = `${eraNames[artifact.eraCode]} · ${artifact.location}${artifact.region ? ` · ${artifact.region}` : ""}`;
-  $("#detail-description").textContent = artifact.description;
-  $("#detail-technique").textContent = techniqueNames[artifact.techniqueCode] || artifact.techniqueCode;
-  $("#detail-material").textContent = materialNames.get(artifact.req_material) || artifact.req_material;
-  $("#detail-colors").textContent = artifact.req_colors.map((id) => attributes.colors.find((item) => item.id === id)?.name || id).join(" · ");
-  $("#detail-pattern").textContent = patternNames.get(artifact.req_pattern) || artifact.req_pattern;
-} else {
-  $("#detail-title").textContent = "未找到器物档案";
-  $("#detail-description").textContent = "该器物尚未载入档案，请返回工坊重新选择。";
+function renderDetail() {
+  if (artifact) {
+    $("#detail-image").alt = T(artifact.name);
+    $("#detail-title").textContent = T(artifact.name);
+    $("#detail-meta").textContent = `${T(eraNames[artifact.eraCode])} · ${T(artifact.location)}${artifact.region ? ` · ${T(artifact.region)}` : ""}`;
+    $("#detail-description").textContent = T(artifact.description);
+    $("#detail-technique").textContent = T(techniqueNames[artifact.techniqueCode] || artifact.techniqueCode);
+    $("#detail-material").textContent = T(materialNames.get(artifact.req_material) || artifact.req_material);
+    $("#detail-colors").textContent = artifact.req_colors.map((id) => T(attributes.colors.find((item) => item.id === id)?.name || id)).join(" · ");
+    $("#detail-pattern").textContent = T(patternNames.get(artifact.req_pattern) || artifact.req_pattern);
+  } else {
+    $("#detail-title").textContent = T("未找到器物档案");
+    $("#detail-description").textContent = T("该器物尚未载入档案，请返回工坊重新选择。");
+  }
 }
+
+function applyPageTitle() {
+  document.title = getLang() === "en"
+    ? `Xiu Shi Lu · ${T(artifact.name)}`
+    : `髹饰录 · ${artifact.name}`;
+}
+
+renderDetail();
+applyPageTitle();
+document.addEventListener("ich:lang", () => {
+  applyPageTitle();
+  renderDetail();
+});

@@ -1,4 +1,5 @@
 const $ = (selector) => document.querySelector(selector);
+import { T } from "./i18n.js";
 const USERNAME_SUFFIX = "@example.com";
 const supabasePromise = import("./supabaseClient.js").then(({ supabase }) => supabase);
 
@@ -31,9 +32,9 @@ function setAuthMode(mode) {
   const isRegister = mode === "register";
   const form = $("#auth-form");
   if (!form) return;
-  $("#auth-submit").textContent = isRegister ? "注册" : "登录";
-  $("#auth-mode-label").textContent = isRegister ? "创建匠人档案" : "进入匠人工坊";
-  $("#auth-switch").textContent = isRegister ? "已有账号？登录" : "没有账号？注册";
+  $("#auth-submit").textContent = isRegister ? T("注册") : T("登录");
+  $("#auth-mode-label").textContent = isRegister ? T("创建匠人档案") : T("进入匠人工坊");
+  $("#auth-switch").textContent = isRegister ? T("已有账号？登录") : T("没有账号？注册");
   form.dataset.mode = mode;
 }
 
@@ -47,10 +48,10 @@ function renderUser(user) {
   const authOpen = $("#auth-open");
   const authPanel = $("#auth-panel");
   if (authOpen) {
-    authOpen.textContent = "登录";
+    authOpen.textContent = T("登录");
     authOpen.hidden = Boolean(user);
     authOpen.href = "#auth-panel";
-    authOpen.setAttribute("aria-label", "打开登录面板");
+    authOpen.setAttribute("aria-label", T("打开登录面板"));
   }
   if (!authForm || !authUser) return;
   if (user?.email?.endsWith(USERNAME_SUFFIX)) {
@@ -76,11 +77,11 @@ async function submitAuth(event) {
   const mode = $("#auth-form").dataset.mode || "login";
 
   if (!username || !password) {
-    showToast("请输入用户名和密码。", "warning");
+    showToast(T("请输入用户名和密码。"), "warning");
     return;
   }
   if (!/^[\w.-]+$/.test(username)) {
-    showToast("用户名只能包含字母、数字、下划线、点或短横线。", "warning");
+    showToast(T("用户名只能包含字母、数字、下划线、点或短横线。"), "warning");
     return;
   }
 
@@ -94,27 +95,27 @@ async function submitAuth(event) {
       : await supabase.auth.signInWithPassword({ email, password });
   } catch (error) {
     console.error("Supabase 认证请求失败：", error);
-    showToast("登录服务请求失败，请检查网络和 Supabase 配置。", "error");
+    showToast(T("登录服务请求失败，请检查网络和 Supabase 配置。"), "error");
     return;
   }
 
   if (result.error) {
     const duplicateUser = mode === "register"
       && /already registered|already exists|user already exists/i.test(result.error.message);
-    showToast(duplicateUser ? "用户名已存在，请更换用户名或者直接登录。" : result.error.message, "error");
+    showToast(duplicateUser ? T("用户名已存在，请更换用户名或者直接登录。") : result.error.message, "error");
     return;
   }
 
   if (mode === "register") {
     if (result.data?.user && (!result.data.user.identities || result.data.user.identities.length === 0)) {
-      showToast("用户名已存在，请直接登录。", "error");
+      showToast(T("用户名已存在，请直接登录。"), "error");
       return;
     }
     setAuthMode("login");
     $("#auth-password").value = "";
-    showToast("注册成功，请登录。", "success");
+    showToast(T("注册成功，请登录。"), "success");
   } else {
-    showToast("登录成功，欢迎回来。", "success");
+    showToast(T("登录成功，欢迎回来。"), "success");
   }
 }
 
@@ -126,7 +127,7 @@ async function signOut() {
     showToast(error.message, "error");
     return;
   }
-  showToast("已退出登录。", "success");
+  showToast(T("已退出登录。"), "success");
 }
 
 async function getSupabase() {
@@ -135,8 +136,8 @@ async function getSupabase() {
   } catch (error) {
     console.error("Supabase 初始化失败：", error);
     showToast(error.message === "Supabase anon key is not configured"
-      ? "请先在 supabaseClient.js 配置 anon key。"
-      : "登录服务暂时不可用，请稍后重试。", "error");
+      ? T("请先在 supabaseClient.js 配置 anon key。")
+      : T("登录服务暂时不可用，请稍后重试。"), "error");
     return null;
   }
 }
@@ -149,6 +150,19 @@ $("#auth-switch")?.addEventListener("click", () => {
   setAuthMode($("#auth-form").dataset.mode === "register" ? "login" : "register");
 });
 $("#auth-signout")?.addEventListener("click", signOut);
+
+document.addEventListener("ich:lang", () => {
+  const form = $("#auth-form");
+  if (form) setAuthMode(form.dataset.mode || "login");
+  // auth-open 的文案由 renderUser 依据登录态决定，此处仅在未登录时刷新
+  if (!$("#auth-user") || $("#auth-user").hidden) {
+    const authOpen = $("#auth-open");
+    if (authOpen && !authOpen.hidden) {
+      authOpen.textContent = T("登录");
+      authOpen.setAttribute("aria-label", T("打开登录面板"));
+    }
+  }
+});
 
 getSupabase().then(async (supabase) => {
   if (!supabase) return;

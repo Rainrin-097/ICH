@@ -1,3 +1,5 @@
+import { T } from "./i18n.js";
+
 const sections = {
   features: {
     eyebrow: "FEATURES · 功能介绍",
@@ -81,12 +83,12 @@ async function submitFeedback(event) {
   const status = document.querySelector("#feedback-form-status");
   const submit = document.querySelector("#feedback-submit");
   if (!message) {
-    status.textContent = "请先填写反馈内容。";
+    status.textContent = T("请先填写反馈内容。");
     status.className = "feedback-form-status error";
     return;
   }
   submit.disabled = true;
-  status.textContent = "正在寄出……";
+  status.textContent = T("正在寄出……");
   status.className = "feedback-form-status";
   try {
     const { supabase } = await import("./supabaseClient.js");
@@ -95,11 +97,11 @@ async function submitFeedback(event) {
     });
     if (error) throw error;
     form.reset();
-    status.textContent = "反馈已寄出，谢谢你的来信。";
+    status.textContent = T("反馈已寄出，谢谢你的来信。");
     status.className = "feedback-form-status success";
   } catch (error) {
     console.error("发送反馈失败：", error);
-    status.textContent = "暂时无法寄出，请稍后再试。";
+    status.textContent = T("暂时无法寄出，请稍后再试。");
     status.className = "feedback-form-status error";
   } finally {
     submit.disabled = false;
@@ -109,24 +111,27 @@ async function submitFeedback(event) {
 function renderRelease(index) {
   const release = releases[index];
   if (!release) return;
-  body.innerHTML = `<div class="changelog-detail-view"><button class="changelog-back" type="button">← 返回版本栏目</button><div class="changelog-detail"><div class="changelog-meta"><span class="changelog-version">${release.version}</span><time>${release.date}</time></div><h3>${release.title}</h3><ul>${release.details.map((item) => `<li>${item}</li>`).join("")}</ul></div></div>`;
+  body.innerHTML = `<div class="changelog-detail-view"><button class="changelog-back" type="button">← ${T("返回版本栏目")}</button><div class="changelog-detail"><div class="changelog-meta"><span class="changelog-version">${release.version}</span><time>${T(release.date)}</time></div><h3>${T(release.title)}</h3><ul>${release.details.map((item) => `<li>${T(item)}</li>`).join("")}</ul></div></div>`;
   body.querySelector(".changelog-back").addEventListener("click", renderChangelog);
 }
 
 function renderChangelog() {
-  body.innerHTML = `<div class="changelog-list" role="list">${releases.map((release, index) => `<button class="changelog-release" type="button" role="listitem" data-release-index="${index}"><span class="changelog-release-meta"><strong>${release.version}</strong><time>${release.date}</time></span><span>${release.title}</span></button>`).join("")}</div>`;
+  body.innerHTML = `<div class="changelog-list" role="list">${releases.map((release, index) => `<button class="changelog-release" type="button" role="listitem" data-release-index="${index}"><span class="changelog-release-meta"><strong>${release.version}</strong><time>${T(release.date)}</time></span><span>${T(release.title)}</span></button>`).join("")}</div>`;
   body.querySelectorAll(".changelog-release").forEach((item) => {
     item.addEventListener("click", () => renderRelease(Number(item.dataset.releaseIndex)));
   });
 }
 
+let activeSection = "features";
+
 function renderSection(key) {
   const section = sections[key];
   if (!section) return;
-  eyebrow.textContent = section.eyebrow;
-  title.textContent = section.title;
+  activeSection = key;
+  eyebrow.textContent = T(section.eyebrow);
+  title.textContent = T(section.title);
   if (key === "changelog") renderChangelog();
-  else body.innerHTML = section.body;
+  else body.innerHTML = T(section.body);
   document.querySelectorAll(".about-nav-item").forEach((item) => {
     item.classList.toggle("active", item.dataset.aboutSection === key);
   });
@@ -146,4 +151,5 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !document.querySelector("#feedback-modal-backdrop").hidden) closeFeedbackModal();
 });
 
+document.addEventListener("ich:lang", () => renderSection(activeSection));
 renderSection("features");

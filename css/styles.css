@@ -3312,3 +3312,27 @@ body.splash-open {
   background: rgba(243, 239, 228, .75);
   transform: rotate(-45deg);
 }
+
+/* ============================================================
+   英文界面排版微调（html[lang="en"] 由 js/i18n.js 切换）
+   中文字距设计偏大，英文下适当收窄，避免标题溢出。
+   ============================================================ */
+html[lang="en"] .eyebrow,
+html[lang="en"] .splash-title,
+html[lang="en"] .splash-enter,
+html[lang="en"] .category-title,
+html[lang="en"] .hero-title {
+  letter-spacing: .04em;
+}
+html[lang="en"] .splash-enter,
+html[lang="en"] .combine-button {
+  white-space: nowrap;
+}
+html[lang="en"] .node-name strong {
+  font-size: .92em;
+}
+html[lang="en"] .node-name small,
+html[lang="en"] .post-tag,
+html[lang="en"] .modal-meta {
+  letter-spacing: .02em;
+}

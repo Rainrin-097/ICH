@@ -137,7 +137,8 @@
       </div>
     </article>
   </div>
-  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/i18n.js"></script>
+<script type="module" src="js/auth.js"></script>
   <script type="module" src="js/settings.js"></script>
   <script type="module" src="js/audio.js"></script>
   <script type="module" src="js/main.js"></script>
@@ -161,7 +162,8 @@
         import("./js/audio.js").then(function (m) {
           var paused = m.toggleSplashBgm();
           soundBtn.classList.toggle("muted", paused);
-          soundBtn.setAttribute("aria-label", paused ? "播放背景音乐" : "暂停背景音乐");
+          var t = window.I18N ? window.I18N.t : function (s) { return s; };
+          soundBtn.setAttribute("aria-label", paused ? t("播放背景音乐") : t("暂停背景音乐"));
         });
       });
       window.setTimeout(close, 30000);
