@@ -223,3 +223,22 @@ supabase.auth.onAuthStateChange((_event, session) => {
 
 const settings = readSettings();
 if (settings.language) document.documentElement.lang = settings.language;
+
+// 导航栏滚动磨砂效果
+const topbar = document.querySelector(".topbar");
+if (topbar) {
+    let pending = false;
+    const syncTopbar = () => {
+        const scrolled = window.scrollY > 8;
+        if (topbar.classList.contains("is-scrolled") !== scrolled) {
+            topbar.classList.toggle("is-scrolled", scrolled);
+        }
+        pending = false;
+    };
+    window.addEventListener("scroll", () => {
+        if (pending) return;
+        pending = true;
+        requestAnimationFrame(syncTopbar);
+    }, { passive: true });
+    syncTopbar();
+}

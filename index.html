@@ -7,6 +7,7 @@
   <meta name="description" content="髹饰录：非遗漆器属性组合解谜体验">
   <title>髹饰录 · 漆器复原工坊</title>
   <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preload" href="fonts/ZiYueYingYinSong-2.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
   <script>
     (function () {
@@ -171,7 +172,7 @@
         closed = true;
         splash.classList.add("splash-leaving");
         document.body.classList.remove("splash-open");
-        window.setTimeout(function () { splash.remove(); }, 900);
+        window.setTimeout(function () { splash.remove(); }, 1250);
       };
       document.getElementById("splash-enter").addEventListener("click", close);
       window.setTimeout(close, 30000);
