@@ -20,7 +20,6 @@ const extraNodes = [
   ["K_COL_ORANGE_GROUP", "color", "橙", "K_COL_OTHER", "#D35400", "偏橙的亮朱红色系。"],
   ["K_COL_PINK_GROUP", "color", "粉", "K_COL_OTHER", "#FFC0CB", "胭脂、藕荷等柔和色系。"],
   ["K_COL_CYAN_TIAN", "color", "天青", "K_COL_CYAN", "#D3E0E7", "雨后天空之色，极淡的蓝灰绿。"],
-  ["K_COL_CYAN_YUE", "color", "月白", "K_COL_CYAN", "#E8F0F2", "月光之色，极淡的蓝，近白。"],
   ["K_COL_CYAN_CANG", "color", "苍色", "K_COL_CYAN", "#77969A", "青灰沉静的传统色。"],
   ["K_COL_BLUE_HUA", "color", "花青", "K_COL_BLUE", "#34526F", "蓝黑相间的深沉色，常用于设色。"],
   ["K_COL_YEL_XIANG", "color", "缃色", "K_COL_YELLOW", "#C9A861", "浅黄色，温润雅致的传统色。"],
@@ -71,10 +70,10 @@ const treeSpec = {
 };
 const childGroups = {
   color: {
-    K_COL_RED: ["朱（朱砂）", "银朱", "胭脂", "绛紫"], K_COL_YELLOW: ["藤黄", "秋香色", "缃色"],
-    K_COL_GREEN: ["石绿", "铜绿", "葱倩"], K_COL_CYAN: ["天青", "月白", "苍色"],
+    K_COL_RED: ["朱（朱砂）", "银朱", "胭脂", "绛紫"], K_COL_YELLOW: ["藤黄", "缃色"],
+    K_COL_GREEN: ["石绿", "葱倩"], K_COL_CYAN: ["天青", "苍色"],
     K_COL_BLUE: ["石青", "群青", "花青"], K_COL_PURPLE: ["青莲", "藕荷"],
-    K_COL_BLACK: ["玄", "墨色", "皂"], K_COL_WHITE: ["蛤粉", "铅白"],
+    K_COL_BLACK: ["玄"], K_COL_WHITE: ["蛤粉", "铅白"],
     K_COL_OTHER: ["灰", "棕", "橙", "粉"]
   },
   material: { K_MAT_LACQUER: ["生漆", "色漆", "改青漆", "现代合成漆"], K_MAT_BODY: ["木胎", "脱胎/夹纻胎", "陶胎", "皮胎", "竹胎", "瓷胎", "金属胎", "漆砂胎", "纸胎", "骨角胎"] },

@@ -55,6 +55,10 @@ function createPanel() {
           </select>
         </div>
         <div class="settings-group">
+          <span class="settings-label">界面</span>
+          <label class="settings-toggle"><input id="splash-animation-toggle" type="checkbox"><span>开屏动画</span></label>
+        </div>
+        <div class="settings-group">
           <span class="settings-label">声音</span>
           <label class="settings-toggle"><input id="button-sound-toggle" type="checkbox"><span>按键声音</span></label>
           <label class="settings-volume" for="button-volume"><span>按键音量 <output id="button-volume-value">35%</output></span><input id="button-volume" type="range" min="0" max="1" step="0.01"></label>
@@ -76,6 +80,7 @@ function renderSettings(user) {
     const settings = readSettings();
     const audioSettings = getAudioSettings();
     $("#language-select").value = settings.language || document.documentElement.lang || "zh-CN";
+    $("#splash-animation-toggle").checked = settings.splashAnimation !== false;
     $("#button-sound-toggle").checked = audioSettings.buttonSound;
     $("#bgm-toggle").checked = audioSettings.bgm;
     $("#button-volume").value = audioSettings.buttonVolume;
@@ -179,6 +184,11 @@ $("#language-select")?.addEventListener("change", (event) => {
     document.documentElement.lang = event.target.value;
     saveSettings(settings);
     showToast(event.target.value === "en" ? "Language preference saved." : "语言偏好已保存。", "success");
+});
+$("#splash-animation-toggle")?.addEventListener("change", (event) => {
+    const settings = { ...readSettings(), splashAnimation: event.target.checked };
+    saveSettings(settings);
+    showToast(event.target.checked ? "开屏动画已开启。" : "开屏动画已关闭。", "success");
 });
 $("#button-sound-toggle")?.addEventListener("change", (event) => {
     saveAudioSettings({ ...getAudioSettings(), buttonSound: event.target.checked });

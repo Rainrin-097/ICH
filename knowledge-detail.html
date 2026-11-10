@@ -7,6 +7,14 @@
   <title>髹饰录 · 知识节点</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="css/styles.css">
+  <script>
+    (function () {
+      var materialIds = ["K_MAT_QI", "K_MAT_TAI", "K_MAT_QI_SHENG", "K_MAT_QI_SE", "K_MAT_GQ", "K_MAT_SYN", "K_MAT_MU", "K_MAT_TUO", "K_MAT_ZHU", "K_MAT_PI", "K_MAT_TAO", "K_MAT_CI", "K_MAT_JIN", "K_MAT_SHA", "K_MAT_MU_XUAN", "K_MAT_MU_ZHUO", "K_MAT_MU_JUAN", "K_MAT_ZHU_JI", "K_MAT_ZHI", "K_MAT_GU"];
+      if (materialIds.includes(new URLSearchParams(window.location.search).get("id"))) {
+        document.documentElement.classList.add("material-detail-page");
+      }
+    })();
+  </script>
 </head>
 
 <body class="knowledge-detail-page">
@@ -30,6 +38,7 @@
         <div class="modal-rule"></div>
         <p class="knowledge-detail-description" id="detail-description"></p>
         <div class="knowledge-detail-meta" id="detail-meta"></div>
+        <div id="detail-examples"></div>
       </article>
     </section>
   </main>

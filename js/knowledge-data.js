@@ -42,7 +42,7 @@ export const knowledgeNodes = [
     "parentId": null,
     "gameColor": "绿",
     "hexCode": "#4A7C59",
-    "description": "间色。如青绿山水般古朴的色系，多见于石绿、铜绿。"
+    "description": "间色。如青绿山水般古朴的色系，多见于石绿。"
   },
   {
     "id": "K_COL_BLUE",
@@ -171,15 +171,6 @@ export const knowledgeNodes = [
     "description": "栀子果染，暖黄，宫廷织物与食品着色。"
   },
   {
-    "id": "K_COL_YEL_QIU",
-    "category": "color",
-    "name": "秋香色",
-    "parentId": "K_COL_YELLOW",
-    "gameColor": "黄",
-    "hexCode": "#C9A861",
-    "description": "黄掺绿褐，清代流行间色，柔和温润。"
-  },
-  {
     "id": "K_COL_YEL_MING",
     "category": "color",
     "name": "明黄",
@@ -196,15 +187,6 @@ export const knowledgeNodes = [
     "gameColor": "绿",
     "hexCode": "#4A7C59",
     "description": "孔雀石研磨，沉稳的青绿，青绿山水设色主角。"
-  },
-  {
-    "id": "K_COL_GRN_TONGLV",
-    "category": "color",
-    "name": "铜绿",
-    "parentId": "K_COL_GREEN",
-    "gameColor": "绿",
-    "hexCode": "#2E8B57",
-    "description": "铜器锈层，深绿带蓝。"
   },
   {
     "id": "K_COL_GRN_CONG",
@@ -252,15 +234,6 @@ export const knowledgeNodes = [
     "description": "雨后天空之色，极淡的蓝灰绿。"
   },
   {
-    "id": "K_COL_BLU_YUEBAI",
-    "category": "color",
-    "name": "月白",
-    "parentId": "K_COL_BLUE",
-    "gameColor": "白",
-    "hexCode": "#E8F0F2",
-    "description": "月光之色，极淡的蓝，近白。"
-  },
-  {
     "id": "K_COL_PUR_ZI",
     "category": "color",
     "name": "紫",
@@ -295,33 +268,6 @@ export const knowledgeNodes = [
     "gameColor": "黑",
     "hexCode": "#1A1A1A",
     "description": "黑中带赤，天之色。"
-  },
-  {
-    "id": "K_COL_BLK_ZAO",
-    "category": "color",
-    "name": "皂",
-    "parentId": "K_COL_BLACK",
-    "gameColor": "黑",
-    "hexCode": "#2B2B2B",
-    "description": "橡实染黑，乌黑。"
-  },
-  {
-    "id": "K_COL_BLK_DAI",
-    "category": "color",
-    "name": "黛",
-    "parentId": "K_COL_BLACK",
-    "gameColor": "黑",
-    "hexCode": "#333333",
-    "description": "石黛画眉，青黑。"
-  },
-  {
-    "id": "K_COL_BLK_MO",
-    "category": "color",
-    "name": "墨色",
-    "parentId": "K_COL_BLACK",
-    "gameColor": "黑",
-    "hexCode": "#101010",
-    "description": "松烟、油烟墨，墨分五色。"
   },
   {
     "id": "K_COL_WHT_HAFEN",
@@ -367,159 +313,6 @@ export const knowledgeNodes = [
     "gameColor": "白",
     "hexCode": "#C0C0C0",
     "description": "银箔、银粉，冷光银白。"
-  },
-  {
-    "id": "K_MAT_QI",
-    "category": "material",
-    "name": "大漆原料",
-    "parentId": null,
-    "gameColor": null,
-    "hexCode": null,
-    "description": "漆器的灵魂材料。"
-  },
-  {
-    "id": "K_MAT_TAI",
-    "category": "material",
-    "name": "胎体材质",
-    "parentId": null,
-    "gameColor": null,
-    "hexCode": null,
-    "description": "漆器的骨架。胎为骨，漆为衣。"
-  },
-  {
-    "id": "K_MAT_QI_SHENG",
-    "category": "material",
-    "name": "生漆",
-    "parentId": "K_MAT_QI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "从漆树割取的天然液汁。"
-  },
-  {
-    "id": "K_MAT_QI_SE",
-    "category": "material",
-    "name": "色漆",
-    "parentId": "K_MAT_QI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "调入颜料制成。"
-  },
-  {
-    "id": "K_MAT_MU",
-    "category": "material",
-    "name": "木胎",
-    "parentId": "K_MAT_TAI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "最常见最传统。"
-  },
-  {
-    "id": "K_MAT_TUO",
-    "category": "material",
-    "name": "脱胎/夹纻胎",
-    "parentId": "K_MAT_TAI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "去模存壳，轻如浮云。"
-  },
-  {
-    "id": "K_MAT_ZHU",
-    "category": "material",
-    "name": "竹胎",
-    "parentId": "K_MAT_TAI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "南方地域漆器常用。"
-  },
-  {
-    "id": "K_MAT_PI",
-    "category": "material",
-    "name": "皮胎",
-    "parentId": "K_MAT_TAI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "柔韧耐形变。"
-  },
-  {
-    "id": "K_MAT_TAO",
-    "category": "material",
-    "name": "陶胎",
-    "parentId": "K_MAT_TAI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "陶器外壁髹漆。"
-  },
-  {
-    "id": "K_MAT_CI",
-    "category": "material",
-    "name": "瓷胎",
-    "parentId": "K_MAT_TAI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "瓷器外壁髹漆。"
-  },
-  {
-    "id": "K_MAT_JIN",
-    "category": "material",
-    "name": "金属胎",
-    "parentId": "K_MAT_TAI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "铜胎、金银胎。"
-  },
-  {
-    "id": "K_MAT_SHA",
-    "category": "material",
-    "name": "漆砂胎",
-    "parentId": "K_MAT_TAI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "大漆混合细砂、瓦灰。"
-  },
-  {
-    "id": "K_MAT_MU_ZHUO",
-    "category": "material",
-    "name": "斫木胎",
-    "parentId": "K_MAT_MU",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "整木雕斫。"
-  },
-  {
-    "id": "K_MAT_MU_JUAN",
-    "category": "material",
-    "name": "圈叠胎",
-    "parentId": "K_MAT_MU",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "木片/竹片圈叠成型。"
-  },
-  {
-    "id": "K_MAT_ZHU_JI",
-    "category": "material",
-    "name": "积竹胎",
-    "parentId": "K_MAT_ZHU",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "细竹篾捆扎胶合。"
-  },
-  {
-    "id": "K_MAT_ZHI",
-    "category": "material",
-    "name": "纸胎",
-    "parentId": "K_MAT_TAI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "多层厚纸裱合，极轻。"
-  },
-  {
-    "id": "K_MAT_GU",
-    "category": "material",
-    "name": "骨角胎",
-    "parentId": "K_MAT_TAI",
-    "gameColor": null,
-    "hexCode": null,
-    "description": "牛角、兽骨为胎，体量小。"
   },
   {
     "id": "K_PAT_SU",
@@ -1204,5 +997,185 @@ export const knowledgeNodes = [
     "gameColor": null,
     "hexCode": null,
     "description": "剔犀是在胎体上以朱、黑（或黄）两种以上色漆有规律地交替髹涂，累积至数十道乃至上百道，待漆层干固后，用V形斜刀在表面剔刻如意云钩、回纹、香草等图案，刀口深达数层，断面显露出一道道平行色带，形成“乌间朱线”“红黑相间”的效果。因其肌理酷似犀角横断面的层纹，故名剔犀，日本称之为“堆黑”，山西新绛一带则以“云雕”名之，当地匠人至今仍要髹涂八十余道漆方能起刀。剔犀的纹样以云纹为主，故又称“剔犀云纹”：如意云头层层套叠、钩连回旋，刀法要求“藏锋不露、圆滑无滞”，斜面要平整，转折要利落，方能令色带在光线下连续不断地流转。宋元时期以张成、杨茂为代表，作品多为盒、奁、盘；明清两代则扩展到委角长方盘、笔筒、执壶等器形，浙江省博物馆藏清中期剔犀如意云纹委角长方盘即为一例。"
+  },
+  {
+    "id": "K_MAT_LACQUER",
+    "category": "material",
+    "name": "漆料",
+    "parentId": null,
+    "gameColor": null,
+    "hexCode": null,
+    "description": "用于髹饰表面的漆液与色漆。"
+  },
+  {
+    "id": "K_MAT_BODY",
+    "category": "material",
+    "name": "胎体",
+    "parentId": null,
+    "gameColor": null,
+    "hexCode": null,
+    "description": "承托漆层的器物胎骨。"
+  },
+  {
+    "id": "K_MAT_QI_SHENG",
+    "category": "material",
+    "name": "生漆",
+    "parentId": "K_MAT_LACQUER",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "生漆是漆树（Toxicodendron vernicifluum）韧皮部割开流出的乳白色汁液，主要成分为漆酚，含水分与树胶。割漆须在树干上斜切半月形口，插蚌壳或竹筒承漆，一树每年十余刀、数十刀不等，故有“百里千刀一斤漆”之说；新漆乳白，接触空气氧化后转褐、转黑，是它最易识别的性情。生漆不能直接髹涂：须经选料、粗滤（麻布）、中滤（细布）、细滤（布中夹脱脂棉）去杂质，再晾晒脱水，得熟漆；漆酚在漆酶作用下、25℃上下与70%—80%湿度中方能固化，故古人称“阴天髹漆”，晴燥反不易干。 生漆是“活着”的材料：湿度低了不干，密封不好结皮；它的黑不是颜料给的，是漆酚氧化出来的。"
+  },
+  {
+    "id": "K_MAT_QI_SE",
+    "category": "material",
+    "name": "色漆",
+    "parentId": "K_MAT_LACQUER",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "色漆是以精制生漆（熟漆）调入颜料研磨而成。入漆之料有讲究：须耐碱、不与漆酚反应、遮盖力足。古法用朱砂（银朱）、石青、石绿、赭石、藤黄、炭黑、铅白、蛤粉，且多先以熟桐油或白芨水“研”过，再用漆调，否则色粗不成膏。清宫《圆明园漆活彩漆扬金定例》记朱漆为笼罩漆调入银朱、绿漆为笼罩漆调入广花与石黄，可见“色＝透明漆＋颜料”这一条始终未变。近代又添钛白、酞菁等，色域大宽却不如矿物色耐晒。色漆干后色会下沈、变深，故髹工配色时总要“多留一分亮”。 色漆不是“有颜色的漆”，而是“漆＋颜料”的研磨物；磨不透，色就浮在面上。"
+  },
+  {
+    "id": "K_MAT_GQ",
+    "category": "material",
+    "name": "改青漆",
+    "parentId": "K_MAT_LACQUER",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "站内所称“改青漆”，指调入青色颜料后所得的青色漆料——把熟漆“改”成青色，故有此名。须说明：文献与传统漆工行话中未见“改青”这一专名，其工艺实指即以石青、靛花（广花）、酞菁蓝等调出的青漆；靛花入漆偏暗、石青入漆偏亮，二者相配才得层次。青色在漆上最难讨好：色粉遮盖力弱，髹薄了透底，髹厚了发闷，古法多先以白或灰打底、再罩青。款彩、填漆的蓝地即属此路。此色与花青相通——清宫料例以广靛花调石黄得绿漆，同一支靛色，向蓝则青、向黄则绿。 “改青”是站内对青色漆料的叫法，不见于《髹饰录》；工艺本身即“以靛、石青入漆”，与花青同源。"
+  },
+  {
+    "id": "K_MAT_SYN",
+    "category": "material",
+    "name": "现代合成漆",
+    "parentId": "K_MAT_LACQUER",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "现代合成漆指以石油化工或植物原料制成的涂料，用以替代或掺配天然大漆。常见三类：腰果漆（以腰果壳油与醛类缩聚，色近大漆、干得快，是漆画与漆器代用料中最多的一种）、聚氨酯漆（双组分，硬度高、耐水，家具与工业涂装主力）、硝基漆（挥发干燥，施工快但耐候差）。它们都不依赖湿度固化，晴雨皆可施工，价格只有生漆的零头，故二十世纪后半叶迅速铺开。代价也清楚：气味与苯类溶剂有害，漆膜脆、易黄变，几十年后常开裂起皮；作旧仿古可以，传世则不及大漆。今之“大漆工艺”多用合成漆打底、大漆罩面，是折中的走法。 合成漆让漆艺的门槛降下来，也让“大漆”二字变得含糊；辨器时看漆膜的老化方式，比看颜色可靠。"
+  },
+  {
+    "id": "K_MAT_MU",
+    "category": "material",
+    "name": "木胎",
+    "parentId": "K_MAT_BODY",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "最常见最传统的胎骨，木之性与漆之性最相合。细分斫木胎、旋挖胎、圈叠胎三路。"
+  },
+  {
+    "id": "K_MAT_TUO",
+    "category": "material",
+    "name": "脱胎/夹纻胎",
+    "parentId": "K_MAT_BODY",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "脱胎又称夹纻胎：先以泥或石膏作模，在模上逐层裱糊麻布（纻）与漆灰，干后脱去内模，只留一层漆壳，故称“脱胎”。它起于战国楚地，唐代用以造夹纻佛像——鉴真东渡所携即此技；福州脱胎漆器承其法，分“阳脱”（先塑胎、后脱去）与“阴脱”（在石膏模内壁贴布）两路。此胎极轻而不变形，“轻如浮云”，一器可薄至数毫米，缺点是费工：一尊像裱布数十层、刮灰十余道，历数月方成。福州旧称“夹纻脱胎”，2006 年列入国家级非遗。 脱胎的关键不是“脱”，是“布＋灰”层层咬合；脱得干净而壳不塌，才算成。"
+  },
+  {
+    "id": "K_MAT_ZHU",
+    "category": "material",
+    "name": "竹胎",
+    "parentId": "K_MAT_BODY",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "南方地域漆器常用，整竹为骨或竹篾编织为骨，细分积竹胎。"
+  },
+  {
+    "id": "K_MAT_PI",
+    "category": "material",
+    "name": "皮胎",
+    "parentId": "K_MAT_BODY",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "皮胎以牛皮等皮革为骨，髹漆而成。皮柔韧、耐形变、摔不破，最宜甲胄、马鞍、酒壶一类要经磕碰的器物。商代已有皮甲髹漆的痕迹，安阳侯家庄 1004 号墓出土皮甲残迹上见红、黑漆；春秋中期前后，制甲必髹漆已成定例。彝族漆器是皮胎的活标本：牛皮碗、皮胎马鞍、髹漆皮盔甲，红黄黑三色描画，至今仍在凉山制作。皮胎的难处在于皮革吸漆、须先刮软、施灰、多次髹涂，一件皮胎碗要做上一两个月。 皮胎的价值在“摔不坏”；也因此它多做要随身带、要磕碰的东西：甲、鞍、碗、壶。"
+  },
+  {
+    "id": "K_MAT_TAO",
+    "category": "material",
+    "name": "陶胎",
+    "parentId": "K_MAT_BODY",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "陶胎是在烧成的陶器外壁髹漆。陶面多孔、吸水，漆不易附着，故先须打磨、施灰或打底，再髹。战国楚墓出土大批陶胎漆鼎、漆豆、漆壶，胎为灰陶或黑衣陶，外髹黑漆、朱绘云气蟠螭，是“陶为骨、漆为衣”的典型；马王堆汉墓亦有漆绘陶鼎。陶胎的优点是成本低、可批量制坯，缺点是重且易碎，故多作明器与日用粗器。它与“瓷胎”不同：陶胎吸水、需打底，瓷胎致密光滑、漆更难咬。 陶胎漆器最容易“掉皮”，正因为陶吸水、漆附着力弱；看一件陶胎漆器，先看它的漆还剩几成。"
+  },
+  {
+    "id": "K_MAT_CI",
+    "category": "material",
+    "name": "瓷胎",
+    "parentId": "K_MAT_BODY",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "瓷胎是在烧成的瓷器外壁髹漆，或于漆地上再作镶嵌。瓷面致密光滑、几乎不吸水，漆极难咬住，故须先以砂磨粗、施薄灰或专用底漆，再层层髹涂，工序比木胎更费。清代景德镇为宫廷烧“瓷胎漆器”，康乾盛世最盛：清雍正瓷胎黑漆嵌螺钿琵琶尊、乾隆瓷胎髹漆嵌宝石瓶，皆是内瓷外漆、嵌螺钿或宝石，属内廷玩器。瓷胎的好处是胎体端正不变形、可作薄胎细器；坏处是一旦漆层脱落便露出白瓷，无从修补。 瓷胎漆器几乎都是“内瓷外漆”；器口一圈白瓷，是它无法掩饰的身份。"
+  },
+  {
+    "id": "K_MAT_JIN",
+    "category": "material",
+    "name": "金属胎",
+    "parentId": "K_MAT_BODY",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "金属胎以铜、银、金为骨，髹漆其上，多见于明清宫廷与唐代金银器。铜胎最常见：铜面须先錾刻或磨糙，再施灰髹漆，故多与“錾胎”“雕漆”相伴——清宫铜胎剔红盒、铜胎雕漆瓶，都是铜为骨、漆百层、再雕。唐代则有“银平脱”：银片镂刻花纹嵌入漆面，与漆平齐，是金属与漆最精密的结合。金属胎不生虫、不受潮、不变形，最宜小器与玩器；但金属与漆的伸缩不同，天冷天热易起翘，故铜胎器多见细碎裂纹。 金属胎与漆的伸缩率不同，老铜胎漆器几乎都有细裂；这不是毛病，是它的年纪。"
+  },
+  {
+    "id": "K_MAT_SHA",
+    "category": "material",
+    "name": "漆砂胎",
+    "parentId": "K_MAT_BODY",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "漆砂胎是以漆调和细砂（金刚砂、瓦灰、瓷粉等）堆塑或刮涂成器，最常见的是漆砂砚。清道光年间扬州卢葵生（卢栋）以此名家：以漆砂为胎，质轻而坚、发墨不损毫，一砚可轻至数十克，号称“日坐案头，不知其为漆”。故宫藏卢葵生款漆砂砚、上海博物馆藏其道光二十年圆砚，皆薄胎漆砂，体轻而面如砺石。漆砂胎的要点在砂：砂粗则磨墨快而伤笔，砂细则墨浮；卢氏配方至今仍是漆艺行里的谜。它也可作盒、作珠，是“以漆为料、以砂为骨”的一路。 漆砂胎的“砂”决定一切：粗一分伤笔，细一分浮墨；卢葵生的配方，至今没传全。"
+  },
+  {
+    "id": "K_MAT_ZHI",
+    "category": "material",
+    "name": "纸胎",
+    "parentId": "K_MAT_BODY",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "纸胎以多层厚纸（或桑皮纸、高丽纸）逐层裱糊、阴干、髹漆而成，是各类胎骨中最轻的一种。做法与脱胎相近：以木或泥作模，纸一层、漆一层地裱，干后脱模；paper 的纤维与漆交结，硬度反而超过同等厚度的木片。福州、扬州、阳江都曾产纸胎漆器，多做茶盒、文具盒、粉盒一类小器；二十世纪五六十年代，纸胎漆盒仍是出口的日常货。纸胎的短处是怕水怕压，一旦漆膜破口，纸芯吸水即鼓，故传世完整器少于木胎。 纸胎是“裱”出来的：纸一层漆一层，薄而硬；它怕水，也正因此传世少。"
+  },
+  {
+    "id": "K_MAT_GU",
+    "category": "material",
+    "name": "骨角胎",
+    "parentId": "K_MAT_BODY",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "骨角胎以牛角、兽骨、象牙一类材料为骨，髹漆或施彩。骨角体量小、质地致密，不易吸水，最宜杯、盒、珠、坠一类小器；也因材料本身有价，它常与雕刻、镶嵌并行——先雕成形，再髹漆、描金、嵌宝。彝族漆器里的牛角酒杯（“鹰爪杯”）是骨角胎的活例：取整只牛角，髹红黄黑三色，杯身随角弯曲，天然成器。日本亦有野猪牙雕漆根付，可见东亚一带同好用骨角作小件。骨角胎的难处是弯、扭、空心，髹漆时须一边转一边涂，稍不留神便流漆成痕。 骨角胎多是“先成器、后髹漆”，髹时得顺着弯转；流一道漆痕，整件就废。"
+  },
+  {
+    "id": "K_MAT_MU_ZHUO",
+    "category": "material",
+    "name": "斫木胎",
+    "parentId": "K_MAT_MU",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "斫木胎是取整块木料，以斧、锛、凿砍削挖斫成形，是最古老也最费力的制胎法。河姆渡的朱漆木碗、良渚的漆觚木坯，皆属此路；战国楚墓的耳杯、俎、禁，亦多整木斫成。斫木胎的好处是形制自由：方、圆、不规则皆可，厚薄随需，还能留出榫卯与足；坏处是耗料、费工，且整木易随湿度开裂，故大器常须“刳木为胎、内壁留厚、外壁削薄”，并靠漆灰与麻布约束。今福建、重庆城口一带的老漆工仍用斧凿起形，再以锛修光，是活着的斫木法。 斫木胎考的是“留料”的眼力：削多了补不回，削少了器就沉。"
+  },
+  {
+    "id": "K_MAT_MU_XUAN",
+    "category": "material",
+    "name": "旋挖胎",
+    "parentId": "K_MAT_MU",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "旋挖胎（又称镟木胎、车木胎）是把木料固定在旋床上，随轮旋转，以刀具车削成器，再挖空内膛。它与“斫木胎”相对：斫是斧凿砍削，旋是车刀镟圆，前者随手成形，后者依轴成圆。春秋战国铁工具兴起后，镟木胎渐盛，圆盒、圆奁、碗、豆一类圆形器多出此路，器壁可薄至两三毫米且中规中矩。河姆渡那只朱漆木碗也是挖斫成形的圆器，可见圆形器之早。旋挖胎的优点是效率与规整，缺点是只能圆、不能方——方器仍须斫、须圈叠。 判别旋挖胎，看器壁上的同心旋痕与规矩的圆；方器、瓣器则不是旋出来的。"
+  },
+  {
+    "id": "K_MAT_MU_JUAN",
+    "category": "material",
+    "name": "圈叠胎",
+    "parentId": "K_MAT_MU",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "圈叠胎（又称卷木胎、卷胎）是把薄木片（或薄竹片）一条条圈起来、逐层叠合胶接，再刮灰髹漆成器。做法是先弯出一圈器口、一圈器底，中间一圈圈收放，接缝错开、层间施胶，干后即成薄壳；一件碗可叠二三十圈。此法宋代大盛，正合宋人“起棱分瓣”的审美——圈叠能做出葵瓣、莲瓣那种起伏，木胎整挖反而难成。圈叠胎的优点是不易变形、不用箍、不用榫，且轻；缺点是费工、怕潮，胶缝一开便层层剥离，故传世器多见“层裂”。 圈叠胎是“叠”出来的，不是挖出来的；看断面那一圈圈木纹，就认得它。"
+  },
+  {
+    "id": "K_MAT_ZHU_JI",
+    "category": "material",
+    "name": "积竹胎",
+    "parentId": "K_MAT_ZHU",
+    "gameColor": null,
+    "hexCode": null,
+    "description": "积竹胎以细竹篾（竹片）束扎成束、以木芯为中心，外缠麻布、施漆灰而成，形多作筒、卮、杖、柲一类长圆器。战国楚墓出土的竹胎漆卮、漆筒即属此路：竹片竖排成壁，外缠麻布以束之，再髹漆彩绘蟠蛇、云气，器轻而坚，且不易劈裂——这是“积竹”之名所自：以多竹积成一器。竹材本身有节、易裂，积竹之法正为分散应力；它也可作戈柲、矛柲的骨，髹漆以防潮。今湖北、湖南的竹胎漆器仍用此法，只是多作茶筒、笔筒。 积竹胎是“多竹积一器”：竹片竖排、外缠布灰，为的是把竹的易裂分散掉。"
   }
 ];

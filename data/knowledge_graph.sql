@@ -20,14 +20,14 @@ CREATE TABLE knowledge_nodes (
 -- ==========================================
 -- 1.1 基础判定色 (父节点，游戏底层逻辑用)
 INSERT INTO knowledge_nodes (id, category, name, parent_id, game_color, hex_code, description) VALUES
-('K_COL_BLACK', 'color', '黑色系', NULL, '黑', '#1A1A1A', '玄、墨、皂组成的传统黑色系。'),
+('K_COL_BLACK', 'color', '黑色系', NULL, '黑', '#1A1A1A', '玄组成的传统黑色系。'),
 ('K_COL_WHITE', 'color', '白色系', NULL, '白', '#F5F5F5', '蛤粉、铅白组成的传统白色系。'),
 ('K_COL_RED',   'color', '红色系', NULL, '红', '#C0392B', '朱砂、银朱、胭脂、绛紫组成的传统红色系。'),
-('K_COL_YELLOW','color', '黄色系', NULL, '黄', '#D4AF37', '藤黄、秋香、缃色组成的传统黄色系。'),
-('K_COL_GREEN', 'color', '绿色系', NULL, '绿', '#4A7C59', '石绿、铜绿、葱倩组成的传统绿色系。'),
+('K_COL_YELLOW','color', '黄色系', NULL, '黄', '#D4AF37', '藤黄、缃色组成的传统黄色系。'),
+('K_COL_GREEN', 'color', '绿色系', NULL, '绿', '#4A7C59', '石绿、葱倩组成的传统绿色系。'),
 ('K_COL_BLUE',  'color', '蓝色系', NULL, '蓝', '#2E4E7E', '石青、群青、花青组成的传统蓝色系。'),
 ('K_COL_PURPLE','color', '紫色系', NULL, '紫', '#5B3A4A', '青莲、藕荷组成的传统紫色系。'),
-('K_COL_CYAN',  'color', '青色系', NULL, '青', '#9CC7C9', '天青、月白、苍色组成的传统青色系。'),
+('K_COL_CYAN',  'color', '青色系', NULL, '青', '#9CC7C9', '天青、苍色组成的传统青色系。'),
 ('K_COL_OTHER', 'color', '其他', NULL, NULL, '#9A8175', '灰、棕、橙、粉作为独立的补充色系。');
 
 INSERT INTO knowledge_nodes (id, category, name, parent_id, game_color, hex_code, description) VALUES
@@ -50,17 +50,14 @@ INSERT INTO knowledge_nodes (id, category, name, parent_id, game_color, hex_code
 -- 黄色系细分
 ('K_COL_YEL_TENG',   'color', '藤黄', 'K_COL_YELLOW', '黄', '#D4AF37', '海藤树树脂，明亮柠檬黄，多用于点缀花蕊、鸟兽眼睛。'),
 ('K_COL_YEL_ZHI',    'color', '栀黄', 'K_COL_YELLOW', '黄', '#E6A23C', '栀子果染，暖黄，宫廷织物与食品着色。'),
-('K_COL_YEL_QIU',    'color', '秋香色', 'K_COL_YELLOW', '黄', '#C9A861', '黄掺绿褐，清代流行间色，柔和温润。'),
 ('K_COL_YEL_MING',   'color', '明黄', 'K_COL_YELLOW', '黄', '#FFD700', '正黄提纯，清代帝后专用色。'),
 -- 青色与绿色系细分
 ('K_COL_GRN_SHILV',  'color', '石绿', 'K_COL_GREEN', '绿', '#4A7C59', '孔雀石研磨，沉稳的青绿，青绿山水设色主角。'),
-('K_COL_GRN_TONGLV', 'color', '铜绿', 'K_COL_GREEN', '绿', '#2E8B57', '铜器锈层，深绿带蓝。'),
 ('K_COL_GRN_CONG',   'color', '葱倩', 'K_COL_GREEN', '绿', '#228B22', '葱心之绿，鲜嫩深绿。'),
 ('K_COL_BLU_QING',   'color', '青', 'K_COL_BLUE', '青', '#2E4E7E', '五正色之首。蓝绿之间的东方色。'),
 ('K_COL_BLU_SHIQING','color', '石青', 'K_COL_BLUE', '蓝', '#1E90FF', '蓝铜矿研磨，沉着的天蓝，不褪色。'),
 ('K_COL_BLU_QUNQING','color', '群青', 'K_COL_BLUE', '蓝', '#0000CD', '青金石研磨，极贵，明艳宝蓝，敦煌壁画主色。'),
 ('K_COL_BLU_TIANQING','color','天青', 'K_COL_CYAN', '青', '#D3E0E7', '雨后天空之色，极淡的蓝灰绿。'),
-('K_COL_BLU_YUEBAI','color', '月白', 'K_COL_CYAN', '白', '#E8F0F2', '月光之色，极淡的蓝，近白。'),
 ('K_COL_BLU_HUAQING','color', '花青', 'K_COL_BLUE', '蓝', '#34526F', '蓝黑相间的深沉色。'),
 -- 紫色系细分
 ('K_COL_PUR_ZI',     'color', '紫', 'K_COL_PURPLE', '紫', '#5B3A4A', '紫草根染，染料难得故价贵，青紫至红紫。'),
@@ -68,9 +65,6 @@ INSERT INTO knowledge_nodes (id, category, name, parent_id, game_color, hex_code
 ('K_COL_PUR_OUHE',   'color', '藕荷', 'K_COL_PURPLE', '粉', '#D8BFD8', '紫加粉，浅紫，清代织物流行色。'),
 -- 黑色系细分
 ('K_COL_BLK_XUAN',   'color', '玄', 'K_COL_BLACK', '黑', '#1A1A1A', '黑中带赤，天之色。'),
-('K_COL_BLK_ZAO',    'color', '皂', 'K_COL_BLACK', '黑', '#2B2B2B', '橡实染黑，乌黑。'),
-('K_COL_BLK_DAI',    'color', '黛', 'K_COL_BLACK', '黑', '#333333', '石黛画眉，青黑。'),
-('K_COL_BLK_MO',     'color', '墨色', 'K_COL_BLACK', '黑', '#101010', '松烟、油烟墨，墨分五色。'),
 -- 白色系细分
 ('K_COL_WHT_HAFEN',  'color', '蛤粉', 'K_COL_WHITE', '白', '#F5F5DC', '贝壳煅烧研粉，温润珠光白，工笔画提白。'),
 ('K_COL_WHT_QIANFEN','color', '铅粉', 'K_COL_WHITE', '白', '#FFFFFF', '铅经醋熏制成，粉白，易氧化返铅变黑。'),
