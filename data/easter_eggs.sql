@@ -24,7 +24,7 @@ INSERT INTO easter_eggs (name, req_material, req_colors, req_technique, req_patt
  '这是一件故意不存在于典藏档案中的组合：陶瓷胎、蓝紫色与天文星象纹。你合成的是一件只属于这个工坊的想象器物。', NULL),
 ('漆恋', 'M01', ARRAY['C02'], NULL, 'P02',
  '《漆恋》以漆工和漆器对话的独特视角，讲述两者之间深厚的情感联结与超越时空的精神羁绊。', 'https://www.bilibili.com/tr/video/BV1LBiTBTENx/?share_source=copy_web&vd_source=e8fbede041c2b51fea8ff03a545bb196'),
-('当我在这里', 'M01', ARRAY['C01','C04','C06'], NULL, 'P06',
+('当我在这里', 'M01', ARRAY['C01','C04','C06','C07'], NULL, 'P06',
  '纪录电影《我在故宫修文物》的主题曲，在现代与古代的时空交叠中诠释文物医生择一事、终一生的工匠精神。', 'https://www.bilibili.com/video/BV1Xs411W7Zr/?share_source=copy_web&vd_source=e8fbede041c2b51fea8ff03a545bb196'),
 ('非遗之声', 'M04', ARRAY['C07','C11','C06'], NULL, 'P03',
  '中国非物质文化遗产网·中国非物质文化遗产数字博物馆，展示国家级非遗项目、代表性传承人、线上展览及影音资料。', 'https://www.ihchina.cn/'),

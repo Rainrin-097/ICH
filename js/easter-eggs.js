@@ -54,9 +54,9 @@ export const easterEggs = [
   {
     id: "dangwo-zaili",
     name: "当我在这里",
-    recipe: "M01 木胎 + [C01, C04, C06] 黑灰 / 红橙粉 / 黄色 + P06 人物与场景纹",
+    recipe: "M01 木胎 + [C01, C04, C06, C07] 黑灰 / 红橙粉 / 黄色 / 青绿 + P06 人物与场景纹",
     material: "M01",
-    colors: ["C01", "C04", "C06"],
+    colors: ["C01", "C04", "C06", "C07"],
     pattern: "P06",
     link: "https://www.bilibili.com/video/BV1Xs411W7Zr/?share_source=copy_web&vd_source=e8fbede041c2b51fea8ff03a545bb196",
     description: "纪录电影《我在故宫修文物》主题曲《当我在这里》，由姚谦填词，陈粒作曲并献唱，黄裕翔钢琴伴奏，刘胡轶编曲。在悠扬清缓的旋律中，“文物医生”们以淡定从容的姿态，上演了一场现代与古代时空交叠的思想碰撞，诠释“择一事，终一生”的工匠精神。"
