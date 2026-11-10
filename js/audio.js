@@ -1,6 +1,7 @@
 const AUDIO_SETTINGS_KEY = "ich-audio-settings";
-const defaultSettings = { buttonSound: true, bgm: false, buttonVolume: 0.35, bgmVolume: 0.22 };
+const defaultSettings = { buttonSound: true, bgm: false, buttonVolume: 0.35, bgmVolume: 0.5 };
 let buttonAudio;
+let successAudio;
 let bgmAudio;
 
 function readSettings() {
@@ -37,13 +38,29 @@ function getBgmAudio() {
     return bgmAudio;
 }
 
+function getSuccessAudio() {
+    if (!successAudio) {
+        successAudio = new Audio("audio/success.mp3");
+    }
+    return successAudio;
+}
+
 export function playButtonSound() {
     const settings = readSettings();
     if (!settings.buttonSound) return;
     const audio = getButtonAudio();
     audio.volume = settings.buttonVolume;
     audio.currentTime = 0;
-    audio.play().catch(() => { });
+    audio.play().catch((error) => console.warn("按键音效播放失败：", error));
+}
+
+export function playSuccessSound() {
+    const settings = readSettings();
+    if (!settings.buttonSound) return;
+    const audio = getSuccessAudio();
+    audio.volume = settings.buttonVolume;
+    audio.currentTime = 0;
+    audio.play().catch((error) => console.warn("成功反馈音效播放失败：", error));
 }
 
 export function applyAudioSettings(settings = readSettings()) {
@@ -60,5 +77,5 @@ export function applyAudioSettings(settings = readSettings()) {
 // 音频文件加入 audio/ 后，首次用户交互会自动尝试播放背景音乐。
 document.addEventListener("click", () => applyAudioSettings(), { once: true });
 document.addEventListener("click", (event) => {
-    if (event.target.closest("button, .text-button, .combine-button")) playButtonSound();
+    if (event.target.closest("button")) playButtonSound();
 });

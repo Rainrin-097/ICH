@@ -1,6 +1,7 @@
 import { attributes } from "./data.js";
 import { artifacts as recipeArtifacts } from "./artifacts-data.js";
 import { easterEggs, matchesEasterEgg, unlockEasterEggs } from "./easter-eggs.js";
+import { playSuccessSound } from "./audio.js";
 
 const currentSelection = { material: null, colors: [], pattern: null };
 const artifactState = { matches: [], index: 0 };
@@ -115,7 +116,10 @@ function combine() {
   if (matchingEggs.length) {
     unlockEasterEggs(matchingEggs);
     showFeedback("你好像合成出了奇怪的东西……", "success");
-    window.setTimeout(() => openEasterEgg(matchingEggs[0]), 450);
+    window.setTimeout(() => {
+      playSuccessSound();
+      openEasterEgg(matchingEggs[0]);
+    }, 450);
     return;
   }
   if (matchingArtifacts.length) {
@@ -126,7 +130,10 @@ function combine() {
       ? "配方吻合，器物正在显影……"
       : `配方吻合，发现 ${matchingArtifacts.length} 件同属性器物，正在显影……`;
     showFeedback(message, "success");
-    window.setTimeout(() => openArtifact(matchingArtifacts), 450);
+    window.setTimeout(() => {
+      playSuccessSound();
+      openArtifact(matchingArtifacts);
+    }, 450);
     import("./db.js")
       .then(({ saveUnlock }) => Promise.all(matchingArtifacts.map((artifact) => saveUnlock(artifact.name, { notify: false }))))
       .catch((error) => console.error("保存解锁记录失败：", error));
