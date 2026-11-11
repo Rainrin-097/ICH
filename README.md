@@ -86,6 +86,10 @@
 
 除上述依赖外，项目未使用 Bootstrap、Element UI、Vue、React 等预设样式库或前端框架。项目中的页面结构、样式、交互逻辑和漆器知识内容组织方式由参赛队伍完成。
 
+### 关于 `js/vendor/`
+
+该目录存放 Supabase JS SDK v2 及其子模块（auth、postgrest、storage、realtime、functions 等）的本地化 ES Module 副本，作为 CDN 加载的备选方案保留。由于时间原因，**当前线上代码并未引用该目录**，`js/supabaseClient.js` 仍通过 jsdelivr CDN 加载 SDK。如需摆脱 CDN 依赖（如离线环境或锁定版本），可将 `supabaseClient.js` 中的 import 路径改为本地 `./vendor/supabase-js@2.esm.js`。
+
 ## 七、运行方式
 
 ### 在线访问
@@ -105,6 +109,7 @@
 ├── about.html              # 网站说明、更新日志与反馈
 ├── css/                    # 页面样式与视觉规范
 ├── js/                     # 页面逻辑、数据和服务调用
+│   └── vendor/             # Supabase JS SDK v2 的本地化副本（见下方说明）
 ├── data/                   # Supabase 数据表、策略和初始化 SQL
 ├── images/                 # 器物、纹样、材质及技艺图片
 └── audio/                  # 可选音效与背景音乐资源
