@@ -1199,6 +1199,7 @@ h2 {
 }
 
 .modal-image-wrap {
+  position: relative;
   min-height: 455px;
   background: #d8d0c1;
   overflow: hidden;
@@ -1210,6 +1211,35 @@ h2 {
   object-fit: cover;
   display: block;
   mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity .22s ease-out;
+}
+
+.modal-image-wrap img.loaded {
+  opacity: 1;
+}
+
+/* loading 态：显示涟漪 gif，**不停留上一张图** */
+.modal-image-wrap.loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--paper, #fbf7ec) url("../images/loading-ripple.gif") center / 72px no-repeat;
+  z-index: 1;
+}
+
+/* 加载失败态 */
+.modal-image-wrap.error::before {
+  content: "图片加载失败";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d8d0c1;
+  color: var(--red, #8b2a1f);
+  font: 14px var(--serif);
+  z-index: 1;
 }
 
 .modal-content {

@@ -45,12 +45,17 @@ function showInlineFeedback(message, kind = "warning") {
   $("#feedback").scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
+// 版本号，防止用户快速连续切换箭头时，前一次的 onload 误覆盖后一次结果
+let artifactImageVersion = 0;
+
 function openArtifact(artifacts, index = 0) {
   artifactState.matches = artifacts;
   artifactState.index = index;
   const artifact = artifactState.matches[artifactState.index];
-  $("#modal-image").src = artifact.image;
-  $("#modal-image").alt = artifact.name;
+  const img = $("#modal-image");
+  const wrap = img.parentElement;
+
+  // 先同步更新所有文字、数字、按钮状态，让用户立刻感知"已切换"
   $("#modal-title").textContent = artifact.name;
   $("#modal-meta").textContent = `${eraNames[artifact.eraCode] || artifact.eraCode}  ·  ${artifact.location}`;
   $("#artifact-counter").textContent = artifactState.matches.length > 1
@@ -61,6 +66,34 @@ function openArtifact(artifacts, index = 0) {
   $("#modal-description").textContent = artifact.description;
   $("#modal-tags").innerHTML = [techniqueNames[artifact.techniqueCode] || artifact.techniqueCode, ...artifact.req_colors.map((id) => attributes.colors.find((item) => item.id === id).name)].map((tag) => `<span>${tag}</span>`).join("");
   $("#detail-button").href = `artifact.html?name=${encodeURIComponent(artifact.name)}`;
+
+  // 递增版本号：用户快速连点箭头时，只有最后一次的回调会生效
+  const myVersion = ++artifactImageVersion;
+
+  // 立刻进入 loading 态（不停留上一张图），同时用全新的 img 节点替换旧的
+  // 避免旧节点上残留的 load/error 事件或缓存状态干扰本次切换
+  img.classList.remove("loaded");
+  wrap.classList.remove("error");
+  wrap.classList.add("loading");
+  const freshImg = img.cloneNode(false);
+  freshImg.removeAttribute("src");
+  freshImg.alt = artifact.name;
+  img.replaceWith(freshImg);
+
+  // 直接在新 img 上监听 load / error，不再创建 preload 对象
+  freshImg.addEventListener("load", () => {
+    if (myVersion !== artifactImageVersion) return; // 用户又切了，丢弃
+    freshImg.classList.add("loaded");
+    wrap.classList.remove("loading");
+  });
+  freshImg.addEventListener("error", () => {
+    if (myVersion !== artifactImageVersion) return;
+    wrap.classList.remove("loading");
+    wrap.classList.add("error");
+  });
+  freshImg.src = artifact.image;
+
+  // 弹窗打开
   $("#modal-backdrop").hidden = false;
   document.body.classList.add("modal-open");
 }
