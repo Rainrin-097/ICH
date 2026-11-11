@@ -9,6 +9,7 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preload" href="fonts/ZiYueYingYinSong-2.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/loading.css">
 </head>
 
 <body class="square-page">
@@ -120,7 +121,18 @@
   <script type="module" src="js/auth.js"></script>
   <script type="module" src="js/settings.js"></script>
   <script type="module" src="js/audio.js"></script>
-  <script type="module" src="js/square.js"></script>
+  <script type="module" src="js/square.js?v=20261111"></script>
+  <script>
+    // 模块脚本在 file:// 或路径缺失时不会执行，这里兜底提示，避免列表静默空白
+    window.addEventListener("load", () => {
+      window.setTimeout(() => {
+        if (window.__squareBooted) return;
+        const list = document.getElementById("square-list");
+        if (!list || list.childElementCount) return;
+        list.innerHTML = '<div class="square-empty panel"><span class="seal-outline">!</span><h2>脚本未能加载</h2><p>请通过 http(s) 访问本站（不要直接双击打开 HTML），并确认 js/square.js 与 js/loading.js 已一并部署。</p></div>';
+      }, 3000);
+    });
+  </script>
 </body>
 
 </html>

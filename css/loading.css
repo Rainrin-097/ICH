@@ -1,0 +1,80 @@
+/* ==========================================
+   统一加载动画
+   与站点配色一致的线稿旋转，按钮内与内容区域共用
+   ========================================== */
+
+.loading-spinner {
+  display: inline-block;
+  width: 42px;
+  height: 56px;
+  flex: none;
+  vertical-align: middle;
+  background: url("../images/loading-ripple.gif") center / contain no-repeat;
+}
+
+/* ---------- 按钮内加载 ---------- */
+
+.is-loading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: progress;
+}
+
+.is-loading .loading-spinner {
+  width: 13px;
+  height: 18px;
+}
+
+/* ---------- 内容区域加载 ---------- */
+
+.loading-region {
+  position: relative;
+}
+
+.loading-region-empty {
+  min-height: 120px;
+}
+
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: inherit;
+  color: var(--gold, #b99443);
+  background: rgba(247, 243, 234, .58);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  pointer-events: none;
+  animation: loading-fade .2s ease both;
+}
+
+.loading-label {
+  color: var(--muted, #8a8577);
+  font-family: var(--serif-fallback, serif);
+  font-size: 10px;
+  letter-spacing: .18em;
+}
+
+@keyframes loading-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* 用户要求减少动态效果时，取消遮罩淡入（GIF 本身节奏由图片决定） */
+@media (prefers-reduced-motion: reduce) {
+  .loading-overlay {
+    animation: none;
+  }
+}

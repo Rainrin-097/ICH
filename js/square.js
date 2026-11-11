@@ -11,6 +11,8 @@ let deletePostId = null;
 let currentUser = null;
 let likedPostIds = new Set();
 const pendingLikes = new Set();
+// 超过延迟阈值后才显示按钮内动画的点赞，避免快速操作闪烁
+const likeLoadingIds = new Set();
 let commentSubmitting = false;
 
 function getUsername(user) {
@@ -87,20 +89,27 @@ function normalizePost(post) {
 }
 
 async function loadPosts() {
-  const { data, error } = await supabase
-    .from("community_posts")
-    .select("*, community_comments(id, author_name, content, created_at)")
-    .order("created_at", { ascending: false });
+  const listLoader = regionLoading($("#square-list"), { label: "加载动态" });
+  listLoader.start();
+  try {
+    const { data, error } = await supabase
+      .from("community_posts")
+      .select("*, community_comments(id, author_name, content, created_at)")
+      .order("created_at", { ascending: false });
 
-  if (error) {
-    console.error("广场数据加载失败：", error.message);
-    posts = [];
+    if (error) {
+      console.error("广场数据加载失败：", error.message);
+      postsError = error.message;
+      renderPosts();
+      showSquareToast(`广场数据加载失败：${error.message}`, "error");
+      return;
+    }
+    postsError = "";
+    posts = (data || []).map(normalizePost);
     renderPosts();
-    showSquareToast(`广场数据加载失败：${error.message}`, "error");
-    return;
+  } finally {
+    listLoader.stop();
   }
-  posts = (data || []).map(normalizePost);
-  renderPosts();
 }
 
 function showSquareToast(message, kind = "") {
@@ -137,13 +146,21 @@ function visiblePosts() {
     ? Boolean(currentUser && post.user_id === currentUser.id)
     : currentCategory === "all" || post.type === currentCategory)
     && (currentCategory !== "recipe" || verification === "all" || post.status === verification))
-    .sort((a, b) => $("#sort-select").value === "likes" ? b.likes - a.likes : b.time - a.time);
+    .sort((a, b) => ($("#sort-select")?.value === "likes" ? b.likes - a.likes : b.time - a.time));
 }
 
 function renderPosts() {
-  $("#verification-filter-wrap").hidden = currentCategory !== "recipe";
+  const filterWrap = $("#verification-filter-wrap");
+  if (filterWrap) filterWrap.hidden = currentCategory !== "recipe";
   const list = visiblePosts();
-  $("#square-list").innerHTML = list.length ? list.map(cardTemplate).join("") : `<div class="square-empty panel"><span class="seal-outline">空</span><h2>暂无相关内容</h2><p>试试其他分类，或发布第一条动态。</p></div>`;
+  if (postsError) {
+    $("#square-list").innerHTML = `<div class="square-empty panel"><span class="seal-outline">!</span><h2>动态加载失败</h2><p>${escapeHTML(postsError)}</p><button class="combine-button small" id="retry-posts" type="button">重新加载</button></div>`;
+    return;
+  }
+  const emptyHint = currentCategory === "mine" && !currentUser
+    ? "登录后可以查看自己发布的动态。"
+    : "试试其他分类，或发布第一条动态。";
+  $("#square-list").innerHTML = list.length ? list.map(cardTemplate).join("") : `<div class="square-empty panel"><span class="seal-outline">空</span><h2>暂无相关内容</h2><p>${emptyHint}</p></div>`;
 }
 
 function cardTemplate(post) {
@@ -157,10 +174,14 @@ function cardTemplate(post) {
     : `<p class="post-content">${escapeHTML(post.content)}</p>`;
   const canDelete = Boolean(currentUser && post.user_id && post.user_id === currentUser.id);
   const likePending = pendingLikes.has(String(post.id));
+  const likeLoading = likeLoadingIds.has(String(post.id));
+  const likeVisual = likeLoading
+    ? `<span class="loading-spinner" aria-hidden="true"></span>`
+    : "♡";
   return `<article class="square-card panel ${post.type}" data-id="${post.id}">
     <div class="post-head"><span class="avatar">${escapeHTML(post.author.slice(0, 1))}</span><div><strong>${escapeHTML(post.author)}</strong><small>${relativeTime(post.time)}</small></div><span class="post-tag">${categoryNames[post.type]}</span>${canDelete ? `<button class="post-delete" data-delete="${post.id}" type="button" aria-label="删除这条动态" title="删除动态">×</button>` : ""}</div>
     ${body}
-    <div class="post-foot"><button class="post-action ${post.liked ? "is-liked" : ""}" data-like="${post.id}" type="button" ${likePending ? "disabled" : ""}>♡ ${post.likes}</button><button class="post-action" data-detail="${post.id}" type="button">评论 ${post.comments.length}</button><span class="post-state">${status}</span></div>
+    <div class="post-foot"><button class="post-action ${post.liked ? "is-liked" : ""} ${likeLoading ? "is-loading" : ""}" data-like="${post.id}" type="button" ${likePending ? "disabled" : ""} ${likeLoading ? `aria-busy="true" aria-label="正在处理点赞"` : ""}>${likeVisual} ${post.likes}</button><button class="post-action" data-detail="${post.id}" type="button">评论 ${post.comments.length}</button><span class="post-state">${status}</span></div>
   </article>`;
 }
 
@@ -186,11 +207,12 @@ function openDeleteConfirm(id) {
 }
 
 async function confirmDelete() {
-  const user = await getCurrentUser();
-  if (!user || !deletePostId) return;
   const button = $("#confirm-delete");
-  button.disabled = true;
+  const loader = buttonLoading(button);
+  loader.start();
   try {
+    const user = await getCurrentUser();
+    if (!user || !deletePostId) return;
     const { error } = await supabase
       .from("community_posts")
       .delete()
@@ -208,7 +230,7 @@ async function confirmDelete() {
     console.error("删除动态失败：", error);
     showSquareToast("删除失败，请稍后重试。", "error");
   } finally {
-    button.disabled = false;
+    loader.stop();
   }
 }
 
@@ -242,6 +264,19 @@ async function toggleLike(postId) {
   pendingLikes.add(id);
   // 锁定期间通过 cardTemplate 中的 likePending 禁用对应点赞按钮
   renderPosts();
+
+  // 250ms 后才在按钮内显示旋转动画，快速完成的点赞不会闪烁
+  const likeLoader = createDelayController({
+    onShow() {
+      likeLoadingIds.add(id);
+      renderPosts();
+    },
+    onHide() {
+      likeLoadingIds.delete(id);
+      renderPosts();
+    }
+  });
+  likeLoader.start();
 
   try {
     const user = await getCurrentUser();
@@ -281,6 +316,7 @@ async function toggleLike(postId) {
     showSquareToast(`点赞失败：${error.message}`, "error");
   } finally {
     // 无论未登录、成功或失败，都解除锁定并恢复按钮
+    likeLoader.stop();
     pendingLikes.delete(id);
     renderPosts();
   }
@@ -316,8 +352,8 @@ async function deleteComment(commentId, button) {
     showSquareToast(`删除评论失败：${error.message}`, "error");
   } finally {
     deletingComments.delete(id);
-    // showDetail 重新渲染后旧按钮已脱离 DOM，仅在仍挂载时恢复
-    if (button && button.isConnected) button.disabled = false;
+    // showDetail 重新渲染后旧按钮已脱离 DOM，loader 内部会跳过已脱离节点的恢复
+    loader.stop();
   }
 }
 
@@ -326,28 +362,39 @@ async function showDetail(id) {
   if (!post) return;
   detailPostId = post.id;
 
+  // 先渲染弹窗主体，评论区留空并挂上加载动画，避免整窗等待
+  $("#detail-content").innerHTML = `<span class="eyebrow">${categoryNames[post.type]} · CONTENT DETAIL</span><h2 id="detail-title">${escapeHTML(post.type === "discussion" ? "交流讨论" : post.recipe)}</h2><div class="detail-author">${escapeHTML(post.author)} · ${relativeTime(post.time)}</div><div class="modal-rule"></div><p class="post-content">${escapeHTML(post.content || post.explanation)}</p>${post.artifact ? `<p class="detail-artifact">关联漆器：${post.revealed ? escapeHTML(post.artifact) : "暂未显示"}</p>` : ""}<div class="comment-list" id="detail-comment-list"></div><form class="comment-form" id="comment-form"><textarea id="comment-input" maxlength="200" required rows="3" placeholder="写下你的评论"></textarea><button class="combine-button small" type="submit">发送</button></form>`;
+  openModal("#detail-backdrop");
+
   // 每次打开详情时重新拉取该动态的最新评论，保证数量与内容真实
   let commentNotice = "";
-  const { data: comments, error } = await supabase
-    .from("community_comments")
-    .select("id, user_id, author_name, content, created_at")
-    .eq("post_id", post.id)
-    .order("created_at", { ascending: true });
+  const commentRegion = $("#detail-comment-list");
+  const commentLoader = regionLoading(commentRegion, { label: "加载评论" });
+  commentLoader.start();
+  try {
+    const { data: comments, error } = await supabase
+      .from("community_comments")
+      .select("id, user_id, author_name, content, created_at")
+      .eq("post_id", post.id)
+      .order("created_at", { ascending: true });
 
-  if (error) {
-    // 读取失败：保留已有评论显示，但明确提示当前内容可能不是最新
-    console.error("评论加载失败：", error.message);
-    showSquareToast(`评论加载失败：${error.message}`, "error");
-    commentNotice = `<small class="comment-notice">评论加载失败，以下显示的可能不是最新评论。</small>`;
-  } else {
-    post.comments = (comments || []).map((comment) => ({
-      id: comment.id,
-      userId: comment.user_id,
-      author: comment.author_name || "访客匠人",
-      content: comment.content || "",
-      time: comment.created_at ? new Date(comment.created_at).getTime() : 0
-    }));
-    renderPosts();
+    if (error) {
+      // 读取失败：保留已有评论显示，但明确提示当前内容可能不是最新
+      console.error("评论加载失败：", error.message);
+      showSquareToast(`评论加载失败：${error.message}`, "error");
+      commentNotice = `<small class="comment-notice">评论加载失败，以下显示的可能不是最新评论。</small>`;
+    } else {
+      post.comments = (comments || []).map((comment) => ({
+        id: comment.id,
+        userId: comment.user_id,
+        author: comment.author_name || "访客匠人",
+        content: comment.content || "",
+        time: comment.created_at ? new Date(comment.created_at).getTime() : 0
+      }));
+      renderPosts();
+    }
+  } finally {
+    commentLoader.stop();
   }
 
   // 作者名与发布时间同行显示；仅本人评论显示删除按钮
@@ -358,8 +405,10 @@ async function showDetail(id) {
     }).join("")
     : "<small>还没有评论，留下第一句吧。</small>";
 
-  $("#detail-content").innerHTML = `<span class="eyebrow">${categoryNames[post.type]} · CONTENT DETAIL</span><h2 id="detail-title">${escapeHTML(post.type === "discussion" ? "交流讨论" : post.recipe)}</h2><div class="detail-author">${escapeHTML(post.author)} · ${relativeTime(post.time)}</div><div class="modal-rule"></div><p class="post-content">${escapeHTML(post.content || post.explanation)}</p>${post.artifact ? `<p class="detail-artifact">关联漆器：${post.revealed ? escapeHTML(post.artifact) : "暂未显示"}</p>` : ""}<div class="comment-list">${commentNotice}${commentList}</div><form class="comment-form" id="comment-form"><textarea id="comment-input" maxlength="200" required rows="3" placeholder="写下你的评论"></textarea><button class="combine-button small" type="submit">发送</button></form>`;
-  openModal("#detail-backdrop");
+  // 拉取期间弹窗可能已被重新渲染，仅在区域仍挂载时写入
+  if (commentRegion.isConnected) {
+    commentRegion.innerHTML = `${commentNotice}${commentList}`;
+  }
 }
 
 $("#publish-type").addEventListener("change", renderPublishFields);
@@ -371,16 +420,11 @@ $("#publish-form").addEventListener("submit", async (event) => {
     return;
   }
   const submitButton = publishForm.querySelector("button[type=submit]");
-  submitButton.disabled = true;
-  submitButton.dataset.originalText = submitButton.innerHTML;
-  submitButton.innerHTML = "发布中…";
-  const user = await getCurrentUser();
-  if (!user) {
-    submitButton.disabled = false;
-    submitButton.innerHTML = submitButton.dataset.originalText;
-    return;
-  }
+  const loader = buttonLoading(submitButton);
+  loader.start();
   try {
+    const user = await getCurrentUser();
+    if (!user) return;
     const form = new FormData(publishForm);
     const type = form.get("type");
     const post = { type, author: getUsername(user) };
@@ -423,8 +467,7 @@ $("#publish-form").addEventListener("submit", async (event) => {
     console.error("发布动态失败：", error);
     showSquareToast("发布失败，请稍后重试。", "error");
   } finally {
-    submitButton.disabled = false;
-    submitButton.innerHTML = submitButton.dataset.originalText;
+    loader.stop();
   }
 });
 
@@ -452,6 +495,7 @@ document.addEventListener("click", (event) => {
   const removeComment = event.target.closest("[data-delete-comment]");
   if (removeComment) deleteComment(removeComment.dataset.deleteComment, removeComment);
   if (event.target.closest("#open-publish")) { renderPublishFields(); openModal("#publish-backdrop"); }
+  if (event.target.closest("#retry-posts")) loadPosts();
   if (event.target.closest("[data-close-modal]") || event.target.classList.contains("square-modal-backdrop")) closeModals();
 });
 
@@ -501,12 +545,8 @@ document.addEventListener("submit", async (event) => {
     showSquareToast("评论失败，请稍后重试。", "error");
   } finally {
     commentSubmitting = false;
-    // 成功后 showDetail 会重新渲染表单，旧按钮已脱离 DOM；
-    // 仅当按钮仍在文档中时才恢复它，避免操作游离节点
-    if (submitButton.isConnected) {
-      submitButton.disabled = false;
-      submitButton.innerHTML = submitButton.dataset.originalText || "发送";
-    }
+    // 成功后 showDetail 会重新渲染表单，旧按钮已脱离 DOM，loader 内部会跳过恢复
+    loader.stop();
   }
 });
 
@@ -518,6 +558,18 @@ $("#confirm-delete").addEventListener("click", confirmDelete);
 document.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", closeModals));
 
 renderPublishFields();
+window.__squareBooted = true;
+// 先加载动态，不被登录状态检查阻塞：登录态请求异常或卡住时，列表仍然能显示
+loadPosts().catch((error) => {
+  console.error("广场初始化失败：", error);
+  postsError = error?.message || "页面初始化失败";
+  renderPosts();
+});
+// 登录状态与点赞记录随后应用，只影响「我的点赞」标记和删除入口
 loadCurrentUser()
   .then(loadMyLikes)
-  .then(loadPosts);
+  .then(() => {
+    posts.forEach((post) => { post.liked = likedPostIds.has(String(post.id)); });
+    if (posts.length) renderPosts();
+  })
+  .catch((error) => console.warn("初始化登录状态失败：", error));
