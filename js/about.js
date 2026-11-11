@@ -172,7 +172,7 @@ async function submitFeedback(event) {
     status.textContent = "暂时无法寄出，请稍后再试。";
     status.className = "feedback-form-status error";
   } finally {
-    loader.stop();
+    submit.disabled = false;
   }
 }
 

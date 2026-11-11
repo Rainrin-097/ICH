@@ -1,5 +1,3 @@
-import { buttonLoading } from "./loading.js";
-
 const $ = (selector) => document.querySelector(selector);
 const USERNAME_SUFFIX = "@example.com";
 const supabasePromise = import("./supabaseClient.js").then(({ supabase }) => supabase);
@@ -86,61 +84,49 @@ async function submitAuth(event) {
     return;
   }
 
-  const loader = buttonLoading($("#auth-submit"));
-  loader.start();
+  const supabase = await getSupabase();
+  if (!supabase) return;
+  const email = fakeEmail(username);
+  let result;
   try {
-    const supabase = await getSupabase();
-    if (!supabase) return;
-    const email = fakeEmail(username);
-    let result;
-    try {
-      result = mode === "register"
-        ? await supabase.auth.signUp({ email, password })
-        : await supabase.auth.signInWithPassword({ email, password });
-    } catch (error) {
-      console.error("Supabase 认证请求失败：", error);
-      showToast("登录服务请求失败，请检查网络和 Supabase 配置。", "error");
+    result = mode === "register"
+      ? await supabase.auth.signUp({ email, password })
+      : await supabase.auth.signInWithPassword({ email, password });
+  } catch (error) {
+    console.error("Supabase 认证请求失败：", error);
+    showToast("登录服务请求失败，请检查网络和 Supabase 配置。", "error");
+    return;
+  }
+
+  if (result.error) {
+    const duplicateUser = mode === "register"
+      && /already registered|already exists|user already exists/i.test(result.error.message);
+    showToast(duplicateUser ? "用户名已存在，请更换用户名或者直接登录。" : result.error.message, "error");
+    return;
+  }
+
+  if (mode === "register") {
+    if (result.data?.user && (!result.data.user.identities || result.data.user.identities.length === 0)) {
+      showToast("用户名已存在，请直接登录。", "error");
       return;
     }
-
-    if (result.error) {
-      const duplicateUser = mode === "register"
-        && /already registered|already exists|user already exists/i.test(result.error.message);
-      showToast(duplicateUser ? "用户名已存在，请更换用户名或者直接登录。" : result.error.message, "error");
-      return;
-    }
-
-    if (mode === "register") {
-      if (result.data?.user && (!result.data.user.identities || result.data.user.identities.length === 0)) {
-        showToast("用户名已存在，请直接登录。", "error");
-        return;
-      }
-      setAuthMode("login");
-      $("#auth-password").value = "";
-      showToast("注册成功，请登录。", "success");
-    } else {
-      showToast("登录成功，欢迎回来。", "success");
-    }
-  } finally {
-    loader.stop();
+    setAuthMode("login");
+    $("#auth-password").value = "";
+    showToast("注册成功，请登录。", "success");
+  } else {
+    showToast("登录成功，欢迎回来。", "success");
   }
 }
 
 async function signOut() {
-  const loader = buttonLoading($("#auth-signout"));
-  loader.start();
-  try {
-    const supabase = await getSupabase();
-    if (!supabase) return;
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      showToast(error.message, "error");
-      return;
-    }
-    showToast("已退出登录。", "success");
-  } finally {
-    loader.stop();
+  const supabase = await getSupabase();
+  if (!supabase) return;
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    showToast(error.message, "error");
+    return;
   }
+  showToast("已退出登录。", "success");
 }
 
 async function getSupabase() {

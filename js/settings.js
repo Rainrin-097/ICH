@@ -126,20 +126,14 @@ async function refreshUser() {
 }
 
 async function signOut() {
-    const loader = buttonLoading($("#settings-signout"));
-    loader.start();
-    try {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-            showToast(`退出登录失败：${error.message}`, "error");
-            return;
-        }
-        closeSettings();
-        showToast("已退出登录。", "success");
-        window.setTimeout(() => window.location.reload(), 400);
-    } finally {
-        loader.stop();
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+        showToast(`退出登录失败：${error.message}`, "error");
+        return;
     }
+    closeSettings();
+    showToast("已退出登录。", "success");
+    window.setTimeout(() => window.location.reload(), 400);
 }
 
 async function deleteAccount() {
@@ -149,22 +143,16 @@ async function deleteAccount() {
     }
     const confirmed = window.confirm("注销账号后，账号和相关数据将无法恢复。确定继续吗？");
     if (!confirmed) return;
-    const loader = buttonLoading($("#settings-delete-account"));
-    loader.start();
-    try {
-        const { error } = await supabase.rpc("delete_current_account");
-        if (error) {
-            showToast("注销失败，请先在 Supabase 执行 delete_current_account 函数。", "error");
-            console.error("注销账号失败：", error);
-            return;
-        }
-        await supabase.auth.signOut();
-        closeSettings();
-        showToast("账号已注销。", "success");
-        window.setTimeout(() => { window.location.href = "index.html"; }, 500);
-    } finally {
-        loader.stop();
+    const { error } = await supabase.rpc("delete_current_account");
+    if (error) {
+        showToast("注销失败，请先在 Supabase 执行 delete_current_account 函数。", "error");
+        console.error("注销账号失败：", error);
+        return;
     }
+    await supabase.auth.signOut();
+    closeSettings();
+    showToast("账号已注销。", "success");
+    window.setTimeout(() => { window.location.href = "index.html"; }, 500);
 }
 
 createPanel();
