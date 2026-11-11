@@ -286,6 +286,41 @@ async function toggleLike(postId) {
   }
 }
 
+const deletingComments = new Set();
+
+// 删除评论：数据库 RLS 仅允许删除自己的评论，前端只对本人评论展示入口
+async function deleteComment(commentId, button) {
+  const id = String(commentId);
+  if (deletingComments.has(id)) return;
+  deletingComments.add(id);
+  if (button) button.disabled = true;
+  try {
+    const user = await getCurrentUser();
+    if (!user) return;
+    const { data, error } = await supabase
+      .from("community_comments")
+      .delete()
+      .eq("id", id)
+      .eq("user_id", user.id)
+      .select("id");
+    if (error) throw error;
+    if (!data || data.length === 0) {
+      showSquareToast("删除失败：未找到可删除的评论。", "error");
+      return;
+    }
+    await loadPosts();
+    if (detailPostId) await showDetail(detailPostId);
+    showSquareToast("评论已删除。", "success");
+  } catch (error) {
+    console.error("删除评论失败：", error);
+    showSquareToast(`删除评论失败：${error.message}`, "error");
+  } finally {
+    deletingComments.delete(id);
+    // showDetail 重新渲染后旧按钮已脱离 DOM，仅在仍挂载时恢复
+    if (button && button.isConnected) button.disabled = false;
+  }
+}
+
 async function showDetail(id) {
   const post = posts.find((item) => String(item.id) === String(id));
   if (!post) return;
@@ -295,7 +330,7 @@ async function showDetail(id) {
   let commentNotice = "";
   const { data: comments, error } = await supabase
     .from("community_comments")
-    .select("id, author_name, content, created_at")
+    .select("id, user_id, author_name, content, created_at")
     .eq("post_id", post.id)
     .order("created_at", { ascending: true });
 
@@ -306,6 +341,8 @@ async function showDetail(id) {
     commentNotice = `<small class="comment-notice">评论加载失败，以下显示的可能不是最新评论。</small>`;
   } else {
     post.comments = (comments || []).map((comment) => ({
+      id: comment.id,
+      userId: comment.user_id,
       author: comment.author_name || "访客匠人",
       content: comment.content || "",
       time: comment.created_at ? new Date(comment.created_at).getTime() : 0
@@ -313,8 +350,12 @@ async function showDetail(id) {
     renderPosts();
   }
 
+  // 作者名与发布时间同行显示；仅本人评论显示删除按钮
   const commentList = post.comments.length
-    ? post.comments.map((comment) => `<p class="comment-content"><strong>${escapeHTML(comment.author)}</strong>${comment.time ? `<small> · ${relativeTime(comment.time)}</small>` : ""}<br>${escapeHTML(comment.content)}</p>`).join("")
+    ? post.comments.map((comment) => {
+      const canDeleteComment = Boolean(currentUser && comment.userId && comment.userId === currentUser.id);
+      return `<p class="comment-content"><span class="comment-meta"><strong>${escapeHTML(comment.author)}</strong>${comment.time ? `<small>${relativeTime(comment.time)}</small>` : ""}${canDeleteComment ? `<button class="comment-delete" data-delete-comment="${comment.id}" type="button" title="删除这条评论" aria-label="删除这条评论">×</button>` : ""}</span><span class="comment-text">${escapeHTML(comment.content)}</span></p>`;
+    }).join("")
     : "<small>还没有评论，留下第一句吧。</small>";
 
   $("#detail-content").innerHTML = `<span class="eyebrow">${categoryNames[post.type]} · CONTENT DETAIL</span><h2 id="detail-title">${escapeHTML(post.type === "discussion" ? "交流讨论" : post.recipe)}</h2><div class="detail-author">${escapeHTML(post.author)} · ${relativeTime(post.time)}</div><div class="modal-rule"></div><p class="post-content">${escapeHTML(post.content || post.explanation)}</p>${post.artifact ? `<p class="detail-artifact">关联漆器：${post.revealed ? escapeHTML(post.artifact) : "暂未显示"}</p>` : ""}<div class="comment-list">${commentNotice}${commentList}</div><form class="comment-form" id="comment-form"><textarea id="comment-input" maxlength="200" required rows="3" placeholder="写下你的评论"></textarea><button class="combine-button small" type="submit">发送</button></form>`;
@@ -408,6 +449,8 @@ document.addEventListener("click", (event) => {
   }
   const remove = event.target.closest("[data-delete]");
   if (remove) openDeleteConfirm(remove.dataset.delete);
+  const removeComment = event.target.closest("[data-delete-comment]");
+  if (removeComment) deleteComment(removeComment.dataset.deleteComment, removeComment);
   if (event.target.closest("#open-publish")) { renderPublishFields(); openModal("#publish-backdrop"); }
   if (event.target.closest("[data-close-modal]") || event.target.classList.contains("square-modal-backdrop")) closeModals();
 });
