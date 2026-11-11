@@ -1,3 +1,5 @@
+import { withLoading } from "./loading.js";
+
 const $ = (selector) => document.querySelector(selector);
 const USERNAME_SUFFIX = "@example.com";
 const supabasePromise = import("./supabaseClient.js").then(({ supabase }) => supabase);
@@ -89,9 +91,12 @@ async function submitAuth(event) {
   const email = fakeEmail(username);
   let result;
   try {
-    result = mode === "register"
-      ? await supabase.auth.signUp({ email, password })
-      : await supabase.auth.signInWithPassword({ email, password });
+    result = await withLoading(
+      () => (mode === "register"
+        ? supabase.auth.signUp({ email, password })
+        : supabase.auth.signInWithPassword({ email, password })),
+      mode === "register" ? "正在注册" : "正在登录"
+    );
   } catch (error) {
     console.error("Supabase 认证请求失败：", error);
     showToast("登录服务请求失败，请检查网络和 Supabase 配置。", "error");
@@ -121,7 +126,7 @@ async function submitAuth(event) {
 async function signOut() {
   const supabase = await getSupabase();
   if (!supabase) return;
-  const { error } = await supabase.auth.signOut();
+  const { error } = await withLoading(() => supabase.auth.signOut(), "正在退出登录");
   if (error) {
     showToast(error.message, "error");
     return;

@@ -1,4 +1,5 @@
 import { supabase } from "./supabaseClient.js";
+import { withLoading } from "./loading.js";
 
 const $ = (selector) => document.querySelector(selector);
 let toastTimer;
@@ -25,7 +26,7 @@ async function getCurrentUser() {
   try {
     const { data: { user }, error } = await supabase.auth.getUser();
     if (error) {
-      showSquareToast("无法获取登录状态，请稍后重试。", "error");
+      showSquareToast("无法获取登录状态，请前往用户中心登录或稍后重试", "error");
       return null;
     }
     if (!user) {
@@ -191,11 +192,14 @@ async function confirmDelete() {
   const button = $("#confirm-delete");
   button.disabled = true;
   try {
-    const { error } = await supabase
-      .from("community_posts")
-      .delete()
-      .eq("id", deletePostId)
-      .eq("user_id", user.id);
+    const { error } = await withLoading(
+      () => supabase
+        .from("community_posts")
+        .delete()
+        .eq("id", deletePostId)
+        .eq("user_id", user.id),
+      "正在删除动态"
+    );
     if (error) {
       showSquareToast(`删除失败：${error.message}`, "error");
       return;
@@ -251,12 +255,16 @@ async function toggleLike(postId) {
 
     if (post.liked) {
       // 取消点赞：删除记录并返回实际删除的行，确认确实删掉了才更新本地状态
-      const { data: deleted, error } = await supabase
-        .from("community_post_likes")
-        .delete()
-        .eq("post_id", post.id)
-        .eq("user_id", user.id)
-        .select("id");
+      const { data: deleted, error } = await withLoading(
+        () => supabase
+          .from("community_post_likes")
+          .delete()
+          .eq("post_id", post.id)
+          .eq("user_id", user.id)
+          .select("id"),
+        "正在取消点赞",
+        { delay: 400 }
+      );
       if (error) throw error;
       if (!deleted || deleted.length === 0) {
         // 数据库中没有对应记录（本地状态过期），仅纠正本地状态，不改动显示数字
@@ -266,9 +274,13 @@ async function toggleLike(postId) {
       post.liked = false;
     } else {
       // 点赞：插入记录；唯一约束冲突说明已点赞，按已点赞处理
-      const { error } = await supabase
-        .from("community_post_likes")
-        .insert({ post_id: post.id, user_id: user.id });
+      const { error } = await withLoading(
+        () => supabase
+          .from("community_post_likes")
+          .insert({ post_id: post.id, user_id: user.id }),
+        "正在点赞",
+        { delay: 400 }
+      );
       if (error && error.code !== "23505") throw error;
       likedPostIds.add(id);
       post.liked = true;
@@ -297,12 +309,15 @@ async function deleteComment(commentId, button) {
   try {
     const user = await getCurrentUser();
     if (!user) return;
-    const { data, error } = await supabase
-      .from("community_comments")
-      .delete()
-      .eq("id", id)
-      .eq("user_id", user.id)
-      .select("id");
+    const { data, error } = await withLoading(
+      () => supabase
+        .from("community_comments")
+        .delete()
+        .eq("id", id)
+        .eq("user_id", user.id)
+        .select("id"),
+      "正在删除评论"
+    );
     if (error) throw error;
     if (!data || data.length === 0) {
       showSquareToast("删除失败：未找到可删除的评论。", "error");
@@ -328,11 +343,14 @@ async function showDetail(id) {
 
   // 每次打开详情时重新拉取该动态的最新评论，保证数量与内容真实
   let commentNotice = "";
-  const { data: comments, error } = await supabase
-    .from("community_comments")
-    .select("id, user_id, author_name, content, created_at")
-    .eq("post_id", post.id)
-    .order("created_at", { ascending: true });
+  const { data: comments, error } = await withLoading(
+    () => supabase
+      .from("community_comments")
+      .select("id, user_id, author_name, content, created_at")
+      .eq("post_id", post.id)
+      .order("created_at", { ascending: true }),
+    "正在加载评论"
+  );
 
   if (error) {
     // 读取失败：保留已有评论显示，但明确提示当前内容可能不是最新
@@ -400,16 +418,19 @@ $("#publish-form").addEventListener("submit", async (event) => {
         return;
       }
     }
-    const { error } = await supabase.from("community_posts").insert({
-      user_id: user.id,
-      author_name: post.author,
-      type: post.type,
-      content: post.content || null,
-      recipe: post.recipe || null,
-      artifact: post.artifact || null,
-      explanation: post.explanation || null,
-      status: post.status || null
-    });
+    const { error } = await withLoading(
+      () => supabase.from("community_posts").insert({
+        user_id: user.id,
+        author_name: post.author,
+        type: post.type,
+        content: post.content || null,
+        recipe: post.recipe || null,
+        artifact: post.artifact || null,
+        explanation: post.explanation || null,
+        status: post.status || null
+      }),
+      "正在发布动态"
+    );
     if (error) {
       showSquareToast(`发布失败：${error.message}`, "error");
       return;
@@ -482,12 +503,15 @@ document.addEventListener("submit", async (event) => {
     const post = posts.find((item) => String(item.id) === String(detailPostId));
     if (!post) return;
 
-    const { error } = await supabase.from("community_comments").insert({
-      post_id: post.id,
-      user_id: user.id,
-      author_name: getUsername(user),
-      content: value
-    });
+    const { error } = await withLoading(
+      () => supabase.from("community_comments").insert({
+        post_id: post.id,
+        user_id: user.id,
+        author_name: getUsername(user),
+        content: value
+      }),
+      "正在发表评论"
+    );
     if (error) {
       // 失败时保留输入框内容
       showSquareToast(`评论失败：${error.message}`, "error");
@@ -518,6 +542,8 @@ $("#confirm-delete").addEventListener("click", confirmDelete);
 document.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", closeModals));
 
 renderPublishFields();
-loadCurrentUser()
-  .then(loadMyLikes)
-  .then(loadPosts);
+// 首屏需要读取登录态、点赞状态与动态列表，属于真实的数据加载
+withLoading(
+  () => loadCurrentUser().then(loadMyLikes).then(loadPosts),
+  "正在加载广场动态"
+);

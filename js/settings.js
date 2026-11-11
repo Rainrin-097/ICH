@@ -1,4 +1,5 @@
 import { supabase } from "./supabaseClient.js";
+import { withLoading } from "./loading.js";
 import { getAudioSettings, saveAudioSettings } from "./audio.js";
 
 const SETTINGS_KEY = "ich-settings";
@@ -126,7 +127,7 @@ async function refreshUser() {
 }
 
 async function signOut() {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await withLoading(() => supabase.auth.signOut(), "正在退出登录");
     if (error) {
         showToast(`退出登录失败：${error.message}`, "error");
         return;
@@ -143,13 +144,13 @@ async function deleteAccount() {
     }
     const confirmed = window.confirm("注销账号后，账号和相关数据将无法恢复。确定继续吗？");
     if (!confirmed) return;
-    const { error } = await supabase.rpc("delete_current_account");
+    const { error } = await withLoading(() => supabase.rpc("delete_current_account"), "正在注销账号");
     if (error) {
         showToast("注销失败，请先在 Supabase 执行 delete_current_account 函数。", "error");
         console.error("注销账号失败：", error);
         return;
     }
-    await supabase.auth.signOut();
+    await withLoading(() => supabase.auth.signOut(), "正在退出登录");
     closeSettings();
     showToast("账号已注销。", "success");
     window.setTimeout(() => { window.location.href = "index.html"; }, 500);

@@ -218,6 +218,19 @@ function colorVisual(node) {
     : `<i class="node-glyph">${node.name.slice(0, 1)}</i>`;
 }
 
+// 按色板亮度选择可读的文字颜色，保证深色底用浅字、浅色底用深字
+function readableTextColor(hex) {
+  const value = String(hex || "").replace("#", "");
+  const full = value.length === 3 ? value.split("").map((char) => char + char).join("") : value;
+  const num = Number.parseInt(full, 16);
+  if (Number.isNaN(num)) return "var(--ink)";
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.62 ? "#221f1a" : "#fbf7ec";
+}
+
 function renderColorTree() {
   let delay = 0;
   return `<div class="tree-root">${colorCollection.map((group) => {
@@ -255,11 +268,12 @@ function openColorDetail(group, leaf) {
     <p class="pattern-empty">此颜色暂无对应的单色漆器实物图，以上方色板为参考。</p>`;
   const backdrop = document.createElement("div");
   backdrop.className = "modal-backdrop pattern-backdrop";
+  // 左侧竖排色名统一用「」的竖排形式 ﹁ ﹂ 包住
+  const verticalName = `﹁${leaf.name}﹂`;
   backdrop.innerHTML = `<div class="pattern-modal" role="dialog" aria-modal="true" aria-label="${leaf.name}">
     <button class="modal-close" type="button" aria-label="关闭">×</button>
-    <div class="pattern-modal-line color-modal-hero">
-      <span class="color-hero-swatch" style="--swatch:${leaf.hex}"></span>
-      <span class="color-hero-name">${leaf.name}</span>
+    <div class="pattern-modal-line color-modal-hero" style="--swatch:${leaf.hex};color:${readableTextColor(leaf.hex)}">
+      <span class="color-hero-name">${verticalName}</span>
       <small class="color-hero-hex">${leaf.hex}</small>
     </div>
     <div class="pattern-modal-body">

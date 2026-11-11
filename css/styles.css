@@ -3461,30 +3461,33 @@ html.material-detail-page .knowledge-detail-copy {
 }
 
 .color-modal-hero {
-  display: grid;
-  place-items: center;
-  gap: 12px;
-}
-
-.color-hero-swatch {
-  width: 116px;
-  height: 116px;
-  border-radius: 50%;
+  align-items: center;
   background: var(--swatch);
-  border: 3px solid rgba(255, 255, 255, .85);
-  outline: 1px solid var(--line);
-  box-shadow: 0 8px 26px rgba(0, 0, 0, .22);
+  border-right: 1px solid var(--line);
+  display: flex;
+  justify-content: center;
+  padding: 34px;
+  position: relative;
 }
 
 .color-hero-name {
   font: 600 22px var(--serif);
-  letter-spacing: .12em;
+  letter-spacing: 0.40em;
+  line-height: 1.5;
+  text-orientation: upright;
+  writing-mode: vertical-rl;
 }
 
 .color-hero-hex {
-  color: var(--muted);
+  bottom: 22px;
+  color: currentColor;
   font: 11px var(--serif);
-  letter-spacing: .08em;
+  left: 0;
+  letter-spacing: 0.12em;
+  opacity: 0.72;
+  position: absolute;
+  right: 0;
+  text-align: center;
 }
 
 body.splash-open {
@@ -3664,4 +3667,58 @@ body.splash-open .workspace {
 .profile-hero h1,
 .square-hero h1 {
   font-weight: normal;
+}
+
+/* ==========================================
+   全局加载动画（水滴涟漪云纹）
+   仅用于真实的异步等待：网络请求、数据库读写、数据加载
+   ========================================== */
+.loading-overlay {
+  align-items: center;
+  background: rgba(242, 237, 222, 0.82);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+  visibility: hidden;
+  z-index: 9999;
+}
+
+.loading-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.loading-box {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.loading-ripple {
+  display: block;
+  height: 88px;
+  object-fit: contain;
+  width: 88px;
+}
+
+.loading-label {
+  color: var(--muted);
+  font-family: var(--serif-fallback);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-overlay {
+    transition: none;
+  }
 }
